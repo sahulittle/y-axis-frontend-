@@ -6,6 +6,7 @@ import FreeEligiblityCheck from "./user/pages/FreeEligiblityCheck";
 import Migrate from "./user/pages/Migrate";
 import Work from "./user/pages/Work";
 import Study from "./user/pages/Study";
+import Visa from "./user/pages/Visa";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/migrate" element={<Migrate />} />
         <Route path="/work" element={<Work />}/>
         <Route path="/study" element={<Study />}/>
+        <Route path="/visa" element={<Visa />}/>
       </Routes>
     </BrowserRouter>
   );

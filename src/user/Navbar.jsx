@@ -14,7 +14,7 @@ const navItems = [
   { label: "Migrate", href: "/migrate" },
   { label: "Work", href: "/work" },
   { label: "Study", href: "/study" },
-  { label: "Success Stories", href: "/success-stories" },
+  { label: "Visa", href: "/visa" },
   { label: "Blog", href: "/blog" },
 ];
 

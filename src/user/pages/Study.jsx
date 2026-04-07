@@ -258,6 +258,54 @@ const Study = () => {
         "Dedicated support",
     ];
 
+    const universityData = [
+        {
+            country: "United States",
+            logos: [
+                "https://www.y-axis.com/lp/study/images/universities/us/pennstate.png",
+                "https://www.y-axis.com/lp/study/images/universities/us/purdue.png",
+                "https://www.y-axis.com/lp/study/images/universities/us/UC-Berkeley.png",
+                "https://www.y-axis.com/lp/study/images/universities/us/University_of_Southern_California.png",
+            ],
+        },
+        {
+            country: "United Kingdom",
+            logos: [
+                "https://upload.wikimedia.org/wikipedia/en/d/d6/University_of_Oxford_coat_of_arms.svg",
+                "https://upload.wikimedia.org/wikipedia/en/c/c3/University_of_Cambridge_coat_of_arms.svg",
+                "https://upload.wikimedia.org/wikipedia/en/5/53/Imperial_College_London_new_logo.svg",
+                "https://upload.wikimedia.org/wikipedia/commons/8/8e/UCL_logo.svg",
+            ],
+        },
+        {
+            country: "Australia",
+            logos: [
+                "https://upload.wikimedia.org/wikipedia/en/5/51/University_of_Melbourne_coat_of_arms.svg",
+                "https://upload.wikimedia.org/wikipedia/en/9/9b/University_of_Sydney_coat_of_arms.svg",
+                "https://upload.wikimedia.org/wikipedia/en/8/87/Monash_University_logo.svg",
+                "https://upload.wikimedia.org/wikipedia/en/0/0b/University_of_Queensland_logo.svg",
+            ],
+        },
+        {
+            country: "Germany",
+            logos: [
+                "https://upload.wikimedia.org/wikipedia/commons/c/c8/Tum-logo.svg",
+                "https://upload.wikimedia.org/wikipedia/commons/7/70/LMU_Muenchen_Logo.svg",
+                "https://upload.wikimedia.org/wikipedia/commons/7/77/Heidelberg_University_logo.svg",
+                "https://upload.wikimedia.org/wikipedia/commons/5/5e/HU_Berlin_Logo.svg",
+            ],
+        },
+        {
+            country: "Canada",
+            logos: [
+                "https://upload.wikimedia.org/wikipedia/en/4/4a/University_of_Toronto_coat_of_arms.svg",
+                "https://upload.wikimedia.org/wikipedia/en/b/b0/McGill_University_CoA.svg",
+                "https://upload.wikimedia.org/wikipedia/en/6/6f/University_of_British_Columbia_logo.svg",
+                "https://upload.wikimedia.org/wikipedia/en/2/21/University_of_Alberta_coat_of_arms.svg",
+            ],
+        },
+    ];
+
     return (
         <div>
             <section className="w-full bg-gradient-to-br from-slate-50 via-white to-orange-50 py-12 lg:py-20">
@@ -726,6 +774,60 @@ const Study = () => {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="w-full bg-gradient-to-br from-slate-50 via-white to-orange-50 py-16 lg:py-24">
+                <div className="w-full px-4 md:px-8 lg:px-12 xl:px-16">
+                    <div className="mb-10 text-center lg:mb-14">
+                        <span className="inline-flex rounded-full bg-orange-100 px-4 py-1.5 text-sm font-semibold text-orange-700">
+                            Global University Network
+                        </span>
+
+                        <h3 className="mt-4 text-3xl font-extrabold text-slate-900 md:text-4xl lg:text-5xl">
+                            Top University Placements
+                        </h3>
+
+                        <p className="mx-auto mt-4 max-w-3xl text-base leading-8 text-slate-600 md:text-lg">
+                            Explore top study destinations and leading university placements
+                            supported through expert counseling and admissions guidance.
+                        </p>
+                    </div>
+
+                    <div className="space-y-8">
+                        {universityData.map((group, index) => (
+                            <div
+                                key={index}
+                                className="rounded-[30px] border border-slate-200 bg-white p-6 shadow-[0_18px_50px_rgba(15,23,42,0.08)] md:p-8"
+                            >
+                                <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                                    <div className="lg:w-[280px]">
+                                        <h4 className="text-2xl font-extrabold text-slate-900 md:text-3xl">
+                                            {group.country}
+                                        </h4>
+                                        <p className="mt-2 text-sm leading-7 text-slate-600 md:text-base">
+                                            Featured university placements and popular academic options.
+                                        </p>
+                                    </div>
+
+                                    <div className="grid flex-1 grid-cols-2 gap-4 sm:grid-cols-4">
+                                        {group.logos.map((logo, logoIndex) => (
+                                            <div
+                                                key={logoIndex}
+                                                className="group flex h-32 items-center justify-center rounded-[24px] border border-slate-200 bg-slate-50 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-orange-300 hover:bg-white hover:shadow-md"
+                                            >
+                                                <img
+                                                    src={logo}
+                                                    alt={`${group.country} university logo ${logoIndex + 1}`}
+                                                    className="max-h-16 w-auto max-w-full object-contain transition duration-300 group-hover:scale-105"
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>

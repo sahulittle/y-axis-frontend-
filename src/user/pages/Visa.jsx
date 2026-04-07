@@ -1,0 +1,647 @@
+import React, { useEffect, useState } from 'react'
+import { ArrowRight } from "lucide-react";
+
+const Visa = () => {
+
+    const visaItems = [
+        {
+            id: 0,
+            name: "Canada",
+            image: "https://images.unsplash.com/photo-1517935706615-2717063c2225?q=80&w=1200&auto=format&fit=crop",
+            description:
+                "Canada welcomes 1.1M immigrants by 2027—offering jobs, quality life, easy PR, and a warm, multicultural environment to thrive.",
+        },
+        {
+            id: 1,
+            name: "Australia",
+            image: "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?q=80&w=1200&auto=format&fit=crop",
+            description:
+                "Live, work, or study in Australia—vibrant cities, PR visa benefits, and a welcoming, English-speaking culture await you.",
+        },
+        {
+            id: 2,
+            name: "UK",
+            image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=1200&auto=format&fit=crop",
+            description:
+                "The UK offers top quality of life, global career prospects, and vibrant cities like London and Manchester for those seeking a better future.",
+        },
+        {
+            id: 3,
+            name: "USA",
+            image: "https://images.unsplash.com/photo-1485738422979-f5c462d49f74?q=80&w=1200&auto=format&fit=crop",
+            description:
+                "The USA offers unmatched opportunity, top education, and a great quality of life—your gateway to growth, freedom, and the future.",
+        },
+        {
+            id: 4,
+            name: "Schengen",
+            image: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?q=80&w=1200&auto=format&fit=crop",
+            description:
+                "Explore life across 27 EU nations with a Schengen visa—seamless travel, rich culture, and exciting career opportunities await you.",
+        },
+    ];
+
+    const [activeIndex, setActiveIndex] = useState(4);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveIndex((prev) => (prev + 1) % visaItems.length);
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="min-h-screen bg-[#f3f3f3]">
+            <section className="w-full h-screen bg-[#f3efea]">
+                <div className="w-full h-[85vh] px-4 md:px-8 lg:px-12 xl:px-18">
+
+                    <div className="grid h-full grid-cols-1 items-center lg:grid-cols-2">
+
+                        {/* Left Content */}
+                        <div className="flex items-center">
+                            <div className="max-w-2xl">
+
+                                <span className="inline-block rounded-md bg-[#f2653a] px-5 py-2 text-sm font-semibold uppercase tracking-[0.14em] text-white">
+                                    Your Path to New Beginnings
+                                </span>
+
+                                <h1 className="mt-6 text-3xl font-extrabold leading-tight text-[#1f252d] sm:text-4xl md:text-5xl lg:text-5xl">
+                                    Visas Done Right. The First Time. Every Time.
+                                </h1>
+
+                                <p className="mt-6 text-base leading-7 text-[#4b5563] md:text-lg">
+                                    Trusted by millions, Y-Axis ensures a smooth, accurate, and
+                                    end-to-end visa process for every journey.
+                                </p>
+
+                                <button className="mt-6 inline-flex items-center gap-2 bg-[#f2653a] px-6 py-3 text-base font-semibold text-white transition hover:opacity-90">
+                                    Apply Now
+                                </button>
+
+                            </div>
+                        </div>
+
+                        {/* Right Image */}
+                        <div className="flex h-full items-end justify-center lg:justify-end">
+                            <img
+                                src="https://images.unsplash.com/photo-1573496799515-eebbb63814f2?q=80&w=1200&auto=format&fit=crop"
+                                alt="Visa professional"
+                                className="h-[90%] w-auto object-contain"
+                            />
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section className="py-20 bg-gradient-to-b from-white to-blue-50">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+
+                    {/* Heading */}
+                    <h2 className="text-lg md:text-lg font-bold text-gray-900 mb-4">
+                        WHY CHOOSE US
+                    </h2>
+                    <p className="text-3xl md:text-4xl lg:text-5xl text-gray-900 font-extrabold max-w-4xl mx-auto leading-tight">
+                        Your Complete Visa Solution for <br /> Top Destinations.
+                    </p>
+                    <p className='mt-6 text-base md:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed'>
+                        From expert consultation and application assistance to interview prep and ongoing support, Y-Axis ensures a smooth and stress-free visa journey.
+                    </p>
+
+                    {/* 4 Cards */}
+                    <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+                        {/* Card 1 */}
+                        <div className="group bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition duration-300 border border-gray-100">
+                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-blue-100 flex items-center justify-center group-hover:bg-blue-600 transition">
+                                <img src="https://www.y-axis.com/lp/visa/images/smart.png" alt="" className='w-14 h-14' />
+                            </div>
+                            <h3 className="text-lg font-bold text-gray-900 mb-3">
+                                AI + Human Expertise
+                            </h3>
+                            <p className="text-gray-600 text-sm">
+                                Smarter Visa Applications with Human Expertise + AI Accuracy
+                            </p>
+                        </div>
+
+                        {/* Card 2 */}
+                        <div className="group bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition duration-300 border border-gray-100">
+                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-indigo-100 flex items-center justify-center group-hover:bg-indigo-600 transition">
+                                <img src="https://www.y-axis.com/lp/visa/images/chess_check.png" alt="" className='w-14 h-14' />
+                            </div>
+                            <h3 className="text-lg font-bold text-gray-900 mb-3">
+                                Proven Success
+                            </h3>
+                            <p className="text-gray-600 text-sm">
+                                Proven Visa Strategies for the World's toughest Approvals
+                            </p>
+                        </div>
+
+                        {/* Card 3 */}
+                        <div className="group bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition duration-300 border border-gray-100">
+                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-sky-100 flex items-center justify-center group-hover:bg-sky-600 transition">
+                                <img src="https://www.y-axis.com/lp/visa/images/work_flow.png" alt="" className='w-14 h-14' />
+                            </div>
+                            <h3 className="text-lg font-bold text-gray-900 mb-3">
+                                25+ Years Experience
+                            </h3>
+                            <p className="text-gray-600 text-sm">
+                                Visa Workflow backed by 25 years of experience
+                            </p>
+                        </div>
+
+                        {/* Card 4 */}
+                        <div className="group bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition duration-300 border border-gray-100">
+                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-purple-100 flex items-center justify-center group-hover:bg-purple-600 transition">
+                                <img src="https://www.y-axis.com/lp/visa/images/guide.png" alt="" className='w-14 h-14' />
+                            </div>
+                            <h3 className="text-lg font-bold text-gray-900 mb-3">
+                                Real-Time Accuracy
+                            </h3>
+                            <p className="text-gray-600 text-sm">
+                                Accurate guidance backed by real time updates
+                            </p>
+                        </div>
+
+                        <div className="mt-14">
+                            <button className="px-8 py-4 rounded-full bg-blue-600 text-white text-lg font-semibold shadow-lg hover:bg-blue-700 hover:scale-105 transition duration-300">
+                                Speak to an Expert
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="py-20 bg-[#e7dccb]">
+                <div className="max-w-[1700px] mx-auto px-6 lg:px-10">
+                    <div className="text-center mb-12">
+                        <p className="text-sm md:text-base font-semibold tracking-[0.2em] uppercase text-gray-700 mb-3">
+                            Y-Axis Global Passport
+                        </p>
+                        <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+                            Specialised Visa Services for the Big 5 Visas
+                        </h2>
+                    </div>
+
+                    <div className="flex flex-col lg:flex-row gap-6 overflow-hidden">
+                        {visaItems.map((item, index) => {
+                            const isActive = index === activeIndex;
+
+                            return (
+                                <button
+                                    key={item.id}
+                                    onClick={() => setActiveIndex(index)}
+                                    className={`relative group h-[520px] rounded-none overflow-hidden transition-all duration-700 ease-in-out ${isActive
+                                        ? "lg:w-[32%] w-full"
+                                        : "lg:w-[17%] w-full"
+                                        }`}
+                                >
+                                    <img
+                                        src={item.image}
+                                        alt={item.name}
+                                        className="absolute inset-0 w-full h-full object-cover"
+                                    />
+
+                                    <div
+                                        className={`absolute inset-0 transition-all duration-500 ${isActive
+                                            ? "bg-gradient-to-r from-black/65 via-black/35 to-transparent"
+                                            : "bg-black/10 group-hover:bg-black/20"
+                                            }`}
+                                    />
+
+                                    {!isActive && (
+                                        <div className="absolute inset-0 border border-white/20" />
+                                    )}
+
+                                    {isActive ? (
+                                        <div className="absolute inset-0 flex items-end">
+                                            <div className="w-full p-8 md:p-10 text-left">
+                                                <h3 className="text-white text-3xl md:text-4xl font-bold mb-4">
+                                                    {item.name}
+                                                </h3>
+                                                <p className="text-white/90 text-lg leading-relaxed max-w-xl mb-8">
+                                                    {item.description}
+                                                </p>
+
+                                                <button className="inline-flex items-center gap-3 px-7 py-3 rounded-full border border-white text-white text-lg font-medium hover:bg-white hover:text-gray-900 transition">
+                                                    Apply now
+                                                    <span className="text-xl">→</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
+                                            <div className="w-3 h-3 rounded-full bg-white/80" />
+                                        </div>
+                                    )}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+            </section>
+
+            {/* Visa category */}
+            <section className="py-20 bg-white">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                    <div className="text-center mb-14">
+                        <p className="text-sm font-semibold tracking-[0.2em] uppercase text-blue-600 mb-3">
+                            Visa Category
+                        </p>
+                        <h4 className="text-3xl md:text-5xl font-extrabold text-gray-900">
+                            Discover the Right Visa for Your Journey
+                        </h4>
+                        <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+                            Choose the visa path that matches your goals and move forward with clarity,
+                            confidence, and expert support at every step.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+                        {/* Business Visa */}
+                        <div className="group relative bg-gradient-to-br from-blue-100 to-white border border-blue-100 rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
+                            <div className="absolute top-0 right-0 w-28 h-28 bg-blue-100 rounded-full blur-3xl opacity-60"></div>
+                            <div className="relative">
+                                <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition">
+                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                        <path d="M3 7h18"></path>
+                                        <path d="M6 7V5a2 2 0 012-2h8a2 2 0 012 2v2"></path>
+                                        <path d="M6 11h12"></path>
+                                        <path d="M5 7h14v10a2 2 0 01-2 2H7a2 2 0 01-2-2V7z"></path>
+                                    </svg>
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-4">Business Visa</h3>
+                                <p className="text-gray-600 leading-relaxed">
+                                    Expand your business globally with the right visa to connect, collaborate, and thrive.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Work Visa */}
+                        <div className="group relative bg-gradient-to-br from-indigo-100 to-white border border-indigo-100 rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
+                            <div className="absolute top-0 right-0 w-28 h-28 bg-indigo-100 rounded-full blur-3xl opacity-60"></div>
+                            <div className="relative">
+                                <div className="w-16 h-16 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition">
+                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                        <path d="M12 12h.01"></path>
+                                        <path d="M16 6V4a2 2 0 00-2-2H10a2 2 0 00-2 2v2"></path>
+                                        <path d="M4 8h16v10a2 2 0 01-2 2H6a2 2 0 01-2-2V8z"></path>
+                                    </svg>
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-4">Work Visa</h3>
+                                <p className="text-gray-600 leading-relaxed">
+                                    Unlock new career opportunities abroad with our expert guidance on obtaining a working visa.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Student Visa */}
+                        <div className="group relative bg-gradient-to-br from-sky-100 to-white border border-sky-100 rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
+                            <div className="absolute top-0 right-0 w-28 h-28 bg-sky-100 rounded-full blur-3xl opacity-60"></div>
+                            <div className="relative">
+                                <div className="w-16 h-16 rounded-2xl bg-sky-600 text-white flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition">
+                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                        <path d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                                        <path d="M12 14l6.16-3.422A12.083 12.083 0 0118 16.5C18 18.985 15.314 21 12 21s-6-2.015-6-4.5c0-1.128.31-2.191.84-3.078L12 14z"></path>
+                                    </svg>
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-4">Student Visa</h3>
+                                <p className="text-gray-600 leading-relaxed">
+                                    Start your educational journey in top institutions worldwide with a student visa designed for success.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Tourist Visa */}
+                        <div className="group relative bg-gradient-to-br from-purple-200 to-white border border-purple-100 rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
+                            <div className="absolute top-0 right-0 w-28 h-28 bg-purple-100 rounded-full blur-3xl opacity-60"></div>
+                            <div className="relative">
+                                <div className="w-16 h-16 rounded-2xl bg-purple-600 text-white flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition">
+                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                        <path d="M3 12h18"></path>
+                                        <path d="M12 3a15.3 15.3 0 014 9 15.3 15.3 0 01-4 9 15.3 15.3 0 01-4-9 15.3 15.3 0 014-9z"></path>
+                                        <circle cx="12" cy="12" r="9"></circle>
+                                    </svg>
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-4">Tourist Visa</h3>
+                                <p className="text-gray-600 leading-relaxed">
+                                    Discover the world with ease—get the right travel visa to explore your dream destinations.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* our service */}
+            <section className="py-20 bg-gradient-to-b from-[#f8fbff] to-white">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                    <div className="text-center mb-14">
+                        <p className="text-sm font-semibold tracking-[0.2em] uppercase text-blue-600 mb-3">
+                            Our Services
+                        </p>
+                        <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900">
+                            Expert Visa Services for a Smooth Journey
+                        </h2>
+                        <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+                            From expert consultation to final submission support, we guide you through every step with clarity, care, and confidence.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
+
+                        {/* Card 1 */}
+                        <div className="group bg-white border border-blue-100 rounded-3xl p-7 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                            <div className="w-20 h-20 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition">
+                                <img src="https://www.y-axis.com/lp/visa/images/vc.png" alt="" w-18 h-18 />
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-3">Visa Consultation</h3>
+                            <p className="text-gray-600 leading-relaxed mb-6">
+                                Expert guidance to help you choose the right visa and ensure a smooth application process.
+                            </p>
+                            <a href="#" className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:gap-3 transition-all">
+                                Learn More <span>→</span>
+                            </a>
+                        </div>
+
+                        {/* Card 2 */}
+                        <div className="group bg-white border border-indigo-100 rounded-3xl p-7 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                            <div className="w-20 h-20 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:text-white transition">
+                                <img src="https://www.y-axis.com/lp/visa/images/dr.png" alt="" w-18 h-18 />
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-3">Visa Review</h3>
+                            <p className="text-gray-600 leading-relaxed mb-6">
+                                Ensure all your documents are accurate and complete to avoid delays and rejections.
+                            </p>
+                            <a href="#" className="inline-flex items-center gap-2 text-indigo-600 font-semibold hover:gap-3 transition-all">
+                                Learn More <span>→</span>
+                            </a>
+                        </div>
+
+                        {/* Card 3 */}
+                        <div className="group bg-white border border-sky-100 rounded-3xl p-7 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                            <div className="w-20 h-20 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center mb-6 group-hover:bg-sky-600 group-hover:text-white transition">
+                                <img src="https://www.y-axis.com/lp/visa/images/aa.png" alt="" h-18 w-18 />
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-3">Application Assistance</h3>
+                            <p className="text-gray-600 leading-relaxed mb-6">
+                                Step-by-step support to complete and submit your application with precision and confidence.
+                            </p>
+                            <a href="#" className="inline-flex items-center gap-2 text-sky-600 font-semibold hover:gap-3 transition-all">
+                                Learn More <span>→</span>
+                            </a>
+                        </div>
+
+                        {/* Card 4 */}
+                        <div className="group bg-white border border-purple-100 rounded-3xl p-7 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                            <div className="w-20 h-20 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-6 group-hover:bg-purple-600 group-hover:text-white transition">
+                                <img src="https://www.y-axis.com/lp/visa/images/ip.png" alt="" w-18 h-18 />
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-3">Interview Preparation</h3>
+                            <p className="text-gray-600 leading-relaxed mb-6">
+                                Prepare for visa interviews with tailored tips and mock sessions to boost your confidence.
+                            </p>
+                            <a href="#" className="inline-flex items-center gap-2 text-purple-600 font-semibold hover:gap-3 transition-all">
+                                Learn More <span>→</span>
+                            </a>
+                        </div>
+
+                        {/* Card 5 */}
+                        <div className="group bg-white border border-emerald-100 rounded-3xl p-7 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                            <div className="w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-6 group-hover:bg-emerald-600 group-hover:text-white transition">
+                                <img src="https://www.y-axis.com/lp/visa/images/pss.png" alt="" w-18 h-18 />
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-3">Submission Support</h3>
+                            <p className="text-gray-600 leading-relaxed mb-6">
+                                Stay informed and supported throughout the waiting process, with updates and advice if needed.
+                            </p>
+                            <a href="#" className="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:gap-3 transition-all">
+                                Learn More <span>→</span>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section className="py-20 bg-gradient-to-b from-[#f8fbff] to-white">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                    <div className="grid lg:grid-cols-2 gap-12 items-start">
+
+                        {/* Left Content */}
+                        <div className="lg:sticky lg:top-24">
+                            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-semibold mb-6">
+                                <span>Contact Information</span>
+                                <span className="text-lg">↗</span>
+                            </div>
+
+                            <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-6">
+                                Connect with Our Visa Experts Today
+                            </h2>
+
+                            <p className="text-lg text-gray-600 leading-relaxed mb-8 max-w-xl">
+                                Share your details and our expert team will help you choose the right visa path, guide you through the process, and support you at every step.
+                            </p>
+
+                            <div className="space-y-5">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.86 19.86 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.86 19.86 0 012.08 4.18 2 2 0 014.06 2h3a2 2 0 012 1.72c.12.9.33 1.78.63 2.62a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.46-1.18a2 2 0 012.11-.45c.84.3 1.72.51 2.62.63A2 2 0 0122 16.92z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-bold text-gray-900">Quick Assistance</h3>
+                                        <p className="text-gray-600">Our visa specialists connect with you to understand your case and recommend the right next step.</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-bold text-gray-900">Personalized Guidance</h3>
+                                        <p className="text-gray-600">Get help based on your visa category, destination, age profile, and application background.</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center shrink-0">
+                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                            <path d="M9 12l2 2 4-4"></path>
+                                            <path d="M21 12c0 4.97-4.03 9-9 9S3 16.97 3 12 7.03 3 12 3s9 4.03 9 9z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-bold text-gray-900">Trusted Support</h3>
+                                        <p className="text-gray-600">From initial consultation to visa submission, we help keep your journey smooth and stress-free.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Right Form */}
+                        <div className="bg-white border border-gray-100 rounded-[32px] shadow-2xl p-6 md:p-8 lg:p-10">
+                            <form className="space-y-6">
+                                <div className="grid md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-800 mb-2">
+                                            First Name
+                                        </label>
+                                        <input
+                                            type="text"
+                                            placeholder="First Name"
+                                            className="w-full h-14 px-4 rounded-2xl border border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-800 mb-2">
+                                            Last Name
+                                        </label>
+                                        <input
+                                            type="text"
+                                            placeholder="Last Name"
+                                            className="w-full h-14 px-4 rounded-2xl border border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-800 mb-2">
+                                            Country Code
+                                        </label>
+                                        <select className="w-full h-14 px-4 rounded-2xl border border-gray-200 bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition">
+                                            <option>IND (+91)</option>
+                                            <option>USA (+1)</option>
+                                            <option>UK (+44)</option>
+                                            <option>UAE (+971)</option>
+                                            <option>AUS (+61)</option>
+                                            <option>CAN (+1)</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-800 mb-2">
+                                            Phone Number
+                                        </label>
+                                        <input
+                                            type="tel"
+                                            placeholder="Phone Number"
+                                            className="w-full h-14 px-4 rounded-2xl border border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-800 mb-2">
+                                            Email
+                                        </label>
+                                        <input
+                                            type="email"
+                                            placeholder="Email Address"
+                                            className="w-full h-14 px-4 rounded-2xl border border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-800 mb-2">
+                                            Age
+                                        </label>
+                                        <input
+                                            type="number"
+                                            placeholder="Your Age"
+                                            className="w-full h-14 px-4 rounded-2xl border border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-800 mb-2">
+                                            Prior Refusal
+                                        </label>
+                                        <select className="w-full h-14 px-4 rounded-2xl border border-gray-200 bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition">
+                                            <option>Select</option>
+                                            <option>Yes</option>
+                                            <option>No</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-800 mb-2">
+                                            Co-Applicant
+                                        </label>
+                                        <select className="w-full h-14 px-4 rounded-2xl border border-gray-200 bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition">
+                                            <option>Select</option>
+                                            <option>Yes</option>
+                                            <option>No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="grid md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-800 mb-2">
+                                            Number of Co-Applicants
+                                        </label>
+                                        <input
+                                            type="number"
+                                            placeholder="Number of Co-Applicants"
+                                            className="w-full h-14 px-4 rounded-2xl border border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-800 mb-2">
+                                            Country of Interest
+                                        </label>
+                                        <select className="w-full h-14 px-4 rounded-2xl border border-gray-200 bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition">
+                                            <option>Select Country</option>
+                                            <option>Canada</option>
+                                            <option>Australia</option>
+                                            <option>UK</option>
+                                            <option>USA</option>
+                                            <option>Schengen</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-800 mb-2">
+                                        Visa Category
+                                    </label>
+                                    <select className="w-full h-14 px-4 rounded-2xl border border-gray-200 bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition">
+                                        <option>Select Visa type</option>
+                                        <option>Business Visa</option>
+                                        <option>Work Visa</option>
+                                        <option>Student Visa</option>
+                                        <option>Tourist Visa</option>
+                                    </select>
+                                </div>
+
+                                <div className="pt-2">
+                                    <button
+                                        type="submit"
+                                        className="w-full md:w-auto px-8 py-4 rounded-full bg-blue-600 text-white text-lg font-semibold shadow-lg hover:bg-blue-700 hover:scale-[1.02] transition duration-300"
+                                    >
+                                        Submit Inquiry
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+    )
+}
+
+export default Visa
