@@ -53,7 +53,7 @@ const footerData = [
 const contactData = [
   {
     title: "INDIA",
-    subtitle: "India Visaassist",
+    subtitle: "India",
     phone: "+91 7670800000",
     email: "info@visaassist.com",
     website: "www.visaassist.com",
@@ -142,7 +142,7 @@ const Footer = () => {
               Y
             </div>
             <div>
-              <h3 className="text-2xl font-extrabold text-white">Y-Axis</h3>
+              <h3 className="text-2xl font-extrabold text-white">Visaassist</h3>
               <p className="text-sm text-slate-400">
                 Overseas Career & Immigration Consultant
               </p>

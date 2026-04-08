@@ -22,6 +22,14 @@ import Migrate from "../../user/pages/Migrate";
 import Work from "../../user/pages/Work";
 import Study from "../../user/pages/Study";
 import Visa from "../../user/pages/Visa";
+import UK from "../../user/pages/visa/UK";
+import Usa from "../../user/pages/visa/Usa";
+import Japan from "../../user/pages/visa/Japan";
+import Australia from "../../user/pages/visa/Australia";
+import Canada from "../../user/pages/visa/Canada";
+import NewZealand from "../../user/pages/visa/NewZealand";
+import Turkey from "../../user/pages/visa/Turkey";
+import Schengen from "../../user/pages/visa/Schengen";
 
 const roleRoute = (roles, title) => {
   return (
@@ -79,6 +87,14 @@ const AppRoutes = () => {
         <Route path="/work" element={<Work />} />
         <Route path="/study" element={<Study />} />
         <Route path="/visa" element={<Visa />} />
+        <Route path="/visa/uk" element={<UK />}/>
+        <Route path="/visa/usa" element={<Usa />}/>
+        <Route path="/visa/japan" element={<Japan />}/>
+        <Route path="/visa/australia" element={<Australia />}/>
+        <Route path="/visa/canada" element={<Canada />}/>
+        <Route path="/visa/newzealand" element={<NewZealand/>}/>
+        <Route path="/visa/turkey" element={<Turkey />}/>
+        <Route path="/visa/schengen" element={<Schengen />}/>
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

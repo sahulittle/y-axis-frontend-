@@ -669,7 +669,7 @@ const Migrate = () => {
                         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                             <div className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-[0_18px_50px_rgba(15,23,42,0.08)] md:p-8 lg:p-10">
                                 <h3 className="text-2xl font-extrabold text-slate-900 md:text-3xl">
-                                    Which countries do Y-Axis help you to immigrate to?
+                                    Which countries Visaassist help you to immigrate to?
                                 </h3>
 
                                 <div className="mt-6 space-y-5 text-base leading-8 text-slate-600">
@@ -719,7 +719,7 @@ const Migrate = () => {
                                             Get evaluated:
                                         </span>{" "}
                                         Check your eligibility to migrate abroad instantly for FREE
-                                        through the Y-Axis eligibility points calculator.
+                                        through the Visaassist eligibility points calculator.
                                     </p>
 
                                     <p>

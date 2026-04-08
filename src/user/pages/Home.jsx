@@ -79,14 +79,11 @@ const Home = () => {
             image:
                 "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?q=80&w=1200&auto=format&fit=crop",
             visas: [
-                "PR Visa",
+                "Visit Visa",
                 "Work Visa",
                 "Student Visa",
-                "Express Entry Program",
-                "PNP",
+                "Tourist Visa",
                 "Business Visa",
-                "Visit Visa",
-                "Digital Nomad Visa",
             ],
         },
         {
@@ -94,14 +91,12 @@ const Home = () => {
             image:
                 "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?q=80&w=1200&auto=format&fit=crop",
             visas: [
-                "PR Visa",
+                "Visit Visa",
                 "Work Visa",
                 "Student Visa",
-                "Subclass 462 Visa",
                 "Business Visa",
-                "Subclass 189 Visa",
-                "TSS Visa",
-                "Visit Visa",
+                "B1 / B2",
+
             ],
         },
         {
@@ -109,7 +104,7 @@ const Home = () => {
             image:
                 "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?q=80&w=1200&auto=format&fit=crop",
             visas: [
-                "Opportunity Card",
+                "Japan Visit Visa",
                 "Work Visa",
                 "Student Visa",
                 "Visit Visa",
@@ -122,8 +117,8 @@ const Home = () => {
                 "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1200&auto=format&fit=crop",
             visas: [
                 "Work Visa",
-                "Student Visa",
-                "Digital Nomad Visa",
+                "Student Visa", 
+                "Business Visa",
                 "Visit Visa",
             ],
         },
@@ -132,10 +127,10 @@ const Home = () => {
             image:
                 "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=1200&auto=format&fit=crop",
             visas: [
-                "UK Skilled Worker Visa",
+                "Australia Visitor Support",
                 "Student Visa",
                 "Business Visa",
-                "Innovator Visa",
+                "Schengen Visa",
                 "Visit Visa",
                 "Youth Mobility Visa",
             ],
@@ -145,12 +140,12 @@ const Home = () => {
             image:
                 "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1200&auto=format&fit=crop",
             visas: [
-                "Freelance Visa",
+                "Canada Visit Visa",
                 "Work Visa",
                 "Student Visa",
-                "Green Visa",
+                "UK Visit Visa",
                 "Visit Visa",
-                "Golden Visa",
+                "Schengen Visa",
             ],
         },
     ];

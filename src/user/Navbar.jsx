@@ -93,11 +93,11 @@ const Navbar = () => {
             <div className="flex items-center gap-10 min-w-0">
               <a href="/" className="flex items-center gap-3 shrink-0">
                 <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-orange-500 via-amber-400 to-yellow-300 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg">
-                  Y
+                  V
                 </div>
                 <div className="leading-tight">
                   <div className="text-xl font-extrabold text-slate-900 tracking-tight">
-                    YourBrand
+                    Visaassist
                   </div>
                   <div className="text-xs text-slate-500 font-medium">
                     Global Services

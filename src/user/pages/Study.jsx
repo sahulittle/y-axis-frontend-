@@ -343,7 +343,7 @@ const Study = () => {
                             </span>
 
                             <h3 className="mt-4 text-3xl font-extrabold leading-tight text-slate-900 md:text-4xl">
-                                Study Abroad With Y-Axis
+                                Study Abroad With Visaassist
                             </h3>
 
                             <p className="mt-3 text-base leading-8 text-slate-600 md:text-lg">
@@ -483,7 +483,7 @@ const Study = () => {
                         </h3>
 
                         <p className="mx-auto mt-4 max-w-4xl text-base leading-8 text-slate-600 md:text-lg">
-                            Y-Axis helps students like you find and apply to in-demand courses
+                            Visaassist helps students like you find and apply to in-demand courses
                             in international universities that lead to a rewarding career. Our
                             Right Course, Right Path methodology ensures you don’t just get an
                             education but global mobility and a successful future.
@@ -574,7 +574,7 @@ const Study = () => {
                         </p>
 
                         <p className="mt-4 max-w-4xl text-base leading-8 text-slate-600 md:text-lg">
-                            Y-Axis is one of the most trusted names in the education space. We have
+                            Visaassist is one of the most trusted names in the education space. We have
                             the skills, experience, and network to help students like you unlock
                             their potential by gaining an admission to their dream university.
                         </p>

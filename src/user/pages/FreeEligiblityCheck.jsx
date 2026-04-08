@@ -314,7 +314,7 @@ const FreeEligiblityCheck = () => {
                                 </div>
 
                                 <h3 className="text-2xl font-extrabold text-slate-900 md:text-3xl">
-                                    Why opt Y-Axis Eligibility Calculator?
+                                    Why opt Visaassist Eligibility Calculator?
                                 </h3>
 
                                 <div className="mt-6 space-y-4">
@@ -344,7 +344,7 @@ const FreeEligiblityCheck = () => {
                                 </h3>
 
                                 <p className="mt-4 text-base leading-8 text-slate-600">
-                                    Through the Y-Axis Immigration Points Calculator, you can check
+                                    Through the Visaassist Immigration Points Calculator, you can check
                                     your eligibility through
                                 </p>
 
@@ -365,7 +365,7 @@ const FreeEligiblityCheck = () => {
                         {/* Eligibility Evaluation */}
                         <div className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-[0_12px_40px_rgba(15,23,42,0.06)] md:p-8 lg:p-10">
                             <h3 className="text-2xl font-extrabold text-slate-900 md:text-3xl">
-                                Y-Axis Eligibility Evaluation
+                                Visaassist Eligibility Evaluation
                             </h3>
 
                             <div className="mt-6 space-y-5 text-base leading-8 text-slate-600">
@@ -408,7 +408,7 @@ const FreeEligiblityCheck = () => {
                                 </p>
 
                                 <p>
-                                    Y-Axis helps you decide about moving abroad with our eligibility
+                                   Visaassist helps you decide about moving abroad with our eligibility
                                     evaluation process. With an Eligibility Evaluation, we assess
                                     your profile against the prevailing visa norms and evaluate your
                                     application’s chances of success.
@@ -420,13 +420,13 @@ const FreeEligiblityCheck = () => {
                         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.3fr_0.7fr]">
                             <div className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-[0_12px_40px_rgba(15,23,42,0.06)] md:p-8 lg:p-10">
                                 <h3 className="text-2xl font-extrabold text-slate-900 md:text-3xl">
-                                    Y-Axis Eligibility Score Calculator
+                                    Visaassist Eligibility Score Calculator
                                 </h3>
 
                                 <div className="mt-6 space-y-5 text-base leading-8 text-slate-600">
                                     <p>
-                                        The Y-Axis Eligibility Evaluation helps you check your
-                                        eligibility with the Y-Axis points calculator. This will help
+                                        The Visaassist Eligibility Evaluation helps you check your
+                                        eligibility with the Visaassist points calculator. This will help
                                         you understand the strong factors in your profile, which will
                                         help you decide which country you will have greater chances of
                                         migrating to.
@@ -436,13 +436,13 @@ const FreeEligiblityCheck = () => {
                                         It will assist you in making an informed decision based on
                                         available options. An Eligibility Evaluation can also help you
                                         identify any flaws in your profile that you can address with
-                                        the help of Y-Axis’ professional services. We provide you with
+                                        the help of Visaassist' professional services. We provide you with
                                         a cost and time estimate for completing this so that you know
                                         exactly what to expect.
                                     </p>
 
                                     <p>
-                                        The Y-Axis Eligibility Evaluation provides a scorecard and
+                                        The Visaassist Eligibility Evaluation provides a scorecard and
                                         suggests the best options.
                                     </p>
                                 </div>
@@ -475,7 +475,7 @@ const FreeEligiblityCheck = () => {
                             <h4 className="text-xl font-bold text-slate-900">Disclaimer</h4>
 
                             <p className="mt-4 text-sm leading-8 text-slate-600 md:text-base">
-                                A quick eligibility check of Y-Axis is only to help the applicants
+                                A quick eligibility check of Visaassist is only to help the applicants
                                 understand their scores. The points displayed are based on your
                                 answers only. Please note the points on each section are evaluated
                                 based on various parameters set in the immigration guidelines, and

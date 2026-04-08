@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ArrowRight } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
 
 const Visa = () => {
 
@@ -7,39 +8,67 @@ const Visa = () => {
         {
             id: 0,
             name: "Canada",
-            image: "https://images.unsplash.com/photo-1517935706615-2717063c2225?q=80&w=1200&auto=format&fit=crop",
+            slug: "canada",
+            image: "https://thumbs.dreamstime.com/b/canadian-flag-vancouver-skyscrapers-background-48534349.jpg",
             description:
                 "Canada welcomes 1.1M immigrants by 2027—offering jobs, quality life, easy PR, and a warm, multicultural environment to thrive.",
         },
         {
             id: 1,
             name: "Australia",
-            image: "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?q=80&w=1200&auto=format&fit=crop",
+            slug: "australia",
+            image: "https://img.freepik.com/premium-photo/flag-flying-city-with-words-union-it_514619-5546.jpg?w=360",
             description:
                 "Live, work, or study in Australia—vibrant cities, PR visa benefits, and a welcoming, English-speaking culture await you.",
         },
         {
             id: 2,
             name: "UK",
-            image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=1200&auto=format&fit=crop",
+            slug: "uk",
+            image: "https://img.freepik.com/premium-photo/uk-flag-staff-waving-wind_750724-17885.jpg?semt=ais_incoming&w=740&q=80",
             description:
                 "The UK offers top quality of life, global career prospects, and vibrant cities like London and Manchester for those seeking a better future.",
         },
         {
             id: 3,
             name: "USA",
-            image: "https://images.unsplash.com/photo-1485738422979-f5c462d49f74?q=80&w=1200&auto=format&fit=crop",
+            slug: "usa",
+            image: "https://www.shutterstock.com/image-photo/manhattan-new-york-sunny-skyline-600nw-2611716607.jpg",
             description:
                 "The USA offers unmatched opportunity, top education, and a great quality of life—your gateway to growth, freedom, and the future.",
         },
         {
             id: 4,
             name: "Schengen",
-            image: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?q=80&w=1200&auto=format&fit=crop",
+            slug: "schengen",
+            image: "https://static.vecteezy.com/system/resources/thumbnails/055/250/996/small/european-union-flag-waving-majestically-in-front-of-picturesque-mountain-range-photo.jpg",
             description:
                 "Explore life across 27 EU nations with a Schengen visa—seamless travel, rich culture, and exciting career opportunities await you.",
         },
+        {
+            id: 5,
+            name: "New Zealand",
+            slug: "newzealand",
+            image: "https://media.istockphoto.com/id/1162285825/photo/new-zealand-flag-waving-against-clear-blue-sky.jpg?s=612x612&w=0&k=20&c=Y16k1eGPGO6mIAkDlEkfNd-cMS4NrEtkWm0xIIyFoSI=",
+            description: "Explore life in New Zealand—breathtaking landscapes, a high quality of life, and endless opportunities for growth and adventure await you.",
+        },
+        {
+            id: 6,
+            name: "Japan",
+            slug: "japan",
+            image: "https://media.istockphoto.com/id/2200971204/photo/japanese-flag-at-intercontinental-yokohama-grand-hotel.jpg?s=612x612&w=0&k=20&c=NDIhF8CLTXZa5cKBdeu1w26T0uYZdxX7eBbs2FG8rD8=",
+            description: "Explore life in Japan—cutting-edge innovation, rich traditions, and exciting opportunities come together in a land where the future meets heritage.",
+        },
+        {
+            id: 7,
+            name: "Turkey",
+            slug: "turkey",
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToPvM8mUKyoTKUDNYOqfAopvcULz_KOXBntw&s",
+            description: "Explore life in Turkey—where vibrant culture, rich history, and modern opportunities blend across two continents, offering a unique journey of growth and discovery.",
+        }
     ];
+
+    const navigate = useNavigate();
 
     const [activeIndex, setActiveIndex] = useState(4);
 
@@ -71,7 +100,7 @@ const Visa = () => {
                                 </h1>
 
                                 <p className="mt-6 text-base leading-7 text-[#4b5563] md:text-lg">
-                                    Trusted by millions, Y-Axis ensures a smooth, accurate, and
+                                    Trusted by millions, Visaassist ensures a smooth, accurate, and
                                     end-to-end visa process for every journey.
                                 </p>
 
@@ -177,7 +206,7 @@ const Visa = () => {
                 <div className="max-w-[1700px] mx-auto px-6 lg:px-10">
                     <div className="text-center mb-12">
                         <p className="text-sm md:text-base font-semibold tracking-[0.2em] uppercase text-gray-700 mb-3">
-                            Y-Axis Global Passport
+                            Visaassist Global Passport
                         </p>
                         <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
                             Specialised Visa Services for the Big 5 Visas
@@ -189,12 +218,10 @@ const Visa = () => {
                             const isActive = index === activeIndex;
 
                             return (
-                                <button
+                                <div
                                     key={item.id}
                                     onClick={() => setActiveIndex(index)}
-                                    className={`relative group h-[520px] rounded-none overflow-hidden transition-all duration-700 ease-in-out ${isActive
-                                        ? "lg:w-[32%] w-full"
-                                        : "lg:w-[17%] w-full"
+                                    className={`relative group h-[520px] rounded-none overflow-hidden transition-all duration-700 ease-in-out cursor-pointer ${isActive ? "lg:w-[32%] w-full" : "lg:w-[17%] w-full"
                                         }`}
                                 >
                                     <img
@@ -224,7 +251,21 @@ const Visa = () => {
                                                     {item.description}
                                                 </p>
 
-                                                <button className="inline-flex items-center gap-3 px-7 py-3 rounded-full border border-white text-white text-lg font-medium hover:bg-white hover:text-gray-900 transition">
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+
+                                                        // 👇 scroll to top
+                                                        window.scrollTo({
+                                                            top: 0,
+                                                            behavior: "smooth", // optional
+                                                        });
+
+                                                        // 👇 navigate
+                                                        navigate(`/visa/${item.slug}`);
+                                                    }}
+                                                    className="inline-flex items-center gap-3 px-7 py-3 rounded-full border border-white text-white text-lg font-medium hover:bg-white hover:text-gray-900 transition"
+                                                >
                                                     Apply now
                                                     <span className="text-xl">→</span>
                                                 </button>
@@ -235,7 +276,7 @@ const Visa = () => {
                                             <div className="w-3 h-3 rounded-full bg-white/80" />
                                         </div>
                                     )}
-                                </button>
+                                </div>
                             );
                         })}
                     </div>
