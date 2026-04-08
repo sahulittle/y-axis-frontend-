@@ -1,0 +1,34 @@
+import {
+  Briefcase,
+  CalendarClock,
+  ClipboardList,
+  Files,
+  FileText,
+  Gauge,
+  Globe,
+  HandCoins,
+  Layers,
+  MessageSquareText,
+  Settings,
+  ShieldCheck,
+  UserCheck,
+  Users,
+} from "lucide-react";
+import { ROLE_GROUPS } from "./permissions";
+
+export const adminNavItems = [
+  { to: "/admin/dashboard", label: "Dashboard", icon: Gauge, roles: ROLE_GROUPS.allStaff },
+  { to: "/admin/leads", label: "Leads", icon: Users, roles: ROLE_GROUPS.operations },
+  { to: "/admin/applicants", label: "Applicants", icon: UserCheck, roles: ROLE_GROUPS.operations },
+  { to: "/admin/cases", label: "Cases", icon: ClipboardList, roles: ROLE_GROUPS.operations },
+  { to: "/admin/documents", label: "Documents", icon: Files, roles: ROLE_GROUPS.operations },
+  { to: "/admin/appointments", label: "Appointments", icon: CalendarClock, roles: ROLE_GROUPS.operations },
+  { to: "/admin/payments", label: "Payments", icon: HandCoins, roles: ROLE_GROUPS.finance },
+  { to: "/admin/services", label: "Services", icon: Layers, roles: ROLE_GROUPS.operations },
+  { to: "/admin/checklists", label: "Checklists", icon: ClipboardList, roles: ROLE_GROUPS.operations },
+  { to: "/admin/templates", label: "Templates", icon: MessageSquareText, roles: ROLE_GROUPS.operations },
+  { to: "/admin/country-updates", label: "Country Updates", icon: Globe, roles: ROLE_GROUPS.operations },
+  { to: "/admin/reports", label: "Reports", icon: FileText, roles: ROLE_GROUPS.allStaff },
+  { to: "/admin/settings", label: "Settings", icon: Settings, roles: ROLE_GROUPS.compliance },
+  { to: "/admin/compliance", label: "Compliance", icon: ShieldCheck, roles: ROLE_GROUPS.compliance },
+];

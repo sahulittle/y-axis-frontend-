@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+	--bg-app: #f4f6f8;
+	--bg-surface: #ffffff;
+	--text-primary: #0f172a;
+	--text-secondary: #475569;
+	--border-default: #dbe3ea;
+	--brand-600: #0d9488;
+	--status-new: #0284c7;
+	--status-qualified: #0369a1;
+	--status-converted: #15803d;
+	--status-doc-pending: #d97706;
+	--status-doc-rejected: #b91c1c;
+}
+
+body {
+	margin: 0;
+	font-family: "Manrope", "Segoe UI", sans-serif;
+	background: var(--bg-app);
+	color: var(--text-primary);
+}
+
+* {
+	box-sizing: border-box;
+}
