@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Home, Eye, EyeOff, CheckCircle2 } from "lucide-react";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 
 const Signup = () => {
   const navigate = useNavigate();

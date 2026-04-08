@@ -22,6 +22,9 @@ import Migrate from "../../user/pages/Migrate";
 import Work from "../../user/pages/Work";
 import Study from "../../user/pages/Study";
 import Visa from "../../user/pages/Visa";
+import ContactUs from "../../user/pages/Contactus";
+import Login from "../../components/Login";
+import Signup from "../../components/Signup";
 
 const roleRoute = (roles, title) => {
   return (
@@ -79,6 +82,9 @@ const AppRoutes = () => {
         <Route path="/work" element={<Work />} />
         <Route path="/study" element={<Study />} />
         <Route path="/visa" element={<Visa />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
