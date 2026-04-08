@@ -12,9 +12,11 @@ import UserLayout from "./user/UserLayout";
 import Home from "./user/pages/Home";
 import FreeEligiblityCheck from "./user/pages/FreeEligiblityCheck";
 import Migrate from "./user/pages/Migrate";
-import Work from "./user/pages/Work";
 import Study from "./user/pages/Study";
 import Visa from "./user/pages/Visa";
+import Signup from "./components/Signup";
+import Login from "./components/Login";
+import ContactUs from "./user/pages/Contactus";
 
 const App = () => {
   return (
@@ -35,9 +37,11 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/free-eligibility-check" element={<FreeEligiblityCheck />} />
           <Route path="/migrate" element={<Migrate />} />
-          <Route path="/work" element={<Work />} />
           <Route path="/study" element={<Study />} />
           <Route path="/visa" element={<Visa />} />
+          <Route path="/signup" element={<Signup />}/>
+          <Route path="/login" element={<Login />}/>
+          <Route path="/contactus" element={<ContactUs />}/>
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

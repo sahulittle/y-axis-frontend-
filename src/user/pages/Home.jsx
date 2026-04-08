@@ -19,10 +19,6 @@ const options = [
         icon: <Plane size={20} />,
     },
     {
-        label: "Work",
-        icon: <Briefcase size={20} />,
-    },
-    {
         label: "Visit",
         icon: <MapPinned size={20} />,
     },
@@ -30,7 +26,7 @@ const options = [
 
 const sections = [
     {
-        title: "The Y-Axis Trust Standard",
+        title: "The Visaassist Trust Standard",
         description: "Ethical counselling | Disciplined execution | Clear value.",
         buttons: ["Free Consultation", "Learn More"],
         image:
@@ -65,28 +61,12 @@ const sections = [
             "LinkedIn Optimization",
             "Resume Marketing",
             "Post a Job",
-            "Why choose Y-Axis?",
+            "Why choose Visaassist?",
         ],
         image:
             "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop",
         imageLeft: false,
-    },
-    {
-        title: "Coaching",
-        description: "Ace your scores with our expert coaching services.",
-        buttons: [
-            "IELTS",
-            "PTE-Academic",
-            "PTE-Core",
-            "TOEFL",
-            "German",
-            "CELPIP",
-            "Coaching Demo Videos",
-        ],
-        image:
-            "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
-        imageLeft: true,
-    },
+    }
 ];
 
 
@@ -197,23 +177,6 @@ const Home = () => {
     //         subtitle: "Offices",
     //     },
     // ];
-
-    const blogPosts = [
-        {
-            title:
-                "190 Skilled Jobs in Denmark Eligible for Work Visa (2026) – Check If You Qualify",
-            date: "2026-04-02",
-        },
-        {
-            title:
-                "Top Countries for Indian Freshers to Get a Work Visa and Start a Career Abroad",
-            date: "2026-03-28",
-        },
-        {
-            title: "How can I get a job in Italy from India?",
-            date: "2026-03-23",
-        },
-    ];
 
     const stats = [
         {
@@ -344,7 +307,7 @@ const Home = () => {
                             </h3>
 
                             <p className="mt-4 text-slate-600 text-base sm:text-lg leading-7 max-w-lg">
-                                Y-Axis offers expert guidance and support that increases your
+                                Visaassist offers expert guidance and support that increases your
                                 chances of visa success.
                             </p>
 
@@ -538,7 +501,7 @@ const Home = () => {
                             </span>
 
                             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight">
-                                Why choose Y-Axis
+                                Why choose Visaassist
                             </h2>
 
                             <p className="mt-4 text-base sm:text-lg text-slate-600 leading-7 max-w-xl">
@@ -693,44 +656,6 @@ const Home = () => {
                                 <ArrowRight size={18} />
                             </button>
                         </div>
-
-                        {/* Job Blogs Card */}
-                        <div className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_15px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_20px_55px_rgba(15,23,42,0.12)] transition-all duration-300">
-                            <p className="text-sm font-semibold text-orange-600 uppercase tracking-wide">
-                                Blog
-                            </p>
-                            <h3 className="text-2xl font-bold text-slate-900 mt-2">
-                                Job Blog
-                            </h3>
-
-                            <div className="mt-6 space-y-5">
-                                {blogPosts.map((post, index) => (
-                                    <div
-                                        key={index}
-                                        className="rounded-[22px] border border-slate-100 bg-slate-50 p-4 hover:bg-orange-50 hover:border-orange-200 transition"
-                                    >
-                                        <p className="text-slate-800 font-semibold leading-7">
-                                            {post.title}
-                                        </p>
-
-                                        <span className="mt-3 inline-flex items-center gap-2 text-sm text-slate-500">
-                                            <CalendarDays size={16} />
-                                            {post.date}
-                                        </span>
-
-                                        <button className="mt-4 inline-flex items-center gap-2 text-orange-600 font-semibold hover:text-slate-900 transition">
-                                            Read More
-                                            <ArrowRight size={16} />
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <button className="mt-6 inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-white font-semibold hover:bg-orange-500 transition-all duration-300">
-                                See All Job Blogs
-                                <ArrowRight size={18} />
-                            </button>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -750,12 +675,12 @@ const Home = () => {
                                 </h3>
 
                                 <p className="mt-6 text-sm sm:text-base lg:text-lg leading-8 text-slate-300">
-                                    Y-Axis is India&apos;s No.1 Overseas Career and Immigration
+                                    Visaassist is India&apos;s No.1 Overseas Career and Immigration
                                     Consultant, and presumably the world&apos;s largest B2C
                                     immigration consulting firm, established in 1999. With 40+
                                     company-owned and managed offices across India, the United Arab
                                     Emirates, the United Kingdom, Australia, and Canada, and a team
-                                    of 1500+ employees, Y-Axis has served over 1 million customers
+                                    of 1500+ employees, Visaassist has served over 1 million customers
                                     as a trusted immigration consultant.
                                 </p>
 
@@ -763,7 +688,7 @@ const Home = () => {
                                     The firm provides end-to-end guidance for Canada PR (Express
                                     Entry, PNP), Australia PR (Subclass 189/190), UK Skilled Worker
                                     Visa, Germany Opportunity Card, and study visas, having
-                                    counselled over 10 million applicants. Y-Axis is a Licensed
+                                    counselled over 10 million applicants. Visaassist is a Licensed
                                     Recruitment Agent in India and also an IATA travel agent,
                                     offering personalized one-on-one immigration consulting and
                                     counseling to over 1,00,000 individual inquiries every month.
@@ -773,7 +698,7 @@ const Home = () => {
                                     Over 50% of its customers come through word-of-mouth, reflecting
                                     strong client trust in our immigration consultant services. No
                                     other immigration consultant understands overseas careers as
-                                    Y-Axis does.
+                                    Visaassist does.
                                 </p>
 
                                 <div className="mt-8 flex flex-wrap gap-3">
@@ -794,7 +719,7 @@ const Home = () => {
                                 <div className="relative">
                                     <div className="rounded-[28px] border border-white/10 bg-white/5 p-5 sm:p-6">
                                         <h4 className="text-2xl font-bold text-white">
-                                            Why clients trust Y-Axis
+                                            Why clients trust Visaassist
                                         </h4>
                                         <p className="mt-3 text-slate-300 leading-7">
                                             A trusted global presence, one-to-one counselling, proven
@@ -839,81 +764,6 @@ const Home = () => {
                 </div>
             </section>
 
-            <section className="w-full bg-gradient-to-br from-orange-50 via-white to-slate-50 py-16 lg:py-24">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-                        {/* Left Content */}
-                        <div>
-                            <span className="inline-flex items-center rounded-full bg-orange-100 text-orange-700 px-4 py-1.5 text-sm font-semibold mb-4">
-                                Community & Stories
-                            </span>
-
-                            <h4 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight">
-                                Global Indian
-                            </h4>
-
-                            <p className="mt-5 text-base sm:text-lg text-slate-600 leading-8 max-w-2xl">
-                                We highlight Indians and stakeholders who shape the identity and
-                                perception of India and Indians abroad, while showcasing
-                                cross-border journeys of Indians who found their purpose and
-                                chose to give back.
-                            </p>
-
-                            <div className="mt-8 flex flex-wrap gap-3">
-                                {buttons.map((item, index) => (
-                                    <button
-                                        key={index}
-                                        className={`rounded-full px-5 py-3 text-sm sm:text-base font-semibold shadow-sm transition-all duration-300 hover:scale-[1.02] ${index === 0
-                                            ? "bg-gradient-to-r from-orange-500 to-amber-400 text-slate-950"
-                                            : "bg-white border border-slate-200 text-slate-800 hover:bg-orange-50 hover:border-orange-300"
-                                            }`}
-                                    >
-                                        {item}
-                                    </button>
-                                ))}
-                            </div>
-
-                            <div className="mt-8 rounded-[28px] border border-orange-100 bg-white p-6 shadow-[0_15px_40px_rgba(15,23,42,0.07)]">
-                                <div className="flex items-start gap-4">
-                                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 text-slate-950 flex items-center justify-center font-bold shadow-md">
-                                        GI
-                                    </div>
-                                    <div>
-                                        <h5 className="text-lg font-bold text-slate-900">
-                                            Celebrate global Indian journeys
-                                        </h5>
-                                        <p className="mt-2 text-slate-600 leading-7">
-                                            Discover inspiring stories, meaningful impact, and
-                                            cross-border experiences that connect India to the world.
-                                        </p>
-
-                                        <button className="mt-4 inline-flex items-center gap-2 text-orange-600 font-semibold hover:text-slate-900 transition">
-                                            Explore More
-                                            <ArrowRight size={18} />
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Right Image */}
-                        <div className="relative">
-                            <div className="absolute -top-6 -left-6 w-28 h-28 rounded-full bg-orange-200/40 blur-3xl"></div>
-                            <div className="absolute -bottom-8 -right-8 w-36 h-36 rounded-full bg-amber-200/40 blur-3xl"></div>
-
-                            <div className="relative overflow-hidden rounded-[32px] bg-white p-3 shadow-[0_20px_60px_rgba(15,23,42,0.12)]">
-                                <img
-                                    src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1200&auto=format&fit=crop"
-                                    alt="Global Indian"
-                                    className="w-full h-[320px] sm:h-[420px] lg:h-[520px] object-cover rounded-[26px]"
-                                />
-                                <div className="absolute inset-3 rounded-[26px] bg-gradient-to-t from-slate-950/35 via-transparent to-transparent"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             <section className="w-full bg-gradient-to-br from-slate-50 via-white to-orange-50 py-16 lg:py-24">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
@@ -935,7 +785,7 @@ const Home = () => {
                             </p>
 
                             <button className="mt-7 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-6 py-3 text-sm sm:text-base font-semibold text-slate-950 shadow-lg hover:scale-[1.03] transition-all duration-300">
-                                Career at Y-Axis
+                                Career at Visaassist
                                 <ArrowRight size={18} />
                             </button>
 

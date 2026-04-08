@@ -6,7 +6,7 @@ const footerData = [
   {
     title: "ABOUT US",
     links: [
-      "About Y Axis",
+      "About Visaassist",
       "Careers",
       "CSR",
       "Office Network",
@@ -53,38 +53,38 @@ const footerData = [
 const contactData = [
   {
     title: "INDIA",
-    subtitle: "India Y-Axis",
+    subtitle: "India Visaassist",
     phone: "+91 7670800000",
-    email: "info@y-axis.com",
-    website: "www.y-axis.com",
+    email: "info@visaassist.com",
+    website: "www.visaassist.com",
   },
   {
     title: "AUSTRALIA",
     subtitle: "Australia",
     phone: "+61 399394818",
-    email: "australia@y-axis.com.au",
-    website: "www.y-axis.com.au",
+    email: "australia@visaassist.com.au",
+    website: "www.visaassist.com.au",
   },
   {
     title: "UAE",
     subtitle: "UAE",
     phone: "+971 (0)42483900",
-    email: "dubai@y-axis.com",
-    website: "www.y-axis.ae",
+    email: "dubai@visaassist.com",
+    website: "www.visaassist.ae",
   },
   {
     title: "UK",
     subtitle: "UK",
     phone: "+44 1253226009",
-    email: "info@y-axis.co.uk",
-    website: "www.y-axis.co.uk",
+    email: "info@visaasist.co.uk",
+    website: "www.visaassist.co.uk",
   },
   {
     title: "CANADA",
     subtitle: "Canada",
     phone: "+1 226 243 2213",
-    email: "info@y-axis.ca",
-    website: "www.y-axis.ca",
+    email: "info@visaassist.ca",
+    website: "www.visaassist.ca",
   },
 ];
 
@@ -205,7 +205,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
           <div>
             <p className="text-sm text-slate-400 leading-7">
-              © 2026 Y-Axis. All rights reserved.
+              © 2026 Visaassist. All rights reserved.
             </p>
           </div>
 
