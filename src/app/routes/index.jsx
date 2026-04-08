@@ -30,6 +30,9 @@ import Canada from "../../user/pages/visa/Canada";
 import NewZealand from "../../user/pages/visa/NewZealand";
 import Turkey from "../../user/pages/visa/Turkey";
 import Schengen from "../../user/pages/visa/Schengen";
+import ContactUs from "../../user/pages/Contactus";
+import Login from "../../components/Login";
+import Signup from "../../components/Signup";
 
 const roleRoute = (roles, title) => {
   return (
@@ -95,6 +98,9 @@ const AppRoutes = () => {
         <Route path="/visa/newzealand" element={<NewZealand/>}/>
         <Route path="/visa/turkey" element={<Turkey />}/>
         <Route path="/visa/schengen" element={<Schengen />}/>
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

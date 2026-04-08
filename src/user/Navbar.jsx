@@ -58,7 +58,7 @@ const Navbar = () => {
                 Login
               </a>
               <a
-                href="/contactus"
+                href="/contact"
                 className="px-4 py-2 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 text-slate-950 font-semibold hover:scale-[1.02] transition"
               >
                 Contact Us
