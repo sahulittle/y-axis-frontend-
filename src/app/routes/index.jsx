@@ -33,6 +33,10 @@ import Schengen from "../../user/pages/visa/Schengen";
 import ContactUs from "../../user/pages/Contactus";
 import Login from "../../components/Login";
 import Signup from "../../components/Signup";
+import About from "../../user/pages/About";
+import VisaFaq from "../../user/pages/visatype/VisaFaq";
+import VisaTypeData from "../../user/pages/visatype/visaTypeData.jsx";
+import ApplyPage from "../../user/pages/visatype/ApplyPage.jsx";
 
 const roleRoute = (roles, title) => {
   return (
@@ -90,17 +94,21 @@ const AppRoutes = () => {
         <Route path="/work" element={<Work />} />
         <Route path="/study" element={<Study />} />
         <Route path="/visa" element={<Visa />} />
-        <Route path="/visa/uk" element={<UK />}/>
-        <Route path="/visa/usa" element={<Usa />}/>
-        <Route path="/visa/japan" element={<Japan />}/>
-        <Route path="/visa/australia" element={<Australia />}/>
-        <Route path="/visa/canada" element={<Canada />}/>
-        <Route path="/visa/newzealand" element={<NewZealand/>}/>
-        <Route path="/visa/turkey" element={<Turkey />}/>
-        <Route path="/visa/schengen" element={<Schengen />}/>
+        <Route path="/visa/uk" element={<UK />} />
+        <Route path="/visa/usa" element={<Usa />} />
+        <Route path="/visa/japan" element={<Japan />} />
+        <Route path="/visa/australia" element={<Australia />} />
+        <Route path="/visa/canada" element={<Canada />} />
+        <Route path="/visa/newzealand" element={<NewZealand />} />
+        <Route path="/visa/turkey" element={<Turkey />} />
+        <Route path="/visa/schengen" element={<Schengen />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/visa/:country/:visaType" element={<VisaTypeData />} />
+        <Route path="/apply/:country/:visaType" element={<ApplyPage />} />
+        <Route path="visafaq" element={<VisaFaq />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

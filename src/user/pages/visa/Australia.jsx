@@ -18,22 +18,11 @@ const Australia = () => {
   const visaTypes = [
     {
       title: "Visitor Visa",
+      slug: "visitor",
       icon: <MapPinned size={24} />,
       description:
         "For tourism, family visits, and short personal travel to Australia.",
-    },
-    {
-      title: "Student Visa",
-      icon: <GraduationCap size={24} />,
-      description:
-        "For students planning to study at eligible institutions in Australia.",
-    },
-    {
-      title: "Business Visitor Visa",
-      icon: <Briefcase size={24} />,
-      description:
-        "For short business visits, meetings, events, and professional activities.",
-    },
+    }
   ];
 
   const requiredDocuments = [
@@ -133,11 +122,15 @@ const Australia = () => {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 xl:grid-cols-3">
             {visaTypes.map((item, index) => (
               <div
                 key={index}
-                className="rounded-3xl border border-gray-100 bg-gradient-to-b from-white to-blue-50 p-8 shadow-sm hover:shadow-xl transition-all duration-300"
+                onClick={() => {
+                  window.scrollTo(0, 0);
+                  navigate(`/visa/australia/${item.slug}`);
+                }}
+                className="rounded-3xl border border-gray-100 bg-gradient-to-b from-white to-blue-50 p-8 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
               >
                 <div className="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center mb-6">
                   {item.icon}

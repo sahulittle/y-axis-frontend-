@@ -16,6 +16,7 @@ const Canada = () => {
   const visaTypes = [
     {
       title: "Visitor Visa",
+      slug: "visitor",
       icon: <MapPinned size={24} />,
       description:
         "For tourism, family visits, and short personal travel to Canada.",
@@ -124,7 +125,11 @@ const Canada = () => {
             {visaTypes.map((item, index) => (
               <div
                 key={index}
-                className="rounded-3xl border border-gray-100 bg-gradient-to-b from-white to-red-50 p-8 shadow-sm hover:shadow-xl transition-all duration-300"
+                onClick={() => {
+                  window.scrollTo(0, 0);
+                  navigate(`/visa/canada/${item.slug}`);
+                }}
+                className="rounded-3xl border border-gray-100 bg-gradient-to-b from-white to-red-50 p-8 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
               >
                 <div className="w-14 h-14 rounded-2xl bg-red-600 text-white flex items-center justify-center mb-6">
                   {item.icon}

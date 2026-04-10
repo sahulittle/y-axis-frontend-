@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { GraduationCap, Plane, Briefcase, MapPinned, BadgeHelp, CalendarDays, Globe2 } from "lucide-react";
 import {
     Users,
@@ -13,14 +14,17 @@ const options = [
     {
         label: "Study",
         icon: <GraduationCap size={20} />,
+        path: "/study",
     },
     {
         label: "Migrate",
         icon: <Plane size={20} />,
+        path: "/migrate",
     },
     {
         label: "Visit",
         icon: <MapPinned size={20} />,
+        path: "/visa",
     },
 ];
 
@@ -28,7 +32,10 @@ const sections = [
     {
         title: "The Visaassist Trust Standard",
         description: "Ethical counselling | Disciplined execution | Clear value.",
-        buttons: ["Free Consultation", "Learn More"],
+        buttons: [
+            { label: "Free Consultation", path: "/contact" },
+            { label: "Learn More", path: "/about" }
+        ],
         image:
             "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop",
         imageLeft: true,
@@ -38,7 +45,10 @@ const sections = [
         title: "Migrate",
         description:
             "Get personalized migration solutions and join the millions. Sign-up today!",
-        buttons: ["Canada", "Australia"],
+        buttons: [
+            { label: "Canada", path: "/visa/canada" },
+            { label: "Australia", path: "/visa/australia" }
+        ],
         image:
             "https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=1200&auto=format&fit=crop",
         imageLeft: false,
@@ -46,32 +56,42 @@ const sections = [
     {
         title: "Study",
         description: "Discover your career opportunities.",
-        buttons: ["School Students", "Graduates", "Professional", "Parent"],
+        buttons: [
+            { label: "School Students", path: "/study" },
+            { label: "Graduates", path: "/study" },
+            { label: "Professional", path: "/study" },
+            { label: "Parent", path: "/study" }
+        ],
         nextButton: true,
         image:
             "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop",
         imageLeft: true,
     },
-    {
-        title: "Work",
-        description: "Excited to work overseas? Start here...",
-        buttons: [
-            "Post Resume",
-            "Resume Writing",
-            "LinkedIn Optimization",
-            "Resume Marketing",
-            "Post a Job",
-            "Why choose Visaassist?",
-        ],
-        image:
-            "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop",
-        imageLeft: false,
-    }
+    // {
+    //     title: "Work",
+    //     description: "Excited to work overseas? Start here...",
+    //     buttons: [
+    //         { label: "Post Resume", path: "/work" },
+    //         { label: "Resume Writing", path: "/work" },
+    //         { label: "LinkedIn Optimization", path: "/work" },
+    //         { label: "Resume Marketing", path: "/work" },
+    //         { label: "Post a Job", path: "/work" },
+    //         { label: "Why choose Visaassist?", path: "/about" },
+    //     ],
+    //     image:
+    //         "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop",
+    //     imageLeft: false,
+    // }
 ];
 
 
 const Home = () => {
+    const navigate = useNavigate();
     const [active, setActive] = useState("Study");
+
+    React.useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const visaData = [
         {
@@ -242,7 +262,11 @@ const Home = () => {
                                 {options.map((item) => (
                                     <button
                                         key={item.label}
-                                        onClick={() => setActive(item.label)}
+                                        onClick={() => {
+                                            setActive(item.label);
+                                            window.scrollTo(0, 0);
+                                            navigate(item.path);
+                                        }}
                                         className={`group flex flex-col items-center justify-center gap-2 rounded-2xl border px-4 py-5 font-semibold transition-all duration-300 shadow-sm ${active === item.label
                                             ? "bg-gradient-to-r from-orange-500 to-amber-400 text-white border-orange-500 shadow-lg scale-[1.02]"
                                             : "bg-white text-slate-700 border-slate-200 hover:border-orange-300 hover:bg-orange-50"
@@ -277,7 +301,10 @@ const Home = () => {
                                             for study, migration, work, or travel.
                                         </p>
 
-                                        <button className="mt-4 inline-flex items-center rounded-full bg-slate-900 text-white px-5 py-3 font-medium hover:bg-orange-500 transition">
+                                        <button
+                                            onClick={() => window.open("https://wa.me/917670800000", "_blank")}
+                                            className="mt-4 inline-flex items-center rounded-full bg-slate-900 text-white px-5 py-3 font-medium hover:bg-orange-500 transition"
+                                        >
                                             Get Free Counselling
                                         </button>
                                     </div>
@@ -299,7 +326,7 @@ const Home = () => {
 
                             <h3 className="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight">
                                 Popular Visa
-                            </h3>
+                            </h3>   
 
                             <p className="mt-4 text-slate-600 text-base sm:text-lg leading-7 max-w-lg">
                                 Visaassist offers expert guidance and support that increases your
@@ -451,17 +478,27 @@ const Home = () => {
                                         {section.buttons.map((button, btnIndex) => (
                                             <button
                                                 key={btnIndex}
+                                                onClick={() => {
+                                                    window.scrollTo(0, 0);
+                                                    button.path && navigate(button.path);
+                                                }}
                                                 className={`rounded-full px-5 py-3 text-sm sm:text-base font-semibold transition-all duration-300 ${section.dark
                                                     ? "bg-white text-slate-950 hover:bg-orange-400 hover:text-slate-950"
                                                     : "bg-slate-100 text-slate-800 hover:bg-orange-500 hover:text-white"
                                                     } shadow-sm hover:scale-[1.02]`}
                                             >
-                                                {button}
+                                                {button.label}
                                             </button>
                                         ))}
 
                                         {section.nextButton && (
-                                            <button className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-5 py-3 text-sm sm:text-base font-semibold text-slate-950 shadow-md hover:scale-[1.02] transition-all duration-300">
+                                            <button 
+                                                onClick={() => {
+                                                    window.scrollTo(0, 0);
+                                                    navigate("/study");
+                                                }}
+                                                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-5 py-3 text-sm sm:text-base font-semibold text-slate-950 shadow-md hover:scale-[1.02] transition-all duration-300"
+                                            >
                                                 Next
                                                 <ArrowRight size={18} />
                                             </button>
@@ -505,11 +542,6 @@ const Home = () => {
                                 opportunities.
                             </p>
 
-                            <button className="mt-6 inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-white font-semibold hover:bg-orange-500 transition-all duration-300 shadow-md">
-                                Read
-                                <ArrowRight size={18} />
-                            </button>
-
                             {/* Mini Cards */}
                             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {stats.map((item, index) => (
@@ -524,10 +556,10 @@ const Home = () => {
 
                                             <div>
                                                 <h3 className="text-xl font-extrabold text-slate-900">
-                                                    {item.title}
+                                                    {item.value}
                                                 </h3>
                                                 <p className="mt-1 text-sm sm:text-base text-slate-600 font-medium leading-6">
-                                                    {item.subtitle}
+                                                    {item.label}
                                                 </p>
                                             </div>
                                         </div>
@@ -697,10 +729,19 @@ const Home = () => {
                                 </p>
 
                                 <div className="mt-8 flex flex-wrap gap-3">
-                                    <button className="rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-6 py-3 text-sm sm:text-base font-semibold text-slate-950 shadow-lg hover:scale-[1.02] transition-all duration-300">
+                                    <button 
+                                        onClick={() => window.open("https://wa.me/917670800000", "_blank")}
+                                        className="rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-6 py-3 text-sm sm:text-base font-semibold text-slate-950 shadow-lg hover:scale-[1.02] transition-all duration-300"
+                                    >
                                         Book Free Consultation
                                     </button>
-                                    <button className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm sm:text-base font-semibold text-white hover:bg-white/10 transition-all duration-300">
+                                    <button 
+                                        onClick={() => {
+                                            window.scrollTo(0, 0);
+                                            navigate("/about");
+                                        }}
+                                        className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm sm:text-base font-semibold text-white hover:bg-white/10 transition-all duration-300"
+                                    >
                                         Learn More
                                     </button>
                                 </div>

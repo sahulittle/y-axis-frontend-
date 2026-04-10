@@ -37,7 +37,7 @@ const FreeEligiblityCheck = () => {
         "Get your score instantly.",
         "Easy steps to follow.",
         "Expert tips to improve your score.",
-        "Immediate assistance by Y-Axis professionals.",
+        "Immediate assistance by Visaassist professionals.",
     ];
 
     const calculatorLinks = [

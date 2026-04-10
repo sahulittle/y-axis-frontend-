@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Briefcase, GraduationCap, HeartHandshake, Plane, Users } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 
 const Visa = () => {
@@ -68,6 +68,54 @@ const Visa = () => {
         }
     ];
 
+    const visaCategories = [
+        {
+            title: "Tourist Visa",
+            description: "Explore destinations for leisure, travel, and short stays.",
+            icon: <Plane size={30} />,
+            color: "from-purple-200 to-white",
+            border: "border-purple-100",
+            bubble: "bg-purple-100",
+            iconBg: "bg-purple-600",
+        },
+        {
+            title: "Visitor Visa",
+            description: "Visit family, attend short trips, or personal travel plans.",
+            icon: <Users size={30} />,
+            color: "from-indigo-100 to-white",
+            border: "border-indigo-100",
+            bubble: "bg-indigo-100",
+            iconBg: "bg-indigo-600",
+        },
+        {
+            title: "Student Visa",
+            description: "Study abroad with structured guidance and documentation support.",
+            icon: <GraduationCap size={30} />,
+            color: "from-sky-100 to-white",
+            border: "border-sky-100",
+            bubble: "bg-sky-100",
+            iconBg: "bg-sky-600",
+        },
+        {
+            title: "Business Visa",
+            description: "Travel for meetings, conferences, and professional activities.",
+            icon: <Briefcase size={30} />,
+            color: "from-blue-100 to-white",
+            border: "border-blue-100",
+            bubble: "bg-blue-100",
+            iconBg: "bg-blue-600",
+        },
+        {
+            title: "Dependent Visa",
+            description: "Join your spouse or family members living abroad.",
+            icon: <HeartHandshake size={30} />,
+            color: "from-rose-100 to-white",
+            border: "border-rose-100",
+            bubble: "bg-rose-100",
+            iconBg: "bg-rose-600",
+        },
+    ];
+
     const navigate = useNavigate();
 
     const [activeIndex, setActiveIndex] = useState(4);
@@ -83,7 +131,7 @@ const Visa = () => {
     return (
         <div className="min-h-screen bg-[#f3f3f3]">
             <section className="w-full h-screen bg-[#f3efea]">
-                <div className="w-full h-[85vh] px-4 md:px-8 lg:px-12 xl:px-18">
+                <div className="w-full h-[85vh] px-4 md:px-8 lg:px-12 xl:px-16">
 
                     <div className="grid h-full grid-cols-1 items-center lg:grid-cols-2">
 
@@ -104,9 +152,30 @@ const Visa = () => {
                                     end-to-end visa process for every journey.
                                 </p>
 
-                                <button className="mt-6 inline-flex items-center gap-2 bg-[#f2653a] px-6 py-3 text-base font-semibold text-white transition hover:opacity-90">
-                                    Apply Now
-                                </button>
+                                {/* ✅ CTA BUTTONS */}
+                                <div className="mt-6 flex flex-wrap gap-4">
+
+                                    {/* Primary CTA */}
+                                    <button
+                                        onClick={() => navigate("/contact")} // OR /apply/general
+                                        className="inline-flex items-center gap-2 bg-[#f2653a] px-6 py-3 text-base font-semibold text-white rounded-full shadow hover:opacity-90 transition"
+                                    >
+                                        Contact Us
+                                    </button>
+
+                                    {/* Secondary CTA */}
+                                    <button
+                                        onClick={() => {
+                                            document.getElementById("countries")?.scrollIntoView({
+                                                behavior: "smooth",
+                                            });
+                                        }}
+                                        className="inline-flex items-center gap-2 border border-gray-300 px-6 py-3 text-base font-semibold text-[#1f252d] rounded-full hover:bg-gray-100 transition"
+                                    >
+                                        Explore Countries
+                                    </button>
+
+                                </div>
 
                             </div>
                         </div>
@@ -126,78 +195,98 @@ const Visa = () => {
 
             <section className="py-20 bg-gradient-to-b from-white to-blue-50">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-
-                    {/* Heading */}
-                    <h2 className="text-lg md:text-lg font-bold text-gray-900 mb-4">
+                    <h2 className="text-lg font-bold text-gray-900 mb-4">
                         WHY CHOOSE US
                     </h2>
+
                     <p className="text-3xl md:text-4xl lg:text-5xl text-gray-900 font-extrabold max-w-4xl mx-auto leading-tight">
-                        Your Complete Visa Solution for <br /> Top Destinations.
-                    </p>
-                    <p className='mt-6 text-base md:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed'>
-                        From expert consultation and application assistance to interview prep and ongoing support, Y-Axis ensures a smooth and stress-free visa journey.
+                        Trusted Visa Support Built on <br /> Clarity, Accuracy, and Care
                     </p>
 
-                    {/* 4 Cards */}
+                    <p className="mt-6 text-base md:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                        Visaassist helps you move forward with ethical guidance, accurate document
+                        preparation, proactive communication, and a checklist-based workflow
+                        designed to reduce avoidable errors.
+                    </p>
+
                     <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-
                         {/* Card 1 */}
                         <div className="group bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition duration-300 border border-gray-100">
-                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-blue-100 flex items-center justify-center group-hover:bg-blue-600 transition">
-                                <img src="https://www.y-axis.com/lp/visa/images/smart.png" alt="" className='w-14 h-14' />
+                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition">
+                                <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <path d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7l7-4z"></path>
+                                    <path d="M9.5 12.5l1.5 1.5 3.5-3.5"></path>
+                                </svg>
                             </div>
                             <h3 className="text-lg font-bold text-gray-900 mb-3">
-                                AI + Human Expertise
+                                Ethical Guidance
                             </h3>
-                            <p className="text-gray-600 text-sm">
-                                Smarter Visa Applications with Human Expertise + AI Accuracy
+                            <p className="text-gray-600 text-sm leading-6">
+                                We recommend the right path with honest advice, clear expectations,
+                                and realistic guidance for your visa journey.
                             </p>
                         </div>
 
                         {/* Card 2 */}
                         <div className="group bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition duration-300 border border-gray-100">
-                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-indigo-100 flex items-center justify-center group-hover:bg-indigo-600 transition">
-                                <img src="https://www.y-axis.com/lp/visa/images/chess_check.png" alt="" className='w-14 h-14' />
+                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition">
+                                <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <path d="M9 12h6"></path>
+                                    <path d="M9 16h6"></path>
+                                    <path d="M9 8h6"></path>
+                                    <path d="M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"></path>
+                                </svg>
                             </div>
                             <h3 className="text-lg font-bold text-gray-900 mb-3">
-                                Proven Success
+                                Document Accuracy
                             </h3>
-                            <p className="text-gray-600 text-sm">
-                                Proven Visa Strategies for the World's toughest Approvals
+                            <p className="text-gray-600 text-sm leading-6">
+                                We focus on careful document preparation and review to help reduce
+                                mistakes, missing details, and avoidable delays.
                             </p>
                         </div>
 
                         {/* Card 3 */}
                         <div className="group bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition duration-300 border border-gray-100">
-                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-sky-100 flex items-center justify-center group-hover:bg-sky-600 transition">
-                                <img src="https://www.y-axis.com/lp/visa/images/work_flow.png" alt="" className='w-14 h-14' />
+                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition">
+                                <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path>
+                                </svg>
                             </div>
                             <h3 className="text-lg font-bold text-gray-900 mb-3">
-                                25+ Years Experience
+                                Proactive Updates
                             </h3>
-                            <p className="text-gray-600 text-sm">
-                                Visa Workflow backed by 25 years of experience
+                            <p className="text-gray-600 text-sm leading-6">
+                                You receive timely milestone-based communication, so you stay informed
+                                without having to chase for updates.
                             </p>
                         </div>
 
                         {/* Card 4 */}
                         <div className="group bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition duration-300 border border-gray-100">
-                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-purple-100 flex items-center justify-center group-hover:bg-purple-600 transition">
-                                <img src="https://www.y-axis.com/lp/visa/images/guide.png" alt="" className='w-14 h-14' />
+                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition">
+                                <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <path d="M9 11l3 3L22 4"></path>
+                                    <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
+                                </svg>
                             </div>
                             <h3 className="text-lg font-bold text-gray-900 mb-3">
-                                Real-Time Accuracy
+                                Checklist-Based Workflow
                             </h3>
-                            <p className="text-gray-600 text-sm">
-                                Accurate guidance backed by real time updates
+                            <p className="text-gray-600 text-sm leading-6">
+                                Our structured process uses clear checklists and step-by-step review
+                                to make your application journey smoother and more organized.
                             </p>
                         </div>
+                    </div>
 
-                        <div className="mt-14">
-                            <button className="px-8 py-4 rounded-full bg-blue-600 text-white text-lg font-semibold shadow-lg hover:bg-blue-700 hover:scale-105 transition duration-300">
-                                Speak to an Expert
-                            </button>
-                        </div>
+                    <div className="mt-14">
+                        <button
+                            onClick={() => navigate("/contact")}
+                            className="px-8 py-4 rounded-full bg-[#f2653a] text-white text-lg font-semibold shadow-lg hover:opacity-90 hover:scale-105 transition duration-300"
+                        >
+                            Speak to an Expert
+                        </button>
                     </div>
                 </div>
             </section>
@@ -294,83 +383,44 @@ const Visa = () => {
                             Discover the Right Visa for Your Journey
                         </h4>
                         <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
-                            Choose the visa path that matches your goals and move forward with clarity,
-                            confidence, and expert support at every step.
+                            Choose the visa path that matches your goals with clarity, confidence,
+                            and structured support.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-                        {/* Business Visa */}
-                        <div className="group relative bg-gradient-to-br from-blue-100 to-white border border-blue-100 rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
-                            <div className="absolute top-0 right-0 w-28 h-28 bg-blue-100 rounded-full blur-3xl opacity-60"></div>
-                            <div className="relative">
-                                <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition">
-                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                        <path d="M3 7h18"></path>
-                                        <path d="M6 7V5a2 2 0 012-2h8a2 2 0 012 2v2"></path>
-                                        <path d="M6 11h12"></path>
-                                        <path d="M5 7h14v10a2 2 0 01-2 2H7a2 2 0 01-2-2V7z"></path>
-                                    </svg>
-                                </div>
-                                <h3 className="text-2xl font-bold text-gray-900 mb-4">Business Visa</h3>
-                                <p className="text-gray-600 leading-relaxed">
-                                    Expand your business globally with the right visa to connect, collaborate, and thrive.
-                                </p>
-                            </div>
-                        </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-8">
+                        {visaCategories.map((item, index) => (
+                            <div
+                                key={index}
+                                onClick={() => navigate("/contact")}
+                                className={`group relative cursor-pointer bg-gradient-to-br ${item.color} border ${item.border} rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 overflow-hidden`}
+                            >
+                                <div
+                                    className={`absolute top-0 right-0 w-28 h-28 ${item.bubble} rounded-full blur-3xl opacity-60 transition-all duration-500 group-hover:scale-125`}
+                                ></div>
 
-                        {/* Work Visa */}
-                        <div className="group relative bg-gradient-to-br from-indigo-100 to-white border border-indigo-100 rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
-                            <div className="absolute top-0 right-0 w-28 h-28 bg-indigo-100 rounded-full blur-3xl opacity-60"></div>
-                            <div className="relative">
-                                <div className="w-16 h-16 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition">
-                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                        <path d="M12 12h.01"></path>
-                                        <path d="M16 6V4a2 2 0 00-2-2H10a2 2 0 00-2 2v2"></path>
-                                        <path d="M4 8h16v10a2 2 0 01-2 2H6a2 2 0 01-2-2V8z"></path>
-                                    </svg>
-                                </div>
-                                <h3 className="text-2xl font-bold text-gray-900 mb-4">Work Visa</h3>
-                                <p className="text-gray-600 leading-relaxed">
-                                    Unlock new career opportunities abroad with our expert guidance on obtaining a working visa.
-                                </p>
-                            </div>
-                        </div>
+                                <div className="relative">
+                                    <div
+                                        className={`w-16 h-16 rounded-2xl ${item.iconBg} text-white flex items-center justify-center shadow-lg mb-6 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3`}
+                                    >
+                                        {item.icon}
+                                    </div>
 
-                        {/* Student Visa */}
-                        <div className="group relative bg-gradient-to-br from-sky-100 to-white border border-sky-100 rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
-                            <div className="absolute top-0 right-0 w-28 h-28 bg-sky-100 rounded-full blur-3xl opacity-60"></div>
-                            <div className="relative">
-                                <div className="w-16 h-16 rounded-2xl bg-sky-600 text-white flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition">
-                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                        <path d="M12 14l9-5-9-5-9 5 9 5z"></path>
-                                        <path d="M12 14l6.16-3.422A12.083 12.083 0 0118 16.5C18 18.985 15.314 21 12 21s-6-2.015-6-4.5c0-1.128.31-2.191.84-3.078L12 14z"></path>
-                                    </svg>
-                                </div>
-                                <h3 className="text-2xl font-bold text-gray-900 mb-4">Student Visa</h3>
-                                <p className="text-gray-600 leading-relaxed">
-                                    Start your educational journey in top institutions worldwide with a student visa designed for success.
-                                </p>
-                            </div>
-                        </div>
+                                    <h3 className="text-2xl font-bold text-gray-900 mb-4 transition-colors duration-300 group-hover:text-[#f2653a]">
+                                        {item.title}
+                                    </h3>
 
-                        {/* Tourist Visa */}
-                        <div className="group relative bg-gradient-to-br from-purple-200 to-white border border-purple-100 rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
-                            <div className="absolute top-0 right-0 w-28 h-28 bg-purple-100 rounded-full blur-3xl opacity-60"></div>
-                            <div className="relative">
-                                <div className="w-16 h-16 rounded-2xl bg-purple-600 text-white flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition">
-                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                        <path d="M3 12h18"></path>
-                                        <path d="M12 3a15.3 15.3 0 014 9 15.3 15.3 0 01-4 9 15.3 15.3 0 01-4-9 15.3 15.3 0 014-9z"></path>
-                                        <circle cx="12" cy="12" r="9"></circle>
-                                    </svg>
+                                    <p className="text-gray-600 leading-relaxed text-sm md:text-base">
+                                        {item.description}
+                                    </p>
+
+                                    <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#f2653a] opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                                        Learn More
+                                        <ArrowRight size={16} />
+                                    </div>
                                 </div>
-                                <h3 className="text-2xl font-bold text-gray-900 mb-4">Tourist Visa</h3>
-                                <p className="text-gray-600 leading-relaxed">
-                                    Discover the world with ease—get the right travel visa to explore your dream destinations.
-                                </p>
                             </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>

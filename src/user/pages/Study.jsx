@@ -128,7 +128,7 @@ const Study = () => {
             ],
         },
         {
-            title: "Why choose Y-Axis",
+            title: "Why choose Visaassist",
             content: [
                 {
                     heading: "We work for you",
@@ -136,7 +136,7 @@ const Study = () => {
                 },
                 {
                     heading: "We offer you great value",
-                    text: "At Y-Axis, we bundle all of our services to give you the best value. For a small fee, you receive India’s top career consultants working on your side for a lifetime. This package includes everything from counseling and course selection to documentation, exam coaching, and student visa applications. When you look at the individual cost of our services, you’ll see just how reasonable and fair we are.",
+                    text: "At Visaassist, we bundle all of our services to give you the best value. For a small fee, you receive India’s top career consultants working on your side for a lifetime. This package includes everything from counseling and course selection to documentation, exam coaching, and student visa applications. When you look at the individual cost of our services, you’ll see just how reasonable and fair we are.",
                 },
                 {
                     heading: "We make it a great investment",
@@ -144,11 +144,11 @@ const Study = () => {
                 },
                 {
                     heading: "A lifetime of support",
-                    text: "At Y-Axis, we don’t see you as a one-time client. We’re here for the long haul—supporting you through every step of your journey, even after you graduate. In fact, we believe this is when you’ll need us the most—whether it’s finding a job, handling a migration issue, or simply needing help after you’ve landed in a new country. We’re with you for life.",
+                    text: "At Visaassist, we don’t see you as a one-time client. We’re here for the long haul—supporting you through every step of your journey, even after you graduate. In fact, we believe this is when you’ll need us the most—whether it’s finding a job, handling a migration issue, or simply needing help after you’ve landed in a new country. We’re with you for life.",
                 },
                 {
                     heading: "Our counseling is life-changing",
-                    text: "Our Y-Path is designed to help you become a Global Indian who makes your family and community proud. Developed from years of counseling experience, Y-Path has helped thousands of Indians settle abroad successfully. Admissions are just the beginning—we see the bigger picture, helping you chart a career path that takes you from student to global professional.",
+                    text: "Our Visaassist is designed to help you become a Global Indian who makes your family and community proud. Developed from years of counseling experience, Visaassist has helped thousands of Indians settle abroad successfully. Admissions are just the beginning—we see the bigger picture, helping you chart a career path that takes you from student to global professional.",
                 },
                 {
                     heading: "Our processes are seamless",
@@ -156,7 +156,7 @@ const Study = () => {
                 },
                 {
                     heading: "Premium Memberships & Verified status",
-                    text: "As a Y-Axis client, you’ll be listed in our open resume bank as a premium member, giving you direct access to potential employers. And with your Y-Axis Verified status, employers can trust that your identity and credentials have been vetted by us, giving you a competitive edge in the job market.",
+                    text: "As a Visaassist client, you’ll be listed in our open resume bank as a premium member, giving you direct access to potential employers. And with your Visaassist Verified status, employers can trust that your identity and credentials have been vetted by us, giving you a competitive edge in the job market.",
                 },
                 {
                     heading: "Job Search support upon Graduation",
@@ -164,11 +164,11 @@ const Study = () => {
                 },
                 {
                     heading: "Join the Global Indian Community",
-                    text: "With Y-Axis, you’re never alone. As part of our Global Indian network, you’ll have the opportunity to connect with other Indians living abroad, sharing experiences and building a community of support. Your journey can inspire others just as theirs can inspire you.",
+                    text: "With Visaassist, you’re never alone. As part of our Global Indian network, you’ll have the opportunity to connect with other Indians living abroad, sharing experiences and building a community of support. Your journey can inspire others just as theirs can inspire you.",
                 },
                 {
                     heading: "Unmatched immigration support",
-                    text: "As one of the world’s largest immigration firms, Y-Axis has unparalleled experience in overseas education and immigration services. We’ve helped thousands of Indians settle abroad, and our expertise means you’re in the best hands when it comes to navigating the complexities of immigration.",
+                    text: "As one of the world’s largest immigration firms, Visaassist has unparalleled experience in overseas education and immigration services. We’ve helped thousands of Indians settle abroad, and our expertise means you’re in the best hands when it comes to navigating the complexities of immigration.",
                 },
             ],
         },
@@ -176,7 +176,7 @@ const Study = () => {
 
     const serviceBlocks = [
         {
-            title: "Talk to a Y-Axis study abroad expert",
+            title: "Talk to a Visaassist study abroad expert",
             description:
                 "Don’t know where to start, or need help with something specific? We can help.",
             points: [],
