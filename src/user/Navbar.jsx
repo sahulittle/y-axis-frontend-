@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Menu,
   X,
@@ -19,6 +19,19 @@ const navItems = [
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <header className="w-full sticky top-0 z-50">
@@ -140,9 +153,44 @@ const Navbar = () => {
                 />
               </div>
 
-              <button className="h-12 w-12 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 flex items-center justify-center transition">
-                <User size={19} />
-              </button>
+              <div className="relative" ref={dropdownRef}>
+                {/* USER BUTTON */}
+                <button
+                  onClick={() => setOpen(!open)}
+                  className="h-12 w-12 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 flex items-center justify-center transition"
+                >
+                  <User size={19} />
+                </button>
+
+                {/* DROPDOWN */}
+                {open && (
+                  <div className="absolute right-0 mt-3 w-52 rounded-2xl border border-slate-200 bg-white shadow-xl overflow-hidden z-50">
+
+                    {/* USER INFO */}
+                    <div className="px-4 py-3 border-b border-slate-100">
+                      <p className="text-sm font-semibold text-slate-900">John Doe</p>
+                      <p className="text-xs text-slate-500">john@email.com</p>
+                    </div>
+
+                    {/* MENU ITEMS */}
+                    <button
+                      className="w-full text-left px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition"
+                    >
+                      Profile
+                    </button>
+
+                    <button
+                      className="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition"
+                      onClick={() => {
+                        // logout logic here
+                        console.log("logout");
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Mobile Menu Button */}

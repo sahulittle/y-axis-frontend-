@@ -16,6 +16,7 @@ const UK = () => {
   const visaTypes = [
     {
       title: "Standard Visitor Visa",
+      slug:"standard-visitor",
       icon: <MapPinned size={24} />,
       description:
         "For tourism, family visits, short business visits, and other permitted short stays in the UK.",
@@ -125,6 +126,10 @@ const UK = () => {
             {visaTypes.map((item, index) => (
               <div
                 key={index}
+                 onClick={() => {
+                  window.scrollTo(0, 0);
+                  navigate(`/visa/uk/${item.slug}`);
+                }}
                 className="rounded-3xl border border-gray-100 bg-gradient-to-b from-white to-indigo-50 p-8 shadow-sm hover:shadow-xl transition-all duration-300"
               >
                 <div className="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center mb-6">

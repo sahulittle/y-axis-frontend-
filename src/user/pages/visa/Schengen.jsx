@@ -18,18 +18,21 @@ const Schengen = () => {
   const visaTypes = [
     {
       title: "Tourist Visa",
+      slug:"tourist-visa",
       icon: <MapPinned size={24} />,
       description:
         "For holidays, sightseeing, leisure travel, and short personal visits across Schengen countries.",
     },
     {
       title: "Business Visa",
+      slug:"tourist-visa",
       icon: <Briefcase size={24} />,
       description:
         "For meetings, conferences, trade visits, and short professional travel within the Schengen area.",
     },
     {
       title: "Family / Visit Visa",
+      slug:"tourist-visa",
       icon: <Users size={24} />,
       description:
         "For visiting family or friends in Schengen member countries for a short stay.",
@@ -94,7 +97,7 @@ const Schengen = () => {
 
               <div className="mt-8 flex flex-wrap gap-4">
                 <button
-                  onClick={() => navigate("/contact")}
+                  onClick={() => navigate("/visa/schengen")}
                   className="inline-flex items-center gap-2 rounded-full bg-[#f2653a] px-7 py-4 text-white font-semibold shadow-lg hover:opacity-90 transition"
                 >
                   Start Application
@@ -139,6 +142,10 @@ const Schengen = () => {
             {visaTypes.map((item, index) => (
               <div
                 key={index}
+                onClick={() => {
+                  window.scrollTo(0, 0);
+                  navigate(`/visa/schengen/${item.slug}`);
+                }}
                 className="rounded-3xl border border-gray-100 bg-gradient-to-b from-white to-indigo-50 p-8 shadow-sm hover:shadow-xl transition-all duration-300"
               >
                 <div className="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center mb-6">
