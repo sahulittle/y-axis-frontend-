@@ -126,7 +126,7 @@ const Visa = () => {
         }, 3000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [visaItems.length]);
 
     return (
         <div className="min-h-screen bg-[#f3f3f3]">

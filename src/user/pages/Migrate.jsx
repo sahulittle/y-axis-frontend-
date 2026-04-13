@@ -32,13 +32,13 @@ const Migrate = () => {
         "USA",
     ];
 
-    const dialCodes = [
+    const dialCodes = useMemo(() => [
         { code: "IN +91", value: "+91" },
         { code: "AE +971", value: "+971" },
         { code: "UK +44", value: "+44" },
         { code: "CA +1", value: "+1" },
         { code: "AU +61", value: "+61" },
-    ];
+    ], []);
 
     const [formData, setFormData] = useState({
         name: "",

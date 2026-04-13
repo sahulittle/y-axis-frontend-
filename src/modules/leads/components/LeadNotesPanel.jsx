@@ -17,6 +17,7 @@ const LeadNotesPanel = ({ lead, onAddNote, loading }) => {
 
   const noteItems = lead?.noteHistory || [];
   const activityItems = lead?.activityHistory || [];
+  const formatTimestamp = (value) => (value ? new Date(value).toLocaleString() : "-");
 
   return (
     <section className="grid gap-5 xl:grid-cols-2">
@@ -44,13 +45,13 @@ const LeadNotesPanel = ({ lead, onAddNote, loading }) => {
           {noteItems.map((item, index) => (
             <div key={`note-${index}`} className="rounded-xl bg-slate-50 px-3 py-2">
               <p className="text-sm text-slate-800">{item.note}</p>
-              <p className="mt-1 text-xs text-slate-500">{new Date(item.createdAt || Date.now()).toLocaleString()}</p>
+              <p className="mt-1 text-xs text-slate-500">{formatTimestamp(item.createdAt)}</p>
             </div>
           ))}
           {activityItems.map((item, index) => (
             <div key={`activity-${index}`} className="rounded-xl border border-slate-200 px-3 py-2">
               <p className="text-sm text-slate-800">{item.message}</p>
-              <p className="mt-1 text-xs text-slate-500">{new Date(item.createdAt || Date.now()).toLocaleString()}</p>
+              <p className="mt-1 text-xs text-slate-500">{formatTimestamp(item.createdAt)}</p>
             </div>
           ))}
           {noteItems.length === 0 && activityItems.length === 0 ? (

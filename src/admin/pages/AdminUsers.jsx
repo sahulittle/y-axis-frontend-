@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { listAdminUsers, updateAdminUser } from "../api/adminApi";
+import { deleteAdminUser, listAdminUsers, updateAdminUser } from "../api/adminApi";
 
 const roles = ["user", "admin", "adviser", "support"];
 
@@ -25,6 +25,8 @@ const AdminUsers = () => {
 
   useEffect(() => {
     loadUsers();
+    // loadUsers is intentionally triggered once on mount; search refresh is manual.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleRoleChange = async (userId, role) => {
@@ -42,6 +44,19 @@ const AdminUsers = () => {
       loadUsers();
     } catch (apiError) {
       setError(apiError.message || "Failed to update status");
+    }
+  };
+
+  const handleDeleteUser = async (userId, email) => {
+    if (!window.confirm(`Delete ${email}? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      await deleteAdminUser(userId);
+      loadUsers();
+    } catch (apiError) {
+      setError(apiError.message || "Failed to delete user");
     }
   };
 
@@ -108,13 +123,22 @@ const AdminUsers = () => {
                     </span>
                   </td>
                   <td className="py-3">
-                    <button
-                      type="button"
-                      onClick={() => handleActiveToggle(item._id, item.isActive)}
-                      className="rounded-lg border border-slate-300 px-3 py-1 hover:bg-slate-50"
-                    >
-                      Toggle
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleActiveToggle(item._id, item.isActive)}
+                        className="rounded-lg border border-slate-300 px-3 py-1 hover:bg-slate-50"
+                      >
+                        Toggle
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteUser(item._id, item.email)}
+                        className="rounded-lg border border-red-300 text-red-600 px-3 py-1 hover:bg-red-50"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -216,13 +216,6 @@ const Home = () => {
         },
     ];
 
-    const buttons = [
-        "Stories",
-        "The Global Indian Book",
-        "Tell Your Story",
-        "Top 100 Global Indians",
-    ];
-
     return (
         <div>
             <section className="w-full bg-gradient-to-br from-orange-50 via-white to-amber-50 py-16 lg:py-24">

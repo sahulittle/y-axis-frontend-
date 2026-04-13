@@ -52,6 +52,8 @@ const AdminJobs = () => {
 
   useEffect(() => {
     loadData();
+    // loadData is intentionally triggered once on mount; refresh is user-driven.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const resetForm = () => {

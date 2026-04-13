@@ -38,6 +38,8 @@ const AdminCountries = () => {
 
   useEffect(() => {
     loadCountries();
+    // loadCountries is intentionally triggered once on mount; search refresh is manual.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const resetForm = () => {

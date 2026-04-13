@@ -33,6 +33,8 @@ const AdminConsultations = () => {
 
   useEffect(() => {
     loadConsultations();
+    // loadConsultations is intentionally triggered once on mount; filters are applied manually.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleStatusUpdate = async (consultationId, nextStatus) => {

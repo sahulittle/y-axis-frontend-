@@ -30,7 +30,7 @@ export const logoutUser = async () => {
       token,
       body: { refreshToken: localStorage.getItem("yaxis_refresh_token") || "" },
     });
-  } catch (_error) {
+  } catch {
     // Ignore API failure and clear session locally.
   } finally {
     clearStoredSession();

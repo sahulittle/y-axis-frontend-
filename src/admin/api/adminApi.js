@@ -13,6 +13,9 @@ export const listAdminUsers = (query) =>
 export const updateAdminUser = (userId, payload) =>
   apiRequest(`/admin/users/${userId}`, withToken({ method: "PATCH", body: payload }));
 
+export const deleteAdminUser = (userId) =>
+  apiRequest(`/admin/users/${userId}`, withToken({ method: "DELETE" }));
+
 export const listAdminConsultations = (query) =>
   apiRequest("/admin/consultations", withToken({ query }));
 

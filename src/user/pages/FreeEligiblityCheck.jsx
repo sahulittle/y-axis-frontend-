@@ -9,6 +9,8 @@ import {
 import { BsShieldCheck } from "react-icons/bs";
 import { FaArrowRight, FaRegCheckCircle } from "react-icons/fa";
 import Footer from "./Footer";
+import { useToast } from "../../app/providers/ToastProvider";
+import { submitEligibilityCheck } from "../api/publicApi";
 
 const FreeEligiblityCheck = () => {
     const steps = Array.from({ length: 8 }, (_, i) => i + 1);
@@ -26,9 +28,75 @@ const FreeEligiblityCheck = () => {
     const [selectedGoal, setSelectedGoal] = useState("Immigration");
     const [selectedCountry, setSelectedCountry] = useState("UK");
     const [openIndex, setOpenIndex] = useState(0);
+    const toast = useToast();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        age: "",
+        priorRefusal: false,
+        coApplicantCount: 0,
+        message: "",
+        consentAccepted: false,
+    });
 
     const toggleFaq = (index) => {
         setOpenIndex(openIndex === index ? null : index);
+    };
+
+    const handleChange = (event) => {
+        const { name, value, type, checked } = event.target;
+        setFormData((current) => ({
+            ...current,
+            [name]: type === "checkbox" ? checked : value,
+        }));
+    };
+
+    const submitEligibility = async () => {
+        if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
+            toast.error("Please fill all required fields");
+            return;
+        }
+
+        if (!formData.consentAccepted) {
+            toast.error("Please accept consent to continue");
+            return;
+        }
+
+        try {
+            setIsSubmitting(true);
+            await submitEligibilityCheck({
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                email: formData.email,
+                phone: formData.phone,
+                age: formData.age ? Number(formData.age) : undefined,
+                countryOfInterest: selectedCountry,
+                visaCategory: selectedGoal,
+                priorRefusal: Boolean(formData.priorRefusal),
+                coApplicantCount: Number(formData.coApplicantCount || 0),
+                message: formData.message,
+                consentAccepted: true,
+            });
+            toast.success("Eligibility request submitted");
+            setFormData({
+                firstName: "",
+                lastName: "",
+                email: "",
+                phone: "",
+                age: "",
+                priorRefusal: false,
+                coApplicantCount: 0,
+                message: "",
+                consentAccepted: false,
+            });
+        } catch (error) {
+            toast.error(error.message || "Failed to submit eligibility request");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
 
@@ -213,6 +281,24 @@ const FreeEligiblityCheck = () => {
                                 </div>
                             </div>
 
+                            <div className="mt-10 grid gap-4 rounded-2xl border border-slate-200 bg-white p-5 md:grid-cols-2">
+                                <input name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" className="h-12 rounded-xl border border-slate-200 px-3" />
+                                <input name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" className="h-12 rounded-xl border border-slate-200 px-3" />
+                                <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" className="h-12 rounded-xl border border-slate-200 px-3" />
+                                <input name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" className="h-12 rounded-xl border border-slate-200 px-3" />
+                                <input name="age" value={formData.age} onChange={handleChange} placeholder="Age" className="h-12 rounded-xl border border-slate-200 px-3" />
+                                <input name="coApplicantCount" value={formData.coApplicantCount} onChange={handleChange} placeholder="Co-applicant count" className="h-12 rounded-xl border border-slate-200 px-3" />
+                                <textarea name="message" value={formData.message} onChange={handleChange} placeholder="Message (optional)" className="md:col-span-2 min-h-[90px] rounded-xl border border-slate-200 p-3" />
+                                <label className="md:col-span-2 inline-flex items-center gap-2 text-sm text-slate-700">
+                                    <input type="checkbox" name="priorRefusal" checked={formData.priorRefusal} onChange={handleChange} />
+                                    I had a prior visa refusal
+                                </label>
+                                <label className="md:col-span-2 inline-flex items-center gap-2 text-sm text-slate-700">
+                                    <input type="checkbox" name="consentAccepted" checked={formData.consentAccepted} onChange={handleChange} />
+                                    I consent to being contacted regarding eligibility
+                                </label>
+                            </div>
+
                             <div className="mt-12 rounded-2xl border border-slate-200 bg-slate-50 p-5 md:p-6">
                                 <p className="text-base leading-8 text-slate-600 md:text-lg">
                                     Start your quick evaluation by selecting your goal and preferred
@@ -222,8 +308,13 @@ const FreeEligiblityCheck = () => {
                             </div>
 
                             <div className="mt-10 flex flex-wrap items-center gap-4">
-                                <button className="inline-flex items-center gap-2 rounded-md bg-[#f04124] px-8 py-4 text-lg font-semibold text-white shadow-md transition hover:opacity-90">
-                                    Next
+                                <button
+                                    type="button"
+                                    onClick={submitEligibility}
+                                    disabled={isSubmitting}
+                                    className="inline-flex items-center gap-2 rounded-md bg-[#f04124] px-8 py-4 text-lg font-semibold text-white shadow-md transition hover:opacity-90"
+                                >
+                                    {isSubmitting ? "Submitting..." : "Submit Eligibility"}
                                     <ArrowRight size={20} />
                                 </button>
 

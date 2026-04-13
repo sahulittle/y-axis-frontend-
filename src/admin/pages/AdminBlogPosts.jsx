@@ -40,6 +40,8 @@ const AdminBlogPosts = () => {
 
   useEffect(() => {
     loadPosts();
+    // loadPosts is intentionally triggered once on mount; subsequent refreshes are user-driven.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const resetForm = () => {
