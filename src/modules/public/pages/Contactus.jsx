@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Mail,
     Phone,
@@ -9,8 +9,44 @@ import {
     Headphones,
     Globe,
 } from "lucide-react";
+import { useToast } from "../../app/providers/ToastProvider";
+import { submitContactForm } from "../api/publicApi";
 
 const ContactUs = () => {
+    const toast = useToast();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+
+        const payload = {
+            firstName: String(formData.get("firstName") || "").trim(),
+            lastName: String(formData.get("lastName") || "").trim(),
+            email: String(formData.get("email") || "").trim(),
+            phone: String(formData.get("phone") || "").trim(),
+            countryOfInterest: String(formData.get("countryOfInterest") || "General").trim(),
+            visaCategory: String(formData.get("visaCategory") || "").trim(),
+            message: String(formData.get("message") || "").trim(),
+        };
+
+        if (!payload.firstName || !payload.lastName || !payload.email || !payload.phone || !payload.message) {
+            toast.error("Please fill all required fields");
+            return;
+        }
+
+        try {
+            setIsSubmitting(true);
+            await submitContactForm(payload);
+            toast.success("Your request has been submitted successfully");
+            event.currentTarget.reset();
+        } catch (error) {
+            toast.error(error.message || "Failed to submit contact form");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50">
             {/* Hero Section */}
@@ -181,7 +217,7 @@ const ContactUs = () => {
                                 </p>
                             </div>
 
-                            <form className="space-y-5">
+                            <form className="space-y-5" onSubmit={handleSubmit}>
                                 <div className="grid sm:grid-cols-2 gap-5">
                                     <div>
                                         <label className="block mb-2 text-sm font-bold text-slate-700">
@@ -189,6 +225,7 @@ const ContactUs = () => {
                                         </label>
                                         <input
                                             type="text"
+                                            name="firstName"
                                             placeholder="Enter first name"
                                             className="h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
                                         />
@@ -200,6 +237,7 @@ const ContactUs = () => {
                                         </label>
                                         <input
                                             type="text"
+                                            name="lastName"
                                             placeholder="Enter last name"
                                             className="h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
                                         />
@@ -213,6 +251,7 @@ const ContactUs = () => {
                                         </label>
                                         <input
                                             type="email"
+                                            name="email"
                                             placeholder="Enter email address"
                                             className="h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
                                         />
@@ -224,6 +263,7 @@ const ContactUs = () => {
                                         </label>
                                         <input
                                             type="tel"
+                                            name="phone"
                                             placeholder="Enter phone number"
                                             className="h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
                                         />
@@ -232,11 +272,24 @@ const ContactUs = () => {
 
                                 <div>
                                     <label className="block mb-2 text-sm font-bold text-slate-700">
-                                        Subject
+                                        Country Of Interest
                                     </label>
                                     <input
                                         type="text"
-                                        placeholder="Enter subject"
+                                        name="countryOfInterest"
+                                        placeholder="Enter country"
+                                        className="h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block mb-2 text-sm font-bold text-slate-700">
+                                        Visa Category (optional)
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="visaCategory"
+                                        placeholder="Enter visa category"
                                         className="h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
                                     />
                                 </div>
@@ -246,6 +299,7 @@ const ContactUs = () => {
                                         Message
                                     </label>
                                     <textarea
+                                        name="message"
                                         rows="6"
                                         placeholder="Write your message here..."
                                         className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm outline-none transition resize-none focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
@@ -254,10 +308,11 @@ const ContactUs = () => {
 
                                 <button
                                     type="submit"
+                                    disabled={isSubmitting}
                                     className="w-full rounded-2xl bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 px-6 py-4 text-sm font-bold text-white shadow-[0_18px_45px_rgba(79,70,229,0.28)] transition duration-300 hover:-translate-y-0.5 active:scale-[0.99] flex items-center justify-center gap-2"
                                 >
                                     <Send className="w-4 h-4" />
-                                    Send Message
+                                    {isSubmitting ? "Sending..." : "Send Message"}
                                 </button>
                             </form>
                         </div>

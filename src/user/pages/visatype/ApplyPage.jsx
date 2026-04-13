@@ -1,5 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useToast } from "../../../app/providers/ToastProvider";
+import { submitVisaApplication } from "../../api/publicApi";
 
 const documentSections = [
   {
@@ -11,19 +13,22 @@ const documentSections = [
   {
     key: "educationDocs",
     title: "🎓 Educational Documents",
-    subtitle: "Upload 10th, 12th, degree, diploma, mark sheets, and certifications.",
+    subtitle:
+      "Upload 10th, 12th, degree, diploma, mark sheets, and certifications.",
     multiple: true,
   },
   {
     key: "workDocs",
     title: "💼 Work & Experience Proof",
-    subtitle: "Upload resume, experience letters, salary slips, offer letter, etc.",
+    subtitle:
+      "Upload resume, experience letters, salary slips, offer letter, etc.",
     multiple: true,
   },
   {
     key: "financialDocs",
     title: "💰 Financial Documents",
-    subtitle: "Upload bank statements, ITR, sponsorship documents, salary proof.",
+    subtitle:
+      "Upload bank statements, ITR, sponsorship documents, salary proof.",
     multiple: true,
   },
   {
@@ -59,15 +64,19 @@ const documentSections = [
   {
     key: "employerDocs",
     title: "🏢 Employer-Side Documents",
-    subtitle: "Upload work permit approval, employer sponsorship, registration proof.",
+    subtitle:
+      "Upload work permit approval, employer sponsorship, registration proof.",
     multiple: true,
   },
 ];
 
 const ApplyPage = () => {
   const { country, visaType } = useParams();
+  const toast = useToast();
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [travelPurpose, setTravelPurpose] = useState("");
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -76,7 +85,12 @@ const ApplyPage = () => {
     nationality: "",
     address: "",
     passportType: "",
+    priorRefusal: false,
+    refusalDetails: "",
     declaration: false,
+    consentAccepted: false,
+    disclaimerAccepted: false,
+    refundPolicyAccepted: false,
   });
 
   const [uploadedFiles, setUploadedFiles] = useState(
@@ -117,22 +131,89 @@ const ApplyPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.declaration) {
-      alert("Please accept the declaration before submitting.");
+    if (
+      !formData.fullName ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.nationality
+    ) {
+      toast.error("Please fill all required fields.");
       return;
     }
 
-    // Later send using FormData to backend
-    console.log("Applicant Data:", formData);
-    console.log("Travel Purpose:", travelPurpose);
-    console.log("Country:", country);
-    console.log("Visa Type:", visaType);
-    console.log("Uploaded Files:", uploadedFiles);
+    if (
+      !formData.declaration ||
+      !formData.consentAccepted ||
+      !formData.disclaimerAccepted ||
+      !formData.refundPolicyAccepted
+    ) {
+      toast.error("Please accept all required declarations and policies.");
+      return;
+    }
 
-    alert("Application and documents submitted successfully.");
+    try {
+      setIsSubmitting(true);
+
+      const payload = new FormData();
+      payload.append("fullName", formData.fullName);
+      payload.append("email", formData.email);
+      payload.append("phone", formData.phone);
+      payload.append("dob", formData.dob);
+      payload.append("nationality", formData.nationality);
+      payload.append("address", formData.address);
+      payload.append("passportType", formData.passportType);
+      payload.append("country", country || "");
+      payload.append("visaType", visaType || "");
+      payload.append("travelPurpose", travelPurpose);
+      payload.append("priorRefusal", formData.priorRefusal);
+      payload.append("refusalDetails", formData.refusalDetails);
+      payload.append("declaration", formData.declaration);
+      payload.append("consentAccepted", formData.consentAccepted);
+      payload.append("disclaimerAccepted", formData.disclaimerAccepted);
+      payload.append("refundPolicyAccepted", formData.refundPolicyAccepted);
+
+      Object.entries(uploadedFiles).forEach(([sectionKey, files]) => {
+        files.forEach((file) => {
+          payload.append(sectionKey, file);
+        });
+      });
+
+      await submitVisaApplication(payload);
+
+      toast.success("Application and documents submitted successfully.");
+
+      setFormData({
+        fullName: "",
+        email: "",
+        phone: "",
+        dob: "",
+        nationality: "",
+        address: "",
+        passportType: "",
+        priorRefusal: false,
+        refusalDetails: "",
+        declaration: false,
+        consentAccepted: false,
+        disclaimerAccepted: false,
+        refundPolicyAccepted: false,
+      });
+
+      setTravelPurpose("");
+
+      setUploadedFiles(
+        documentSections.reduce((acc, section) => {
+          acc[section.key] = [];
+          return acc;
+        }, {})
+      );
+    } catch (error) {
+      toast.error(error?.message || "Failed to submit application.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -157,19 +238,23 @@ const ApplyPage = () => {
               <span className="font-semibold capitalize text-white">
                 {country}
               </span>
-              . Our team will review your documents and process your visa application offline.
+              . Our team will review your documents and process your visa
+              application offline.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="px-6 py-8 md:px-10 md:py-10 space-y-10">
-            {/* Applicant Details */}
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-10 px-6 py-8 md:px-10 md:py-10"
+          >
             <div>
               <div className="mb-6">
                 <h2 className="text-2xl font-extrabold text-slate-900">
                   Applicant Details
                 </h2>
                 <p className="mt-2 text-slate-600">
-                  Please enter your personal details exactly as per your passport and official records.
+                  Please enter your personal details exactly as per your
+                  passport and official records.
                 </p>
               </div>
 
@@ -314,17 +399,40 @@ const ApplyPage = () => {
                     <span className="text-slate-500">{wordCount}/200 words</span>
                   </div>
                 </div>
+
+                <div className="md:col-span-2">
+                  <label className="mb-2 block text-sm font-semibold text-slate-700">
+                    Prior Refusal Details
+                  </label>
+                  <textarea
+                    name="refusalDetails"
+                    value={formData.refusalDetails}
+                    onChange={handleInputChange}
+                    placeholder="Mention prior refusal details if applicable"
+                    className="min-h-[110px] w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-orange-400 focus:ring-4 focus:ring-orange-100"
+                  />
+                </div>
+
+                <label className="md:col-span-2 inline-flex items-center gap-3 text-sm text-slate-700">
+                  <input
+                    type="checkbox"
+                    name="priorRefusal"
+                    checked={formData.priorRefusal}
+                    onChange={handleInputChange}
+                  />
+                  I had a prior visa refusal
+                </label>
               </div>
             </div>
 
-            {/* Document Upload Sections */}
             <div>
               <div className="mb-6">
                 <h2 className="text-2xl font-extrabold text-slate-900">
                   Upload Verification Documents
                 </h2>
                 <p className="mt-2 text-slate-600">
-                  Please upload all required documents clearly. Our admin team will review them and proceed with offline visa processing.
+                  Please upload all required documents clearly. Our admin team
+                  will review them and proceed with offline visa processing.
                 </p>
               </div>
 
@@ -360,7 +468,7 @@ const ApplyPage = () => {
                     </label>
 
                     {uploadedFiles[section.key]?.length > 0 && (
-                      <div className="mt-4 rounded-2xl bg-white p-4 border border-slate-200">
+                      <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4">
                         <p className="text-sm font-semibold text-slate-800">
                           Uploaded Files:
                         </p>
@@ -378,32 +486,74 @@ const ApplyPage = () => {
               </div>
             </div>
 
-            {/* Declaration */}
             <div className="rounded-[28px] border border-orange-200 bg-orange-50 p-6 md:p-8">
               <h3 className="text-2xl font-extrabold text-slate-900">
                 Declaration
               </h3>
-              <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 bg-white p-4">
-                <input
-                  type="checkbox"
-                  name="declaration"
-                  checked={formData.declaration}
-                  onChange={handleInputChange}
-                  className="mt-1 h-4 w-4 rounded border-slate-300 text-orange-500 focus:ring-orange-400"
-                />
-                <span className="text-sm leading-6 text-slate-700">
-                  I confirm that all the information and uploaded documents are genuine and correct. I understand that the admin team will review my documents and process my visa application offline.
-                </span>
-              </label>
+
+              <div className="mt-5 space-y-4">
+                <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 bg-white p-4">
+                  <input
+                    type="checkbox"
+                    name="declaration"
+                    checked={formData.declaration}
+                    onChange={handleInputChange}
+                    className="mt-1"
+                  />
+                  <span className="text-sm leading-6 text-slate-700">
+                    I confirm that all uploaded documents are genuine and
+                    correct.
+                  </span>
+                </label>
+
+                <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 bg-white p-4">
+                  <input
+                    type="checkbox"
+                    name="consentAccepted"
+                    checked={formData.consentAccepted}
+                    onChange={handleInputChange}
+                    className="mt-1"
+                  />
+                  <span className="text-sm leading-6 text-slate-700">
+                    I accept the consent terms.
+                  </span>
+                </label>
+
+                <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 bg-white p-4">
+                  <input
+                    type="checkbox"
+                    name="disclaimerAccepted"
+                    checked={formData.disclaimerAccepted}
+                    onChange={handleInputChange}
+                    className="mt-1"
+                  />
+                  <span className="text-sm leading-6 text-slate-700">
+                    I accept the disclaimer.
+                  </span>
+                </label>
+
+                <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 bg-white p-4">
+                  <input
+                    type="checkbox"
+                    name="refundPolicyAccepted"
+                    checked={formData.refundPolicyAccepted}
+                    onChange={handleInputChange}
+                    className="mt-1"
+                  />
+                  <span className="text-sm leading-6 text-slate-700">
+                    I accept the refund policy.
+                  </span>
+                </label>
+              </div>
             </div>
 
-            {/* Submit */}
             <div className="flex flex-col gap-4 sm:flex-row">
               <button
                 type="submit"
-                className="h-14 rounded-full bg-[#f2653a] px-8 font-semibold text-white shadow-lg transition hover:scale-[1.01] hover:opacity-95"
+                disabled={isSubmitting}
+                className="h-14 rounded-full bg-[#f2653a] px-8 font-semibold text-white shadow-lg transition hover:scale-[1.01] hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-70"
               >
-                Submit Documents
+                {isSubmitting ? "Submitting..." : "Submit Documents"}
               </button>
             </div>
           </form>

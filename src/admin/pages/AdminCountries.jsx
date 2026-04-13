@@ -38,6 +38,8 @@ const AdminCountries = () => {
 
   useEffect(() => {
     loadCountries();
+    // loadCountries is intentionally triggered once on mount; search refresh is manual.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const resetForm = () => {
@@ -141,12 +143,12 @@ const AdminCountries = () => {
             Featured
           </label>
 
-          <div className="flex gap-2">
-            <button className="rounded-xl bg-orange-500 text-white px-4 py-2 font-medium" type="submit">
+          <div className="flex flex-col sm:flex-row gap-2">
+            <button className="w-full sm:w-auto rounded-xl bg-orange-500 text-white px-4 py-2 font-medium" type="submit">
               {editingId ? "Update" : "Create"}
             </button>
             {editingId ? (
-              <button type="button" onClick={resetForm} className="rounded-xl border border-slate-300 px-4 py-2">
+              <button type="button" onClick={resetForm} className="w-full sm:w-auto rounded-xl border border-slate-300 px-4 py-2">
                 Cancel
               </button>
             ) : null}
@@ -157,14 +159,14 @@ const AdminCountries = () => {
       <div className="xl:col-span-2 rounded-2xl bg-white border border-slate-200 p-5 space-y-4">
         <div className="flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
           <h3 className="text-lg font-bold text-slate-900">Countries</h3>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <input
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder="Search"
-              className="rounded-xl border border-slate-300 px-4 py-2"
+              className="rounded-xl border border-slate-300 px-4 py-2 w-full"
             />
-            <button type="button" onClick={loadCountries} className="rounded-xl bg-slate-900 text-white px-4 py-2">
+            <button type="button" onClick={loadCountries} className="rounded-xl bg-slate-900 text-white px-4 py-2 w-full sm:w-auto">
               Search
             </button>
           </div>
@@ -174,7 +176,7 @@ const AdminCountries = () => {
         {loading ? <p className="text-slate-500">Loading...</p> : null}
 
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full min-w-[760px] text-sm">
             <thead>
               <tr className="border-b border-slate-200 text-left text-slate-500">
                 <th className="py-3 pr-3">Name</th>
@@ -193,13 +195,15 @@ const AdminCountries = () => {
                   <td className="py-3 pr-3">{item.region}</td>
                   <td className="py-3 pr-3">{item.ranking}</td>
                   <td className="py-3 pr-3">{item.isFeatured ? "Yes" : "No"}</td>
-                  <td className="py-3 flex gap-2">
-                    <button onClick={() => onEdit(item)} className="rounded-lg border border-slate-300 px-3 py-1 hover:bg-slate-50">
-                      Edit
-                    </button>
-                    <button onClick={() => onDelete(item._id)} className="rounded-lg border border-red-300 text-red-600 px-3 py-1 hover:bg-red-50">
-                      Delete
-                    </button>
+                  <td className="py-3">
+                    <div className="flex flex-wrap gap-2">
+                      <button onClick={() => onEdit(item)} className="rounded-lg border border-slate-300 px-3 py-1 hover:bg-slate-50">
+                        Edit
+                      </button>
+                      <button onClick={() => onDelete(item._id)} className="rounded-lg border border-red-300 text-red-600 px-3 py-1 hover:bg-red-50">
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

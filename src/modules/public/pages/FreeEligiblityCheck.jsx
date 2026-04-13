@@ -9,6 +9,8 @@ import {
 import { BsShieldCheck } from "react-icons/bs";
 import { FaArrowRight, FaRegCheckCircle } from "react-icons/fa";
 import Footer from "./Footer";
+import { useToast } from "../../app/providers/ToastProvider";
+import { submitEligibilityCheck } from "../api/publicApi";
 
 const FreeEligiblityCheck = () => {
     const steps = Array.from({ length: 8 }, (_, i) => i + 1);
@@ -26,9 +28,75 @@ const FreeEligiblityCheck = () => {
     const [selectedGoal, setSelectedGoal] = useState("Immigration");
     const [selectedCountry, setSelectedCountry] = useState("UK");
     const [openIndex, setOpenIndex] = useState(0);
+    const toast = useToast();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        age: "",
+        priorRefusal: false,
+        coApplicantCount: 0,
+        message: "",
+        consentAccepted: false,
+    });
 
     const toggleFaq = (index) => {
         setOpenIndex(openIndex === index ? null : index);
+    };
+
+    const handleChange = (event) => {
+        const { name, value, type, checked } = event.target;
+        setFormData((current) => ({
+            ...current,
+            [name]: type === "checkbox" ? checked : value,
+        }));
+    };
+
+    const submitEligibility = async () => {
+        if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
+            toast.error("Please fill all required fields");
+            return;
+        }
+
+        if (!formData.consentAccepted) {
+            toast.error("Please accept consent to continue");
+            return;
+        }
+
+        try {
+            setIsSubmitting(true);
+            await submitEligibilityCheck({
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                email: formData.email,
+                phone: formData.phone,
+                age: formData.age ? Number(formData.age) : undefined,
+                countryOfInterest: selectedCountry,
+                visaCategory: selectedGoal,
+                priorRefusal: Boolean(formData.priorRefusal),
+                coApplicantCount: Number(formData.coApplicantCount || 0),
+                message: formData.message,
+                consentAccepted: true,
+            });
+            toast.success("Eligibility request submitted");
+            setFormData({
+                firstName: "",
+                lastName: "",
+                email: "",
+                phone: "",
+                age: "",
+                priorRefusal: false,
+                coApplicantCount: 0,
+                message: "",
+                consentAccepted: false,
+            });
+        } catch (error) {
+            toast.error(error.message || "Failed to submit eligibility request");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
 

@@ -22,7 +22,7 @@ export const staffLogin = async (payload) => {
       data: payload,
     });
     return saveAuthData(data);
-  } catch (_error) {
+  } catch {
     const data = await request({
       url: "/auth/login",
       method: "POST",
@@ -39,7 +39,7 @@ export const forgotPassword = async (payload) => {
       method: "POST",
       data: payload,
     });
-  } catch (_error) {
+  } catch {
     return request({
       url: "/auth/forgot-password",
       method: "POST",
@@ -55,7 +55,7 @@ export const resetPassword = async (payload) => {
       method: "POST",
       data: payload,
     });
-  } catch (_error) {
+  } catch {
     return request({
       url: "/auth/reset-password",
       method: "POST",
@@ -71,7 +71,7 @@ export const logout = async () => {
       method: "POST",
       data: {},
     });
-  } catch (_error) {
+  } catch {
     // Ignore network or endpoint mismatch for logout and clear local state.
   } finally {
     clearSession();

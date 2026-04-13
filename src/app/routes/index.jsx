@@ -4,7 +4,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import AdminShell from "../../shared/layout/AdminShell.jsx";
 import ProtectedRoute from "../../shared/auth/ProtectedRoute";
 import PermissionGate from "../../shared/auth/PermissionGate";
-import ModulePlaceholderPage from "../../shared/ui/ModulePlaceholderPage";
 import { ROLE_GROUPS, STAFF_ROLES } from "../config/permissions";
 import LoginPage from "../../modules/auth/pages/LoginPage";
 import ForgotPasswordPage from "../../modules/auth/pages/ForgotPasswordPage";
@@ -16,6 +15,17 @@ import ApplicantsListPage from "../../modules/applicants/pages/ApplicantsListPag
 import ApplicantDetailPage from "../../modules/applicants/pages/ApplicantDetailPage";
 import CasesListPage from "../../modules/cases/pages/CasesListPage";
 import CaseDetailPage from "../../modules/cases/pages/CaseDetailPage";
+import DocumentsPage from "../../modules/documents/pages/DocumentsPage";
+import AppointmentsPage from "../../modules/appointments/pages/AppointmentsPage";
+import PaymentsPage from "../../modules/payments/pages/PaymentsPage";
+import ServicesPage from "../../modules/services/pages/ServicesPage";
+import ChecklistsPage from "../../modules/checklists/pages/ChecklistsPage";
+import TemplatesPage from "../../modules/templates/pages/TemplatesPage";
+import CountryUpdatesPage from "../../modules/country-updates/pages/CountryUpdatesPage";
+import ReportsPage from "../../modules/reports/pages/ReportsPage";
+import SettingsPage from "../../modules/settings/pages/SettingsPage";
+import CompliancePage from "../../modules/compliance/pages/CompliancePage";
+import UsersPage from "../../modules/users/pages/UsersPage";
 import UserLayout from "../../user/UserLayout";
 import Home from "../../modules/public/pages/Home.jsx";
 import FreeEligiblityCheck from "../../modules/public/pages/FreeEligiblityCheck.jsx";
@@ -40,17 +50,6 @@ import VisaTypeData from "../../user/pages/visatype/visaTypeData.jsx";
 import ApplyPage from "../../user/pages/visatype/ApplyPage.jsx";
 import Footer from "../../modules/public/pages/Footer.jsx";
 
-const roleRoute = (roles, title) => {
-  return (
-    <PermissionGate roles={roles} fallback={<Navigate to="/admin/dashboard" replace />}>
-      <ModulePlaceholderPage
-        title={title}
-        description="This module is scaffolded in the new architecture and ready for the next implementation pass."
-      />
-    </PermissionGate>
-  );
-};
-
 const protectedModuleRoute = (roles, component) => {
   return <PermissionGate roles={roles} fallback={<Navigate to="/admin/dashboard" replace />}>{component}</PermissionGate>;
 };
@@ -66,6 +65,7 @@ const AppRoutes = () => {
         <Route path="/admin" element={<AdminShell />}>
           <Route index element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="users" element={protectedModuleRoute(ROLE_GROUPS.finance, <UsersPage />)} />
           <Route path="leads" element={<LeadsListPage />} />
           <Route path="leads/:leadId" element={<LeadDetailPage />} />
 
@@ -76,16 +76,16 @@ const AppRoutes = () => {
           />
           <Route path="cases" element={protectedModuleRoute(ROLE_GROUPS.operations, <CasesListPage />)} />
           <Route path="cases/:caseId" element={protectedModuleRoute(ROLE_GROUPS.operations, <CaseDetailPage />)} />
-          <Route path="documents" element={roleRoute(ROLE_GROUPS.operations, "Document Management")} />
-          <Route path="appointments" element={roleRoute(ROLE_GROUPS.operations, "Appointment and Biometrics")} />
-          <Route path="payments" element={roleRoute(ROLE_GROUPS.finance, "Payments and Invoices")} />
-          <Route path="services" element={roleRoute(ROLE_GROUPS.operations, "Services Management")} />
-          <Route path="checklists" element={roleRoute(ROLE_GROUPS.operations, "Checklist Management")} />
-          <Route path="templates" element={roleRoute(ROLE_GROUPS.operations, "Communication Templates")} />
-          <Route path="country-updates" element={roleRoute(ROLE_GROUPS.operations, "Country Process Updates")} />
-          <Route path="reports" element={roleRoute(ROLE_GROUPS.allStaff, "Reports")} />
-          <Route path="settings" element={roleRoute(ROLE_GROUPS.compliance, "Settings and Compliance")} />
-          <Route path="compliance" element={roleRoute(ROLE_GROUPS.compliance, "Audit and Compliance Logs")} />
+          <Route path="documents" element={protectedModuleRoute(ROLE_GROUPS.operations, <DocumentsPage />)} />
+          <Route path="appointments" element={protectedModuleRoute(ROLE_GROUPS.operations, <AppointmentsPage />)} />
+          <Route path="payments" element={protectedModuleRoute(ROLE_GROUPS.finance, <PaymentsPage />)} />
+          <Route path="services" element={protectedModuleRoute(ROLE_GROUPS.operations, <ServicesPage />)} />
+          <Route path="checklists" element={protectedModuleRoute(ROLE_GROUPS.operations, <ChecklistsPage />)} />
+          <Route path="templates" element={protectedModuleRoute(ROLE_GROUPS.operations, <TemplatesPage />)} />
+          <Route path="country-updates" element={protectedModuleRoute(ROLE_GROUPS.operations, <CountryUpdatesPage />)} />
+          <Route path="reports" element={protectedModuleRoute(ROLE_GROUPS.allStaff, <ReportsPage />)} />
+          <Route path="settings" element={protectedModuleRoute(ROLE_GROUPS.compliance, <SettingsPage />)} />
+          <Route path="compliance" element={protectedModuleRoute(ROLE_GROUPS.compliance, <CompliancePage />)} />
         </Route>
       </Route>
 

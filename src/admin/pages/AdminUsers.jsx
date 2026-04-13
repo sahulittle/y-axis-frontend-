@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { listAdminUsers, updateAdminUser } from "../api/adminApi";
+import { deleteAdminUser, listAdminUsers, updateAdminUser } from "../api/adminApi";
 
 const roles = ["user", "admin", "adviser", "support"];
 
@@ -25,6 +25,8 @@ const AdminUsers = () => {
 
   useEffect(() => {
     loadUsers();
+    // loadUsers is intentionally triggered once on mount; search refresh is manual.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleRoleChange = async (userId, role) => {
@@ -45,21 +47,34 @@ const AdminUsers = () => {
     }
   };
 
+  const handleDeleteUser = async (userId, email) => {
+    if (!window.confirm(`Delete ${email}? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      await deleteAdminUser(userId);
+      loadUsers();
+    } catch (apiError) {
+      setError(apiError.message || "Failed to delete user");
+    }
+  };
+
   return (
     <section className="rounded-2xl bg-white border border-slate-200 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
         <h2 className="text-xl font-bold text-slate-900">Users</h2>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
           <input
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             placeholder="Search users..."
-            className="rounded-xl border border-slate-300 px-4 py-2"
+            className="rounded-xl border border-slate-300 px-4 py-2 w-full"
           />
           <button
             type="button"
             onClick={loadUsers}
-            className="rounded-xl bg-slate-900 text-white px-4 py-2"
+            className="rounded-xl bg-slate-900 text-white px-4 py-2 w-full sm:w-auto"
           >
             Search
           </button>
@@ -72,7 +87,7 @@ const AdminUsers = () => {
         <p className="text-slate-500">Loading...</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full min-w-[760px] text-sm">
             <thead>
               <tr className="text-left border-b border-slate-200 text-slate-500">
                 <th className="py-3 pr-3">Name</th>
@@ -108,13 +123,22 @@ const AdminUsers = () => {
                     </span>
                   </td>
                   <td className="py-3">
-                    <button
-                      type="button"
-                      onClick={() => handleActiveToggle(item._id, item.isActive)}
-                      className="rounded-lg border border-slate-300 px-3 py-1 hover:bg-slate-50"
-                    >
-                      Toggle
-                    </button>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleActiveToggle(item._id, item.isActive)}
+                        className="rounded-lg border border-slate-300 px-3 py-1 hover:bg-slate-50"
+                      >
+                        Toggle
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteUser(item._id, item.email)}
+                        className="rounded-lg border border-red-300 text-red-600 px-3 py-1 hover:bg-red-50"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Home, Eye, EyeOff } from "lucide-react";
-// import toast from "react-hot-toast";
+import { useToast } from "../app/providers/ToastProvider";
+import { loginCustomer } from "../user/api/publicApi";
 
 const Login = () => {
   const navigate = useNavigate();
+  const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -23,7 +26,7 @@ const Login = () => {
     }));
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     const { email, password } = formData;
@@ -33,13 +36,21 @@ const Login = () => {
       return;
     }
 
-    if (password.length < 6) {
-      toast.error("Password must be at least 6 characters");
+    if (password.length < 8) {
+      toast.error("Password must be at least 8 characters");
       return;
     }
 
-    console.log("Frontend Login Data:", formData);
-    toast.success("Login successful!");
+    try {
+      setIsSubmitting(true);
+      await loginCustomer(formData);
+      toast.success("Login successful");
+      navigate("/");
+    } catch (error) {
+      toast.error(error.message || "Login failed");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -219,9 +230,10 @@ const Login = () => {
 
               <button
                 type="submit"
+                disabled={isSubmitting}
                 className="w-full rounded-2xl bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 px-6 py-4 text-sm font-bold text-white shadow-[0_18px_45px_rgba(79,70,229,0.28)] transition duration-300 hover:-translate-y-0.5 active:scale-[0.99]"
               >
-                Log In
+                {isSubmitting ? "Logging in..." : "Log In"}
               </button>
             </form>
 

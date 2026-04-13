@@ -10,7 +10,7 @@ export const readSession = () => {
   let user = null;
   try {
     user = JSON.parse(userRaw);
-  } catch (_error) {
+  } catch {
     user = null;
   }
 

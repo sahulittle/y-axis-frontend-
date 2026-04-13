@@ -40,6 +40,8 @@ const AdminBlogPosts = () => {
 
   useEffect(() => {
     loadPosts();
+    // loadPosts is intentionally triggered once on mount; subsequent refreshes are user-driven.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const resetForm = () => {
@@ -159,12 +161,12 @@ const AdminBlogPosts = () => {
             Published
           </label>
 
-          <div className="flex gap-2">
-            <button type="submit" className="rounded-xl bg-orange-500 text-white px-4 py-2 font-medium">
+          <div className="flex flex-col sm:flex-row gap-2">
+            <button type="submit" className="w-full sm:w-auto rounded-xl bg-orange-500 text-white px-4 py-2 font-medium">
               {editingId ? "Update" : "Create"}
             </button>
             {editingId ? (
-              <button type="button" onClick={resetForm} className="rounded-xl border border-slate-300 px-4 py-2">
+              <button type="button" onClick={resetForm} className="w-full sm:w-auto rounded-xl border border-slate-300 px-4 py-2">
                 Cancel
               </button>
             ) : null}
@@ -175,14 +177,14 @@ const AdminBlogPosts = () => {
       <div className="xl:col-span-2 rounded-2xl bg-white border border-slate-200 p-5 space-y-4">
         <div className="flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
           <h3 className="text-lg font-bold text-slate-900">Blog Posts</h3>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <input
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder="Search posts"
-              className="rounded-xl border border-slate-300 px-4 py-2"
+              className="rounded-xl border border-slate-300 px-4 py-2 w-full"
             />
-            <button onClick={loadPosts} className="rounded-xl bg-slate-900 text-white px-4 py-2" type="button">
+            <button onClick={loadPosts} className="rounded-xl bg-slate-900 text-white px-4 py-2 w-full sm:w-auto" type="button">
               Search
             </button>
           </div>
@@ -192,7 +194,7 @@ const AdminBlogPosts = () => {
         {loading ? <p className="text-slate-500">Loading...</p> : null}
 
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full min-w-[700px] text-sm">
             <thead>
               <tr className="border-b border-slate-200 text-left text-slate-500">
                 <th className="py-3 pr-3">Title</th>
@@ -207,13 +209,15 @@ const AdminBlogPosts = () => {
                   <td className="py-3 pr-3 font-medium text-slate-900">{item.title}</td>
                   <td className="py-3 pr-3">{item.category}</td>
                   <td className="py-3 pr-3">{item.isPublished ? "Yes" : "No"}</td>
-                  <td className="py-3 flex gap-2">
-                    <button onClick={() => onEdit(item)} className="rounded-lg border border-slate-300 px-3 py-1 hover:bg-slate-50">
-                      Edit
-                    </button>
-                    <button onClick={() => onDelete(item._id)} className="rounded-lg border border-red-300 text-red-600 px-3 py-1 hover:bg-red-50">
-                      Delete
-                    </button>
+                  <td className="py-3">
+                    <div className="flex flex-wrap gap-2">
+                      <button onClick={() => onEdit(item)} className="rounded-lg border border-slate-300 px-3 py-1 hover:bg-slate-50">
+                        Edit
+                      </button>
+                      <button onClick={() => onDelete(item._id)} className="rounded-lg border border-red-300 text-red-600 px-3 py-1 hover:bg-red-50">
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
