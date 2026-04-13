@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   ArrowRight,
@@ -15,17 +15,87 @@ import {
   ChevronRight,
 } from "lucide-react";
 import VisaFaq from "./VisaFaq";
-import { getVisaTypeContent } from "./visatypedata";
+import { getVisaTypeContent } from "./visaTypeContentService";
 
 const VisaTypeData = () => {
   const navigate = useNavigate();
   const { country, visaType } = useParams();
-
-  const visa = getVisaTypeContent(country, visaType);
+  const [visa, setVisa] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    let mounted = true;
+
+    const loadVisaContent = async () => {
+      try {
+        setLoading(true);
+        setErrorMessage("");
+        const content = await getVisaTypeContent(country, visaType);
+
+        if (mounted) {
+          setVisa(content);
+        }
+      } catch (error) {
+        if (mounted) {
+          setVisa(null);
+          setErrorMessage(error.message || "Failed to load visa content");
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadVisaContent();
+
+    return () => {
+      mounted = false;
+    };
   }, [country, visaType]);
+
+  if (loading) {
+    return (
+      <section className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50 flex items-center">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900">Loading visa details...</h1>
+          <p className="mt-4 text-base text-slate-600">Please wait while we fetch the latest content.</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (errorMessage) {
+    return (
+      <section className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50 flex items-center">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <div className="w-20 h-20 mx-auto rounded-full bg-red-100 text-red-600 flex items-center justify-center mb-6 shadow-sm">
+            <AlertCircle size={34} />
+          </div>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900">Unable to load visa content</h1>
+          <p className="mt-5 text-lg text-slate-600 leading-8">{errorMessage}</p>
+          <div className="mt-8 flex justify-center gap-4 flex-wrap">
+            <button
+              onClick={() => window.location.reload()}
+              className="inline-flex items-center gap-2 rounded-full bg-[#f2653a] px-7 py-4 text-white font-semibold shadow-lg hover:opacity-90 transition"
+            >
+              Retry
+              <ArrowRight size={18} />
+            </button>
+            <button
+              onClick={() => navigate("/contact")}
+              className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-7 py-4 text-slate-800 font-semibold hover:bg-slate-50 transition"
+            >
+              Contact Us
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (!visa) {
     return (
@@ -62,6 +132,12 @@ const VisaTypeData = () => {
   }
 
   const Icon = visa.icon;
+  const serviceHighlights = Array.isArray(visa.serviceHighlights) ? visa.serviceHighlights : [];
+  const eligibilityItems = Array.isArray(visa.eligibility) ? visa.eligibility : [];
+  const requiredDocs = Array.isArray(visa.requiredDocs) ? visa.requiredDocs : [];
+  const processItems = Array.isArray(visa.process) ? visa.process : [];
+  const timelineItems = Array.isArray(visa.timeline) ? visa.timeline : [];
+  const faqItems = Array.isArray(visa.faqs) ? visa.faqs : [];
 
   const processIcons = [
     Sparkles,
@@ -132,7 +208,10 @@ const VisaTypeData = () => {
               <div className="absolute inset-0 rounded-[36px] bg-gradient-to-r from-orange-200/30 to-blue-200/30 blur-2xl" />
               <div className="relative rounded-[36px] overflow-hidden bg-white p-3 shadow-[0_25px_70px_rgba(15,23,42,0.12)]">
                 <img
-                  src={visa.heroImage}
+                  src={
+                    visa.heroImage ||
+                    "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1200&auto=format&fit=crop"
+                  }
                   alt={visa.title}
                   className="w-full h-[340px] md:h-[520px] object-cover rounded-[28px]"
                 />
@@ -160,7 +239,7 @@ const VisaTypeData = () => {
           </div>
 
           <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-7">
-            {visa.serviceHighlights?.map((item, index) => {
+            {serviceHighlights.map((item, index) => {
               const ServiceIcon = item.icon;
               return (
                 <div
@@ -198,7 +277,7 @@ const VisaTypeData = () => {
           </div>
 
           <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
-            {visa.eligibility.map((item, index) => (
+            {eligibilityItems.map((item, index) => (
               <div
                 key={index}
                 className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-xl transition"
@@ -232,7 +311,7 @@ const VisaTypeData = () => {
 
             <div className="rounded-[32px] border border-slate-200 bg-white p-8 shadow-[0_20px_50px_rgba(15,23,42,0.08)]">
               <div className="space-y-4">
-                {visa.requiredDocs.map((doc, index) => (
+                {requiredDocs.map((doc, index) => (
                   <div
                     key={index}
                     className="flex items-start gap-4 rounded-2xl bg-blue-50 px-5 py-4"
@@ -263,7 +342,7 @@ const VisaTypeData = () => {
           </div>
 
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
-            {visa.process.map((step, index) => {
+            {processItems.map((step, index) => {
               const StepIcon = processIcons[index] || FileText;
               return (
                 <div
@@ -303,7 +382,7 @@ const VisaTypeData = () => {
           </div>
 
           <div className="grid md:grid-cols-5 gap-5">
-            {visa.timeline.map((item, index) => (
+            {timelineItems.map((item, index) => (
               <div key={index} className="relative">
                 <div className="rounded-3xl bg-gradient-to-br from-white to-blue-50 border border-slate-200 p-6 shadow-sm h-full">
                   <div className="w-12 h-12 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center mb-4">
@@ -312,7 +391,7 @@ const VisaTypeData = () => {
                   <p className="font-semibold text-slate-900 leading-6">{item}</p>
                 </div>
 
-                {index !== visa.timeline.length - 1 && (
+                {index !== timelineItems.length - 1 && (
                   <div className="hidden md:flex absolute top-1/2 -right-3 items-center">
                     <ChevronRight className="text-orange-300" size={22} />
                   </div>
@@ -335,7 +414,7 @@ const VisaTypeData = () => {
             </h2>
           </div>
 
-          <VisaFaq faqs={visa.faqs} />
+          <VisaFaq faqs={faqItems} />
         </div>
       </section>
 

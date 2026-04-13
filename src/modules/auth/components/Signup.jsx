@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Home, Eye, EyeOff, CheckCircle2 } from "lucide-react";
-import { useToast } from "../app/providers/ToastProvider";
-import { signupCustomer } from "../user/api/publicApi";
+import { useToast } from "../../../app/providers/ToastProvider";
+import { signupCustomer } from "../../../user/api/publicApi";
 
 const Signup = () => {
   const navigate = useNavigate();

@@ -26,6 +26,8 @@ import ReportsPage from "../../modules/reports/pages/ReportsPage";
 import SettingsPage from "../../modules/settings/pages/SettingsPage";
 import CompliancePage from "../../modules/compliance/pages/CompliancePage";
 import UsersPage from "../../modules/users/pages/UsersPage";
+import VisaTypesListPage from "../../modules/visa-types/pages/VisaTypesListPage";
+import VisaTypeFormPage from "../../modules/visa-types/pages/VisaTypeFormPage";
 import UserLayout from "../../user/UserLayout";
 import Home from "../../modules/public/pages/Home.jsx";
 import FreeEligiblityCheck from "../../modules/public/pages/FreeEligiblityCheck.jsx";
@@ -80,6 +82,12 @@ const AppRoutes = () => {
           <Route path="appointments" element={protectedModuleRoute(ROLE_GROUPS.operations, <AppointmentsPage />)} />
           <Route path="payments" element={protectedModuleRoute(ROLE_GROUPS.finance, <PaymentsPage />)} />
           <Route path="services" element={protectedModuleRoute(ROLE_GROUPS.operations, <ServicesPage />)} />
+          <Route path="visa-types" element={protectedModuleRoute(ROLE_GROUPS.finance, <VisaTypesListPage />)} />
+          <Route path="visa-types/new" element={protectedModuleRoute(ROLE_GROUPS.finance, <VisaTypeFormPage />)} />
+          <Route
+            path="visa-types/:visaTypeId/edit"
+            element={protectedModuleRoute(ROLE_GROUPS.finance, <VisaTypeFormPage />)}
+          />
           <Route path="checklists" element={protectedModuleRoute(ROLE_GROUPS.operations, <ChecklistsPage />)} />
           <Route path="templates" element={protectedModuleRoute(ROLE_GROUPS.operations, <TemplatesPage />)} />
           <Route path="country-updates" element={protectedModuleRoute(ROLE_GROUPS.operations, <CountryUpdatesPage />)} />

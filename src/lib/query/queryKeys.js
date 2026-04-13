@@ -77,4 +77,9 @@ export const queryKeys = {
     list: (params) => ["users", "list", params],
     detail: (id) => ["users", "detail", id],
   },
+  visaTypes: {
+    all: ["visa-types"],
+    list: (params) => ["visa-types", "list", params],
+    detail: (id) => ["visa-types", "detail", id],
+  },
 };

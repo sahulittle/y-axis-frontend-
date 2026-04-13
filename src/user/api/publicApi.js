@@ -81,6 +81,13 @@ export const submitVisaApplication = (payload) => {
   });
 };
 
+export const getVisaTypeContentBySlug = (countrySlug, visaTypeSlug) => {
+  return request({
+    url: `/visa-types/${encodeURIComponent(countrySlug)}/${encodeURIComponent(visaTypeSlug)}`,
+    method: "GET",
+  });
+};
+
 export const getUserProfile = () => {
   return request({
     url: "/user/profile",
