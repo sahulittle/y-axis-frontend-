@@ -1,6 +1,7 @@
 import React from "react";
+
 import { Navigate, Route, Routes } from "react-router-dom";
-import AdminShell from "../../shared/layout/AdminShell";
+import AdminShell from "../../shared/layout/AdminShell.jsx";
 import ProtectedRoute from "../../shared/auth/ProtectedRoute";
 import PermissionGate from "../../shared/auth/PermissionGate";
 import ModulePlaceholderPage from "../../shared/ui/ModulePlaceholderPage";
@@ -16,12 +17,12 @@ import ApplicantDetailPage from "../../modules/applicants/pages/ApplicantDetailP
 import CasesListPage from "../../modules/cases/pages/CasesListPage";
 import CaseDetailPage from "../../modules/cases/pages/CaseDetailPage";
 import UserLayout from "../../user/UserLayout";
-import Home from "../../user/pages/Home";
-import FreeEligiblityCheck from "../../user/pages/FreeEligiblityCheck";
-import Migrate from "../../user/pages/Migrate";
-import Work from "../../user/pages/Work";
-import Study from "../../user/pages/Study";
-import Visa from "../../user/pages/Visa";
+import Home from "../../modules/public/pages/Home.jsx";
+import FreeEligiblityCheck from "../../modules/public/pages/FreeEligiblityCheck.jsx";
+import Migrate from "../../modules/public/pages/Migrate.jsx";
+import Work from "../../modules/public/pages/Work.jsx";
+import Study from "../../modules/public/pages/Study.jsx";
+import Visa from "../../modules/public/pages/Visa.jsx";
 import UK from "../../user/pages/visa/UK";
 import Usa from "../../user/pages/visa/Usa";
 import Japan from "../../user/pages/visa/Japan";
@@ -30,13 +31,14 @@ import Canada from "../../user/pages/visa/Canada";
 import NewZealand from "../../user/pages/visa/NewZealand";
 import Turkey from "../../user/pages/visa/Turkey";
 import Schengen from "../../user/pages/visa/Schengen";
-import ContactUs from "../../user/pages/Contactus";
-import Login from "../../components/Login";
-import Signup from "../../components/Signup";
-import About from "../../user/pages/About";
+import ContactUs from "../../modules/public/pages/Contactus.jsx";
+import Login from "../../modules/auth/components/Login.jsx";
+import Signup from "../../modules/auth/components/Signup.jsx";
+import About from "../../modules/public/pages/About.jsx";
 import VisaFaq from "../../user/pages/visatype/VisaFaq";
 import VisaTypeData from "../../user/pages/visatype/visaTypeData.jsx";
 import ApplyPage from "../../user/pages/visatype/ApplyPage.jsx";
+import Footer from "../../modules/public/pages/Footer.jsx";
 
 const roleRoute = (roles, title) => {
   return (
@@ -93,6 +95,7 @@ const AppRoutes = () => {
         <Route path="/migrate" element={<Migrate />} />
         <Route path="/work" element={<Work />} />
         <Route path="/study" element={<Study />} />
+        <Route path="/footer" element={<Footer/>}/>
         <Route path="/visa" element={<Visa />} />
         <Route path="/visa/uk" element={<UK />} />
         <Route path="/visa/usa" element={<Usa />} />
