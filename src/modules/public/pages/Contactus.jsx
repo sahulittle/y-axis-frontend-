@@ -9,8 +9,8 @@ import {
     Headphones,
     Globe,
 } from "lucide-react";
-import { useToast } from "../../app/providers/ToastProvider";
-import { submitContactForm } from "../api/publicApi";
+import { useToast } from "../../../app/providers/ToastProvider";
+import { submitContactForm } from "../../../user/api/publicApi";
 
 const ContactUs = () => {
     const toast = useToast();

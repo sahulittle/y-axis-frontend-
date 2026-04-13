@@ -9,8 +9,8 @@ import {
 import { BsShieldCheck } from "react-icons/bs";
 import { FaArrowRight, FaRegCheckCircle } from "react-icons/fa";
 import Footer from "./Footer";
-import { useToast } from "../../app/providers/ToastProvider";
-import { submitEligibilityCheck } from "../api/publicApi";
+import { useToast } from "../../../app/providers/ToastProvider";
+import { submitEligibilityCheck } from "../../../user/api/publicApi";
 
 const FreeEligiblityCheck = () => {
     const steps = Array.from({ length: 8 }, (_, i) => i + 1);
