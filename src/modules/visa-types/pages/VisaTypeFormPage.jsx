@@ -10,6 +10,8 @@ import {
   useDeleteAdminVisaTypeMutation,
   useUpdateAdminVisaTypeMutation,
 } from "../hooks";
+import { useCountriesQuery } from "../../countries/hooks";
+import { useVisaCategoriesQuery } from "../../visa-categories/hooks";
 
 const ICON_OPTIONS = [
   "graduation-cap",
@@ -44,6 +46,8 @@ const normalizeStringArray = (input) => {
 };
 
 const initialForm = {
+  countryId: "",
+  visaCategoryId: "",
   countryName: "",
   countrySlug: "",
   visaTypeName: "",
@@ -70,6 +74,8 @@ const initialForm = {
 };
 
 const mapApiToForm = (data) => ({
+  countryId: data.countryId || data.country?._id || "",
+  visaCategoryId: data.visaCategoryId || data.visaCategory?._id || "",
   countryName: data.countryName || "",
   countrySlug: data.countrySlug || "",
   visaTypeName: data.visaTypeName || "",
@@ -96,6 +102,8 @@ const mapApiToForm = (data) => ({
 });
 
 const buildPayload = (form) => ({
+  countryId: trim(form.countryId) || undefined,
+  visaCategoryId: trim(form.visaCategoryId) || undefined,
   countryName: trim(form.countryName),
   countrySlug: toSlug(form.countrySlug || form.countryName),
   visaTypeName: trim(form.visaTypeName),
@@ -132,8 +140,12 @@ const buildPayload = (form) => ({
 const validateForm = (payload) => {
   const errors = {};
 
-  if (!payload.countryName) {
-    errors.countryName = "Country name is required";
+  if (!payload.countryId) {
+    errors.countryId = "Country selection is required";
+  }
+
+  if (!payload.visaCategoryId) {
+    errors.visaCategoryId = "Visa category selection is required";
   }
 
   if (!payload.countrySlug) {
@@ -182,6 +194,11 @@ const VisaTypeFormPage = () => {
   const createMutation = useCreateAdminVisaTypeMutation();
   const updateMutation = useUpdateAdminVisaTypeMutation();
   const deleteMutation = useDeleteAdminVisaTypeMutation();
+  const countriesQuery = useCountriesQuery({ page: 1, limit: 300, isActive: true });
+  const visaCategoriesQuery = useVisaCategoriesQuery({ page: 1, limit: 300, isActive: true });
+
+  const countries = countriesQuery.data?.items || [];
+  const visaCategories = visaCategoriesQuery.data?.items || [];
 
   React.useEffect(() => {
     if (detailQuery.data && isEdit) {
@@ -191,6 +208,27 @@ const VisaTypeFormPage = () => {
 
   const setField = (key, value) => {
     setForm((current) => ({ ...current, [key]: value }));
+  };
+
+  const handleCountrySelection = (countryId) => {
+    const selected = countries.find((item) => item._id === countryId);
+    setForm((current) => ({
+      ...current,
+      countryId,
+      countryName: selected?.name || current.countryName,
+      countrySlug: selected?.slug || current.countrySlug,
+    }));
+  };
+
+  const handleVisaCategorySelection = (visaCategoryId) => {
+    const selected = visaCategories.find((item) => item._id === visaCategoryId);
+    setForm((current) => ({
+      ...current,
+      visaCategoryId,
+      visaTypeName: selected?.name || current.visaTypeName,
+      visaTypeSlug: selected?.slug || current.visaTypeSlug,
+      iconKey: selected?.iconKey || current.iconKey,
+    }));
   };
 
   const handleSubmit = async (event) => {
@@ -269,21 +307,54 @@ const VisaTypeFormPage = () => {
           <h2 className="text-lg font-semibold text-slate-900">Basic Info</h2>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Country Name</label>
-              <Input value={form.countryName} onChange={(event) => setField("countryName", event.target.value)} />
-              {errors.countryName ? <p className="mt-1 text-xs text-rose-600">{errors.countryName}</p> : null}
+              <label className="mb-1 block text-sm font-medium text-slate-700">Country</label>
+              <select
+                value={form.countryId}
+                onChange={(event) => handleCountrySelection(event.target.value)}
+                className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
+              >
+                <option value="">Select Country</option>
+                {countries.map((country) => (
+                  <option key={country._id} value={country._id}>
+                    {country.name}
+                  </option>
+                ))}
+              </select>
+              {errors.countryId ? <p className="mt-1 text-xs text-rose-600">{errors.countryId}</p> : null}
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Country Slug</label>
-              <Input value={form.countrySlug} onChange={(event) => setField("countrySlug", event.target.value)} />
-              {errors.countrySlug ? <p className="mt-1 text-xs text-rose-600">{errors.countrySlug}</p> : null}
+              <label className="mb-1 block text-sm font-medium text-slate-700">Visa Category</label>
+              <select
+                value={form.visaCategoryId}
+                onChange={(event) => handleVisaCategorySelection(event.target.value)}
+                className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
+              >
+                <option value="">Select Visa Category</option>
+                {visaCategories.map((category) => (
+                  <option key={category._id} value={category._id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+              {errors.visaCategoryId ? <p className="mt-1 text-xs text-rose-600">{errors.visaCategoryId}</p> : null}
+            </div>
+
+            <div>
+              <label className="mb-1 block text-sm font-medium text-slate-700">Country Name</label>
+              <Input value={form.countryName} onChange={(event) => setField("countryName", event.target.value)} />
             </div>
 
             <div>
               <label className="mb-1 block text-sm font-medium text-slate-700">Visa Type Name</label>
               <Input value={form.visaTypeName} onChange={(event) => setField("visaTypeName", event.target.value)} />
               {errors.visaTypeName ? <p className="mt-1 text-xs text-rose-600">{errors.visaTypeName}</p> : null}
+            </div>
+
+            <div>
+              <label className="mb-1 block text-sm font-medium text-slate-700">Country Slug</label>
+              <Input value={form.countrySlug} onChange={(event) => setField("countrySlug", event.target.value)} />
+              {errors.countrySlug ? <p className="mt-1 text-xs text-rose-600">{errors.countrySlug}</p> : null}
             </div>
 
             <div>

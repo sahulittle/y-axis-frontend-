@@ -77,9 +77,56 @@ export const queryKeys = {
     list: (params) => ["users", "list", params],
     detail: (id) => ["users", "detail", id],
   },
+  countries: {
+    all: ["countries"],
+    list: (params) => ["countries", "list", params],
+    detail: (id) => ["countries", "detail", id],
+  },
+  visaCategories: {
+    all: ["visa-categories"],
+    list: (params) => ["visa-categories", "list", params],
+    detail: (id) => ["visa-categories", "detail", id],
+  },
   visaTypes: {
     all: ["visa-types"],
     list: (params) => ["visa-types", "list", params],
     detail: (id) => ["visa-types", "detail", id],
+  },
+  applications: {
+    all: ["applications"],
+    list: (params) => ["applications", "list", params],
+    detail: (id) => ["applications", "detail", id],
+  },
+  enquiries: {
+    all: ["enquiries"],
+    list: (params) => ["enquiries", "list", params],
+    detail: (id) => ["enquiries", "detail", id],
+  },
+  tickets: {
+    all: ["tickets"],
+    list: (params) => ["tickets", "list", params],
+    detail: (id) => ["tickets", "detail", id],
+  },
+  userPortal: {
+    profile: ["user-portal", "profile"],
+    dashboardSummary: ["user-portal", "dashboard-summary"],
+    applications: {
+      all: ["user-portal", "applications"],
+      list: (params) => ["user-portal", "applications", "list", params],
+      detail: (id) => ["user-portal", "applications", "detail", id],
+    },
+    tickets: {
+      all: ["user-portal", "tickets"],
+      list: (params) => ["user-portal", "tickets", "list", params],
+      detail: (id) => ["user-portal", "tickets", "detail", id],
+    },
+    documents: {
+      all: ["user-portal", "documents"],
+      list: (params) => ["user-portal", "documents", "list", params],
+    },
+    appointments: {
+      all: ["user-portal", "appointments"],
+      list: (params) => ["user-portal", "appointments", "list", params],
+    },
   },
 };

@@ -1,74 +1,16 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useToast } from "../../../app/providers/ToastProvider";
-import { submitVisaApplication } from "../../api/publicApi";
+import { getVisaApplicationConfig, submitVisaApplication } from "../../api/publicApi";
 
-const documentSections = [
-  {
-    key: "identityDocs",
-    title: "🪪 Identity Documents",
-    subtitle: "Upload passport, old passports, and passport-size photographs.",
-    multiple: true,
-  },
-  {
-    key: "educationDocs",
-    title: "🎓 Educational Documents",
-    subtitle:
-      "Upload 10th, 12th, degree, diploma, mark sheets, and certifications.",
-    multiple: true,
-  },
-  {
-    key: "workDocs",
-    title: "💼 Work & Experience Proof",
-    subtitle:
-      "Upload resume, experience letters, salary slips, offer letter, etc.",
-    multiple: true,
-  },
-  {
-    key: "financialDocs",
-    title: "💰 Financial Documents",
-    subtitle:
-      "Upload bank statements, ITR, sponsorship documents, salary proof.",
-    multiple: true,
-  },
-  {
-    key: "medicalDocs",
-    title: "🏥 Medical & Insurance",
-    subtitle: "Upload medical certificate, insurance, vaccination records.",
-    multiple: true,
-  },
-  {
-    key: "policeDocs",
-    title: "👮 Police Verification",
-    subtitle: "Upload PCC and background verification documents.",
-    multiple: true,
-  },
-  {
-    key: "accommodationDocs",
-    title: "🏠 Accommodation Proof",
-    subtitle: "Upload hotel booking, rental agreement, or invitation letter.",
-    multiple: true,
-  },
-  {
-    key: "travelDocs",
-    title: "✈️ Travel Documents",
-    subtitle: "Upload flight booking and travel itinerary.",
-    multiple: true,
-  },
-  {
-    key: "visaSpecificDocs",
-    title: "📑 Visa-Specific Documents",
-    subtitle: "Upload visa form, fee receipt, cover letter, SOP, etc.",
-    multiple: true,
-  },
-  {
-    key: "employerDocs",
-    title: "🏢 Employer-Side Documents",
-    subtitle:
-      "Upload work permit approval, employer sponsorship, registration proof.",
-    multiple: true,
-  },
-];
+const slugify = (value = "") =>
+  String(value)
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
 const ApplyPage = () => {
   const { country, visaType } = useParams();
@@ -76,6 +18,9 @@ const ApplyPage = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [travelPurpose, setTravelPurpose] = useState("");
+  const [isConfigLoading, setIsConfigLoading] = useState(true);
+  const [configError, setConfigError] = useState("");
+  const [applicationConfig, setApplicationConfig] = useState(null);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -93,18 +38,82 @@ const ApplyPage = () => {
     refundPolicyAccepted: false,
   });
 
-  const [uploadedFiles, setUploadedFiles] = useState(
-    documentSections.reduce((acc, section) => {
-      acc[section.key] = [];
-      return acc;
-    }, {})
-  );
+  const [uploadedFiles, setUploadedFiles] = useState({});
+
+  const documentSections = useMemo(() => {
+    const requiredDocs = Array.isArray(applicationConfig?.requiredDocs)
+      ? applicationConfig.requiredDocs
+      : [];
+
+    if (requiredDocs.length === 0) {
+      return [
+        {
+          key: "general-documents",
+          title: "General Documents",
+          subtitle: "Upload all relevant documents for your visa application.",
+          isMandatory: false,
+          maxFiles: 10,
+          allowedFileTypes: [],
+        },
+      ];
+    }
+
+    return requiredDocs.map((doc, index) => ({
+      key: slugify(doc?.name || `document-${index}`),
+      title: doc?.name || `Document ${index + 1}`,
+      subtitle: doc?.description || "Upload the required file(s).",
+      isMandatory: doc?.isMandatory !== false,
+      maxFiles: Number(doc?.maxFiles) || 1,
+      allowedFileTypes: Array.isArray(doc?.allowedFileTypes) ? doc.allowedFileTypes : [],
+    }));
+  }, [applicationConfig]);
 
   const wordCount = useMemo(() => {
     return travelPurpose.trim()
       ? travelPurpose.trim().split(/\s+/).filter(Boolean).length
       : 0;
   }, [travelPurpose]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadConfig = async () => {
+      try {
+        setIsConfigLoading(true);
+        setConfigError("");
+        const config = await getVisaApplicationConfig(country, visaType);
+        if (!mounted) {
+          return;
+        }
+
+        setApplicationConfig(config);
+
+        const initialFiles = (Array.isArray(config?.requiredDocs) && config.requiredDocs.length > 0
+          ? config.requiredDocs
+          : [{ name: "general-documents" }
+        ]).reduce((acc, doc, index) => {
+          acc[slugify(doc?.name || `document-${index}`)] = [];
+          return acc;
+        }, {});
+
+        setUploadedFiles(initialFiles);
+      } catch (error) {
+        if (mounted) {
+          setConfigError(error.message || "Failed to load application configuration");
+        }
+      } finally {
+        if (mounted) {
+          setIsConfigLoading(false);
+        }
+      }
+    };
+
+    loadConfig();
+
+    return () => {
+      mounted = false;
+    };
+  }, [country, visaType]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -124,7 +133,9 @@ const ApplyPage = () => {
   };
 
   const handleFileChange = (sectionKey, files) => {
-    const fileArray = Array.from(files || []);
+    const section = documentSections.find((item) => item.key === sectionKey);
+    const maxFiles = Number(section?.maxFiles) || 1;
+    const fileArray = Array.from(files || []).slice(0, maxFiles);
     setUploadedFiles((prev) => ({
       ...prev,
       [sectionKey]: fileArray,
@@ -133,6 +144,16 @@ const ApplyPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (isConfigLoading) {
+      toast.error("Application configuration is still loading");
+      return;
+    }
+
+    if (configError) {
+      toast.error("Unable to submit because form configuration failed to load");
+      return;
+    }
 
     if (
       !formData.fullName ||
@@ -154,30 +175,55 @@ const ApplyPage = () => {
       return;
     }
 
+    const missingDocs = documentSections
+      .filter((doc) => doc.isMandatory)
+      .filter((doc) => !uploadedFiles[doc.key] || uploadedFiles[doc.key].length === 0)
+      .map((doc) => doc.title);
+
+    if (missingDocs.length > 0) {
+      toast.error(`Missing required document uploads: ${missingDocs.join(", ")}`);
+      return;
+    }
+
     try {
       setIsSubmitting(true);
 
       const payload = new FormData();
+      payload.append("countrySlug", country || "");
+      payload.append("visaTypeSlug", visaType || "");
+      payload.append("country", country || "");
+      payload.append("visaType", visaType || "");
       payload.append("fullName", formData.fullName);
       payload.append("email", formData.email);
       payload.append("phone", formData.phone);
-      payload.append("dob", formData.dob);
-      payload.append("nationality", formData.nationality);
-      payload.append("address", formData.address);
-      payload.append("passportType", formData.passportType);
-      payload.append("country", country || "");
-      payload.append("visaType", visaType || "");
       payload.append("travelPurpose", travelPurpose);
-      payload.append("priorRefusal", formData.priorRefusal);
-      payload.append("refusalDetails", formData.refusalDetails);
-      payload.append("declaration", formData.declaration);
-      payload.append("consentAccepted", formData.consentAccepted);
-      payload.append("disclaimerAccepted", formData.disclaimerAccepted);
-      payload.append("refundPolicyAccepted", formData.refundPolicyAccepted);
+      payload.append("consentAccepted", String(formData.consentAccepted));
+      payload.append("disclaimerAccepted", String(formData.disclaimerAccepted));
+      payload.append("refundPolicyAccepted", String(formData.refundPolicyAccepted));
+      payload.append(
+        "applicantDetails",
+        JSON.stringify({
+          firstName: formData.fullName.trim().split(/\s+/)[0] || "",
+          lastName: formData.fullName.trim().split(/\s+/).slice(1).join(" ") || "",
+          email: formData.email,
+          phone: formData.phone,
+          dob: formData.dob || null,
+          nationality: formData.nationality,
+          address: formData.address,
+          passportNumber: formData.passportType,
+          customFields: {
+            passportType: formData.passportType,
+            priorRefusal: formData.priorRefusal,
+            refusalDetails: formData.refusalDetails,
+            declaration: formData.declaration,
+            travelPurpose,
+          },
+        })
+      );
 
       Object.entries(uploadedFiles).forEach(([sectionKey, files]) => {
         files.forEach((file) => {
-          payload.append(sectionKey, file);
+          payload.append(`documents.${sectionKey}`, file);
         });
       });
 
@@ -204,7 +250,7 @@ const ApplyPage = () => {
       setTravelPurpose("");
 
       setUploadedFiles(
-        documentSections.reduce((acc, section) => {
+        (documentSections || []).reduce((acc, section) => {
           acc[section.key] = [];
           return acc;
         }, {})
@@ -216,6 +262,26 @@ const ApplyPage = () => {
     }
   };
 
+  if (isConfigLoading) {
+    return (
+      <section className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50 py-16 md:py-20">
+        <div className="mx-auto max-w-4xl rounded-3xl border border-slate-200 bg-white p-8 text-slate-700 shadow-sm">
+          Loading application form configuration...
+        </div>
+      </section>
+    );
+  }
+
+  if (configError) {
+    return (
+      <section className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50 py-16 md:py-20">
+        <div className="mx-auto max-w-4xl rounded-3xl border border-rose-200 bg-rose-50 p-8 text-rose-700 shadow-sm">
+          {configError}
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50 py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-4 md:px-6">
@@ -226,7 +292,7 @@ const ApplyPage = () => {
             </p>
 
             <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-white md:text-5xl">
-              Submit Your Visa Documents
+              {applicationConfig?.title ? `Apply for ${applicationConfig.title}` : "Submit Your Visa Documents"}
             </h1>
 
             <p className="mt-4 max-w-3xl text-base text-white/85 md:text-lg">
@@ -238,8 +304,7 @@ const ApplyPage = () => {
               <span className="font-semibold capitalize text-white">
                 {country}
               </span>
-              . Our team will review your documents and process your visa
-              application offline.
+              . {applicationConfig?.summary || "Our team will review your documents and process your visa application."}
             </p>
           </div>
 
@@ -444,10 +509,23 @@ const ApplyPage = () => {
                   >
                     <h3 className="text-lg font-bold text-slate-900">
                       {section.title}
+                      {section.isMandatory ? (
+                        <span className="ml-2 rounded-full bg-rose-100 px-2 py-0.5 text-xs font-semibold text-rose-700">
+                          Required
+                        </span>
+                      ) : null}
                     </h3>
                     <p className="mt-2 text-sm leading-6 text-slate-600">
                       {section.subtitle}
                     </p>
+                    {section.maxFiles ? (
+                      <p className="mt-1 text-xs text-slate-500">Maximum files: {section.maxFiles}</p>
+                    ) : null}
+                    {section.allowedFileTypes?.length ? (
+                      <p className="mt-1 text-xs text-slate-500">
+                        Allowed: {section.allowedFileTypes.join(", ")}
+                      </p>
+                    ) : null}
 
                     <label className="mt-5 flex min-h-[140px] cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-orange-200 bg-orange-50/60 px-4 text-center transition hover:border-orange-400 hover:bg-orange-50">
                       <span className="text-sm font-semibold text-slate-700">
@@ -459,7 +537,7 @@ const ApplyPage = () => {
 
                       <input
                         type="file"
-                        multiple={section.multiple}
+                        multiple={section.maxFiles > 1}
                         className="hidden"
                         onChange={(e) =>
                           handleFileChange(section.key, e.target.files)

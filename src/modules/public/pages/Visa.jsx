@@ -1,72 +1,40 @@
 import React, { useEffect, useState } from 'react'
 import { ArrowRight, Briefcase, GraduationCap, HeartHandshake, Plane, Users } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
+import { getPublicCountries, getPublicVisaTypesByCountry } from "../../../user/api/publicApi";
+
+const FALLBACK_VISA_ITEMS = [
+    {
+        id: 0,
+        name: "Canada",
+        slug: "canada",
+        image: "https://thumbs.dreamstime.com/b/canadian-flag-vancouver-skyscrapers-background-48534349.jpg",
+        description:
+            "Canada welcomes global applicants with quality education, jobs, and strong settlement opportunities.",
+        defaultVisaType: "visitor",
+    },
+    {
+        id: 1,
+        name: "Australia",
+        slug: "australia",
+        image: "https://img.freepik.com/premium-photo/flag-flying-city-with-words-union-it_514619-5546.jpg?w=360",
+        description:
+            "Live, work, or study in Australia with structured visa pathways and strong quality-of-life outcomes.",
+        defaultVisaType: "visitor",
+    },
+    {
+        id: 2,
+        name: "USA",
+        slug: "usa",
+        image: "https://www.shutterstock.com/image-photo/manhattan-new-york-sunny-skyline-600nw-2611716607.jpg",
+        description:
+            "Explore business, student, and dependent visa opportunities with end-to-end visa application guidance.",
+        defaultVisaType: "f1",
+    },
+];
 
 const Visa = () => {
-
-    const visaItems = [
-        {
-            id: 0,
-            name: "Canada",
-            slug: "canada",
-            image: "https://thumbs.dreamstime.com/b/canadian-flag-vancouver-skyscrapers-background-48534349.jpg",
-            description:
-                "Canada welcomes 1.1M immigrants by 2027—offering jobs, quality life, easy PR, and a warm, multicultural environment to thrive.",
-        },
-        {
-            id: 1,
-            name: "Australia",
-            slug: "australia",
-            image: "https://img.freepik.com/premium-photo/flag-flying-city-with-words-union-it_514619-5546.jpg?w=360",
-            description:
-                "Live, work, or study in Australia—vibrant cities, PR visa benefits, and a welcoming, English-speaking culture await you.",
-        },
-        {
-            id: 2,
-            name: "UK",
-            slug: "uk",
-            image: "https://img.freepik.com/premium-photo/uk-flag-staff-waving-wind_750724-17885.jpg?semt=ais_incoming&w=740&q=80",
-            description:
-                "The UK offers top quality of life, global career prospects, and vibrant cities like London and Manchester for those seeking a better future.",
-        },
-        {
-            id: 3,
-            name: "USA",
-            slug: "usa",
-            image: "https://www.shutterstock.com/image-photo/manhattan-new-york-sunny-skyline-600nw-2611716607.jpg",
-            description:
-                "The USA offers unmatched opportunity, top education, and a great quality of life—your gateway to growth, freedom, and the future.",
-        },
-        {
-            id: 4,
-            name: "Schengen",
-            slug: "schengen",
-            image: "https://static.vecteezy.com/system/resources/thumbnails/055/250/996/small/european-union-flag-waving-majestically-in-front-of-picturesque-mountain-range-photo.jpg",
-            description:
-                "Explore life across 27 EU nations with a Schengen visa—seamless travel, rich culture, and exciting career opportunities await you.",
-        },
-        {
-            id: 5,
-            name: "New Zealand",
-            slug: "newzealand",
-            image: "https://media.istockphoto.com/id/1162285825/photo/new-zealand-flag-waving-against-clear-blue-sky.jpg?s=612x612&w=0&k=20&c=Y16k1eGPGO6mIAkDlEkfNd-cMS4NrEtkWm0xIIyFoSI=",
-            description: "Explore life in New Zealand—breathtaking landscapes, a high quality of life, and endless opportunities for growth and adventure await you.",
-        },
-        {
-            id: 6,
-            name: "Japan",
-            slug: "japan",
-            image: "https://media.istockphoto.com/id/2200971204/photo/japanese-flag-at-intercontinental-yokohama-grand-hotel.jpg?s=612x612&w=0&k=20&c=NDIhF8CLTXZa5cKBdeu1w26T0uYZdxX7eBbs2FG8rD8=",
-            description: "Explore life in Japan—cutting-edge innovation, rich traditions, and exciting opportunities come together in a land where the future meets heritage.",
-        },
-        {
-            id: 7,
-            name: "Turkey",
-            slug: "turkey",
-            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToPvM8mUKyoTKUDNYOqfAopvcULz_KOXBntw&s",
-            description: "Explore life in Turkey—where vibrant culture, rich history, and modern opportunities blend across two continents, offering a unique journey of growth and discovery.",
-        }
-    ];
+    const [visaItems, setVisaItems] = useState(FALLBACK_VISA_ITEMS);
 
     const visaCategories = [
         {
@@ -118,9 +86,60 @@ const Visa = () => {
 
     const navigate = useNavigate();
 
-    const [activeIndex, setActiveIndex] = useState(4);
+    const [activeIndex, setActiveIndex] = useState(0);
 
     useEffect(() => {
+        let mounted = true;
+
+        const loadCountries = async () => {
+            try {
+                const countries = await getPublicCountries();
+                if (!Array.isArray(countries) || countries.length === 0 || !mounted) {
+                    return;
+                }
+
+                const mapped = await Promise.all(
+                    countries.map(async (countryItem, index) => {
+                        let firstVisaType = null;
+                        try {
+                            const visaTypes = await getPublicVisaTypesByCountry(countryItem.slug);
+                            firstVisaType = Array.isArray(visaTypes) ? visaTypes[0] : null;
+                        } catch (_error) {
+                            firstVisaType = null;
+                        }
+
+                        return {
+                            id: index,
+                            name: countryItem.name,
+                            slug: countryItem.slug,
+                            image: countryItem.heroImage || countryItem.flagImage || FALLBACK_VISA_ITEMS[index % FALLBACK_VISA_ITEMS.length].image,
+                            description: countryItem.description || `Explore ${countryItem.name} visa opportunities with expert support.`,
+                            defaultVisaType: firstVisaType?.visaTypeSlug || null,
+                        };
+                    })
+                );
+
+                if (mounted) {
+                    setVisaItems(mapped);
+                    setActiveIndex(0);
+                }
+            } catch (_error) {
+                // Keep fallback content if API call fails.
+            }
+        };
+
+        loadCountries();
+
+        return () => {
+            mounted = false;
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!visaItems.length) {
+            return undefined;
+        }
+
         const interval = setInterval(() => {
             setActiveIndex((prev) => (prev + 1) % visaItems.length);
         }, 3000);
@@ -351,7 +370,11 @@ const Visa = () => {
                                                         });
 
                                                         // 👇 navigate
-                                                        navigate(`/visa/${item.slug}`);
+                                                        if (item.defaultVisaType) {
+                                                            navigate(`/visa/${item.slug}/${item.defaultVisaType}`);
+                                                        } else {
+                                                            navigate(`/visa/${item.slug}`);
+                                                        }
                                                     }}
                                                     className="inline-flex items-center gap-3 px-7 py-3 rounded-full border border-white text-white text-lg font-medium hover:bg-white hover:text-gray-900 transition"
                                                 >

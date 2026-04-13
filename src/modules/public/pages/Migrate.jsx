@@ -2,8 +2,11 @@ import React, { useState, useMemo } from 'react'
 import { ArrowRight, BriefcaseBusiness, CheckCircle2, ChevronDown, FileCheck2, Globe2, HelpCircle, MoreHorizontal, ShieldCheck } from "lucide-react";
 import Footer from "./Footer";
 import { useNavigate } from 'react-router-dom';
+import { useToast } from "../../../app/providers/ToastProvider";
+import { submitPublicEnquiry } from "../../../user/api/publicApi";
 
 const Migrate = () => {
+    const toast = useToast();
     const [selectedCountry, setSelectedCountry] = useState(null);
     const countryOptions = [
         "Australia",
@@ -66,7 +69,43 @@ const Migrate = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Migrate form:", formData);
+
+        if (!formData.name || !formData.email || !formData.mobile || !formData.country) {
+            toast.error("Please fill all required fields.");
+            return;
+        }
+
+        if (!formData.accepted) {
+            toast.error("Please accept the terms to continue.");
+            return;
+        }
+
+        submitPublicEnquiry({
+            name: formData.name,
+            email: formData.email,
+            phone: `${formData.dialCode} ${formData.mobile}`.trim(),
+            countryOfInterest: formData.country,
+            visaInterestType: "Migration",
+            enquiryType: "migration_consultation",
+            message: "Migrate page consultation request",
+            preferredContactMethod: formData.whatsappSame ? "whatsapp" : "phone",
+            pageSource: "migrate",
+        })
+            .then(() => {
+                toast.success("Consultation request submitted successfully.");
+                setFormData({
+                    name: "",
+                    country: "",
+                    dialCode: "+91",
+                    mobile: "",
+                    whatsappSame: true,
+                    email: "",
+                    accepted: false,
+                });
+            })
+            .catch((error) => {
+                toast.error(error.message || "Failed to submit request.");
+            });
     };
 
     const countries = [

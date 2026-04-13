@@ -75,15 +75,68 @@ export const submitContactForm = (payload) => {
 
 export const submitVisaApplication = (payload) => {
   return request({
-    url: "/public/applications",
+    url: "/public/visa-applications",
+    method: "POST",
+    data: payload,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch(() =>
+    request({
+      url: "/public/applications",
+      method: "POST",
+      data: payload,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+  );
+};
+
+export const submitPublicEnquiry = (payload) => {
+  return request({
+    url: "/public/enquiries",
     method: "POST",
     data: payload,
   });
 };
 
+export const getPublicCountries = () => {
+  return request({
+    url: "/public/countries",
+    method: "GET",
+  });
+};
+
+export const getPublicCountryBySlug = (countrySlug) => {
+  return request({
+    url: `/public/countries/${encodeURIComponent(countrySlug)}`,
+    method: "GET",
+  });
+};
+
+export const getPublicVisaTypesByCountry = (countrySlug) => {
+  return request({
+    url: `/public/countries/${encodeURIComponent(countrySlug)}/visa-types`,
+    method: "GET",
+  });
+};
+
 export const getVisaTypeContentBySlug = (countrySlug, visaTypeSlug) => {
   return request({
-    url: `/visa-types/${encodeURIComponent(countrySlug)}/${encodeURIComponent(visaTypeSlug)}`,
+    url: `/public/visa-types/${encodeURIComponent(countrySlug)}/${encodeURIComponent(visaTypeSlug)}`,
+    method: "GET",
+  }).catch(() =>
+    request({
+      url: `/visa-types/${encodeURIComponent(countrySlug)}/${encodeURIComponent(visaTypeSlug)}`,
+      method: "GET",
+    })
+  );
+};
+
+export const getVisaApplicationConfig = (countrySlug, visaTypeSlug) => {
+  return request({
+    url: `/public/application-config/${encodeURIComponent(countrySlug)}/${encodeURIComponent(visaTypeSlug)}`,
     method: "GET",
   });
 };
@@ -114,6 +167,50 @@ export const getUserApplications = (params) => {
 export const getUserApplicationById = (id) => {
   return request({
     url: `/user/applications/${id}`,
+    method: "GET",
+  });
+};
+
+export const getUserTickets = (params) => {
+  return request({
+    url: "/user/tickets",
+    method: "GET",
+    params,
+  });
+};
+
+export const createUserTicket = (payload) => {
+  return request({
+    url: "/user/tickets",
+    method: "POST",
+    data: payload,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export const getUserTicketById = (id) => {
+  return request({
+    url: `/user/tickets/${id}`,
+    method: "GET",
+  });
+};
+
+export const replyUserTicket = (id, payload) => {
+  return request({
+    url: `/user/tickets/${id}/replies`,
+    method: "POST",
+    data: payload,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export const getUserDashboardSummary = () => {
+  return request({
+    url: "/user/dashboard-summary",
     method: "GET",
   });
 };

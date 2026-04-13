@@ -10,7 +10,7 @@ import {
     Globe,
 } from "lucide-react";
 import { useToast } from "../../../app/providers/ToastProvider";
-import { submitContactForm } from "../../../user/api/publicApi";
+import { submitPublicEnquiry } from "../../../user/api/publicApi";
 
 const ContactUs = () => {
     const toast = useToast();
@@ -21,23 +21,24 @@ const ContactUs = () => {
         const formData = new FormData(event.currentTarget);
 
         const payload = {
-            firstName: String(formData.get("firstName") || "").trim(),
-            lastName: String(formData.get("lastName") || "").trim(),
+            name: `${String(formData.get("firstName") || "").trim()} ${String(formData.get("lastName") || "").trim()}`.trim(),
             email: String(formData.get("email") || "").trim(),
             phone: String(formData.get("phone") || "").trim(),
             countryOfInterest: String(formData.get("countryOfInterest") || "General").trim(),
-            visaCategory: String(formData.get("visaCategory") || "").trim(),
+            visaInterestType: String(formData.get("visaCategory") || "").trim(),
+            enquiryType: "contact_form",
             message: String(formData.get("message") || "").trim(),
+            pageSource: "contact",
         };
 
-        if (!payload.firstName || !payload.lastName || !payload.email || !payload.phone || !payload.message) {
+        if (!payload.name || !payload.email || !payload.phone || !payload.message) {
             toast.error("Please fill all required fields");
             return;
         }
 
         try {
             setIsSubmitting(true);
-            await submitContactForm(payload);
+            await submitPublicEnquiry(payload);
             toast.success("Your request has been submitted successfully");
             event.currentTarget.reset();
         } catch (error) {

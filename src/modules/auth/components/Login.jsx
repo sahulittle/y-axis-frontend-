@@ -45,7 +45,7 @@ const Login = () => {
       setIsSubmitting(true);
       await loginCustomer(formData);
       toast.success("Login successful");
-      navigate("/");
+      navigate("/user/dashboard");
     } catch (error) {
       toast.error(error.message || "Login failed");
     } finally {

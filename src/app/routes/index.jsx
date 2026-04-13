@@ -28,6 +28,11 @@ import CompliancePage from "../../modules/compliance/pages/CompliancePage";
 import UsersPage from "../../modules/users/pages/UsersPage";
 import VisaTypesListPage from "../../modules/visa-types/pages/VisaTypesListPage";
 import VisaTypeFormPage from "../../modules/visa-types/pages/VisaTypeFormPage";
+import CountriesPage from "../../modules/countries/pages/CountriesPage";
+import VisaCategoriesPage from "../../modules/visa-categories/pages/VisaCategoriesPage";
+import ApplicationsPage from "../../modules/applications/pages/ApplicationsPage";
+import EnquiriesPage from "../../modules/enquiries/pages/EnquiriesPage";
+import TicketsPage from "../../modules/tickets/pages/TicketsPage";
 import UserLayout from "../../user/UserLayout";
 import Home from "../../modules/public/pages/Home.jsx";
 import FreeEligiblityCheck from "../../modules/public/pages/FreeEligiblityCheck.jsx";
@@ -52,6 +57,16 @@ import VisaTypeData from "../../user/pages/visatype/visaTypeData.jsx";
 import ApplyPage from "../../user/pages/visatype/ApplyPage.jsx";
 import Footer from "../../modules/public/pages/Footer.jsx";
 
+const UserDashboardLayout = React.lazy(() => import("../../user/pages/dashboard/UserDashboardLayout"));
+const UserDashboardPage = React.lazy(() => import("../../user/pages/dashboard/Dashboard"));
+const UserApplicationsPage = React.lazy(() => import("../../user/pages/dashboard/Applications"));
+const UserApplicationDetailPage = React.lazy(() => import("../../user/pages/dashboard/ApplicationDetail"));
+const UserTicketsPage = React.lazy(() => import("../../user/pages/dashboard/Tickets"));
+const UserTicketDetailPage = React.lazy(() => import("../../user/pages/dashboard/TicketDetail"));
+const UserDocumentsPage = React.lazy(() => import("../../user/pages/dashboard/Documents"));
+const UserAppointmentsPage = React.lazy(() => import("../../user/pages/dashboard/Appointments"));
+const UserProfilePage = React.lazy(() => import("../../user/pages/dashboard/Profile"));
+
 const protectedModuleRoute = (roles, component) => {
   return <PermissionGate roles={roles} fallback={<Navigate to="/admin/dashboard" replace />}>{component}</PermissionGate>;
 };
@@ -68,6 +83,14 @@ const AppRoutes = () => {
           <Route index element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="users" element={protectedModuleRoute(ROLE_GROUPS.finance, <UsersPage />)} />
+          <Route path="countries" element={protectedModuleRoute(ROLE_GROUPS.finance, <CountriesPage />)} />
+          <Route
+            path="visa-categories"
+            element={protectedModuleRoute(ROLE_GROUPS.finance, <VisaCategoriesPage />)}
+          />
+          <Route path="applications" element={protectedModuleRoute(ROLE_GROUPS.finance, <ApplicationsPage />)} />
+          <Route path="enquiries" element={protectedModuleRoute(ROLE_GROUPS.finance, <EnquiriesPage />)} />
+          <Route path="tickets" element={protectedModuleRoute(ROLE_GROUPS.finance, <TicketsPage />)} />
           <Route path="leads" element={<LeadsListPage />} />
           <Route path="leads/:leadId" element={<LeadDetailPage />} />
 
@@ -94,6 +117,20 @@ const AppRoutes = () => {
           <Route path="reports" element={protectedModuleRoute(ROLE_GROUPS.allStaff, <ReportsPage />)} />
           <Route path="settings" element={protectedModuleRoute(ROLE_GROUPS.compliance, <SettingsPage />)} />
           <Route path="compliance" element={protectedModuleRoute(ROLE_GROUPS.compliance, <CompliancePage />)} />
+        </Route>
+      </Route>
+
+      <Route element={<ProtectedRoute allowedRoles={["customer", "user"]} redirectTo="/login" unauthorizedTo="/" />}>
+        <Route path="/user" element={<UserDashboardLayout />}>
+          <Route index element={<Navigate to="dashboard" replace />} />
+          <Route path="dashboard" element={<UserDashboardPage />} />
+          <Route path="applications" element={<UserApplicationsPage />} />
+          <Route path="applications/:id" element={<UserApplicationDetailPage />} />
+          <Route path="tickets" element={<UserTicketsPage />} />
+          <Route path="tickets/:id" element={<UserTicketDetailPage />} />
+          <Route path="documents" element={<UserDocumentsPage />} />
+          <Route path="appointments" element={<UserAppointmentsPage />} />
+          <Route path="profile" element={<UserProfilePage />} />
         </Route>
       </Route>
 

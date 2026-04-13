@@ -1,36 +1,6 @@
-import {
-  BadgeCheck,
-  Briefcase,
-  Clock3,
-  FileText,
-  FolderCheck,
-  GraduationCap,
-  MessagesSquare,
-  Plane,
-  ShieldCheck,
-  Sparkles,
-  Users,
-} from "lucide-react";
 import { getVisaTypeContentBySlug } from "../../api/publicApi";
 import { getVisaTypeContent as getStaticVisaTypeContent } from "./visatypedata";
-
-const ICON_MAP = {
-  "graduation-cap": GraduationCap,
-  users: Users,
-  briefcase: Briefcase,
-  plane: Plane,
-  "file-text": FileText,
-  "shield-check": ShieldCheck,
-  "clock-3": Clock3,
-  "badge-check": BadgeCheck,
-  sparkles: Sparkles,
-  "folder-check": FolderCheck,
-  "messages-square": MessagesSquare,
-};
-
-const FALLBACK_ICON = Plane;
-
-const resolveIcon = (iconKey) => ICON_MAP[String(iconKey || "").toLowerCase()] || FALLBACK_ICON;
+import { mapIconKeyToLucide, visaTypeIconMap } from "./mapIconKeyToLucide";
 
 const normalizeStringArray = (input) => {
   if (!Array.isArray(input)) {
@@ -55,6 +25,84 @@ const normalizeFaqs = (input) => {
     .filter((item) => item.question && item.answer);
 };
 
+const normalizeRequiredDocs = (input) => {
+  if (!Array.isArray(input)) {
+    return [];
+  }
+
+  return input
+    .map((item, index) => {
+      if (typeof item === "string") {
+        return {
+          name: String(item || "").trim(),
+          description: "",
+          isMandatory: true,
+          allowedFileTypes: [],
+          maxFiles: 1,
+          sortOrder: index,
+        };
+      }
+
+      return {
+        name: String(item?.name || "").trim(),
+        description: String(item?.description || "").trim(),
+        isMandatory: item?.isMandatory !== false,
+        allowedFileTypes: Array.isArray(item?.allowedFileTypes) ? item.allowedFileTypes : [],
+        maxFiles: Number(item?.maxFiles) || 1,
+        sortOrder: Number(item?.sortOrder) || index,
+      };
+    })
+    .filter((item) => item.name);
+};
+
+const normalizeProcess = (input) => {
+  if (!Array.isArray(input)) {
+    return [];
+  }
+
+  return input
+    .map((item, index) => {
+      if (typeof item === "string") {
+        return {
+          title: String(item || "").trim(),
+          description: "",
+          sortOrder: index,
+        };
+      }
+
+      return {
+        title: String(item?.title || item?.label || "").trim(),
+        description: String(item?.description || "").trim(),
+        sortOrder: Number(item?.sortOrder) || index,
+      };
+    })
+    .filter((item) => item.title || item.description);
+};
+
+const normalizeTimeline = (input) => {
+  if (!Array.isArray(input)) {
+    return [];
+  }
+
+  return input
+    .map((item, index) => {
+      if (typeof item === "string") {
+        return {
+          label: String(item || "").trim(),
+          description: "",
+          sortOrder: index,
+        };
+      }
+
+      return {
+        label: String(item?.label || item?.title || "").trim(),
+        description: String(item?.description || "").trim(),
+        sortOrder: Number(item?.sortOrder) || index,
+      };
+    })
+    .filter((item) => item.label || item.description);
+};
+
 const normalizeApiVisaContent = (data) => {
   return {
     countrySlug: data.countrySlug,
@@ -66,21 +114,21 @@ const normalizeApiVisaContent = (data) => {
     subtitle: data.subtitle || "",
     heroImage: data.heroImage || "",
     iconKey: data.iconKey || "plane",
-    icon: resolveIcon(data.iconKey),
+    icon: mapIconKeyToLucide(data.iconKey),
     serviceHighlights: Array.isArray(data.serviceHighlights)
       ? data.serviceHighlights
           .map((item) => ({
             title: String(item?.title || "").trim(),
             description: String(item?.description || "").trim(),
             iconKey: String(item?.iconKey || "").trim(),
-            icon: resolveIcon(item?.iconKey),
+            icon: mapIconKeyToLucide(item?.iconKey),
           }))
           .filter((item) => item.title && item.description)
       : [],
     eligibility: normalizeStringArray(data.eligibility),
-    requiredDocs: normalizeStringArray(data.requiredDocs),
-    process: normalizeStringArray(data.process),
-    timeline: normalizeStringArray(data.timeline),
+    requiredDocs: normalizeRequiredDocs(data.requiredDocs),
+    process: normalizeProcess(data.process),
+    timeline: normalizeTimeline(data.timeline),
     faqs: normalizeFaqs(data.faqs),
     ctaTitle: data.ctaTitle || "Ready to start your visa application?",
     ctaText: data.ctaText || "Connect with our team for personalized guidance.",
@@ -97,17 +145,17 @@ const normalizeStaticVisaContent = (data) => {
   return {
     ...data,
     iconKey: data.iconKey || "plane",
-    icon: data.icon || resolveIcon(data.iconKey),
+    icon: data.icon || mapIconKeyToLucide(data.iconKey),
     serviceHighlights: Array.isArray(data.serviceHighlights)
       ? data.serviceHighlights.map((item) => ({
           ...item,
-          icon: item.icon || resolveIcon(item.iconKey),
+          icon: item.icon || mapIconKeyToLucide(item.iconKey),
         }))
       : [],
     eligibility: normalizeStringArray(data.eligibility),
-    requiredDocs: normalizeStringArray(data.requiredDocs),
-    process: normalizeStringArray(data.process),
-    timeline: normalizeStringArray(data.timeline),
+    requiredDocs: normalizeRequiredDocs(data.requiredDocs),
+    process: normalizeProcess(data.process),
+    timeline: normalizeTimeline(data.timeline),
     faqs: normalizeFaqs(data.faqs),
     ctaTitle: data.ctaTitle || "Ready to start your visa application?",
     ctaText: data.ctaText || "Connect with our team for personalized guidance.",
@@ -135,4 +183,4 @@ export const getVisaTypeContent = async (countrySlug, visaTypeSlug) => {
   }
 };
 
-export const visaTypeIconMap = ICON_MAP;
+export { mapIconKeyToLucide, visaTypeIconMap };

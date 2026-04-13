@@ -134,9 +134,15 @@ const VisaTypeData = () => {
   const Icon = visa.icon;
   const serviceHighlights = Array.isArray(visa.serviceHighlights) ? visa.serviceHighlights : [];
   const eligibilityItems = Array.isArray(visa.eligibility) ? visa.eligibility : [];
-  const requiredDocs = Array.isArray(visa.requiredDocs) ? visa.requiredDocs : [];
-  const processItems = Array.isArray(visa.process) ? visa.process : [];
-  const timelineItems = Array.isArray(visa.timeline) ? visa.timeline : [];
+  const requiredDocs = Array.isArray(visa.requiredDocs)
+    ? [...visa.requiredDocs].sort((a, b) => (a?.sortOrder || 0) - (b?.sortOrder || 0))
+    : [];
+  const processItems = Array.isArray(visa.process)
+    ? [...visa.process].sort((a, b) => (a?.sortOrder || 0) - (b?.sortOrder || 0))
+    : [];
+  const timelineItems = Array.isArray(visa.timeline)
+    ? [...visa.timeline].sort((a, b) => (a?.sortOrder || 0) - (b?.sortOrder || 0))
+    : [];
   const faqItems = Array.isArray(visa.faqs) ? visa.faqs : [];
 
   const processIcons = [
@@ -320,7 +326,10 @@ const VisaTypeData = () => {
                       className="text-blue-600 shrink-0 mt-0.5"
                       size={20}
                     />
-                    <span className="text-slate-800 font-medium">{doc}</span>
+                    <div>
+                      <p className="text-slate-800 font-medium">{doc?.name || doc}</p>
+                      {doc?.description ? <p className="mt-1 text-sm text-slate-600">{doc.description}</p> : null}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -358,10 +367,10 @@ const VisaTypeData = () => {
                   </div>
 
                   <h3 className="text-xl font-bold text-slate-900 mb-3">
-                    Step {index + 1}
+                    {step?.title || `Step ${index + 1}`}
                   </h3>
 
-                  <p className="text-slate-600 leading-7">{step}</p>
+                  <p className="text-slate-600 leading-7">{step?.description || step?.title || step}</p>
                 </div>
               );
             })}
@@ -388,7 +397,8 @@ const VisaTypeData = () => {
                   <div className="w-12 h-12 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center mb-4">
                     <Clock3 size={20} />
                   </div>
-                  <p className="font-semibold text-slate-900 leading-6">{item}</p>
+                  <p className="font-semibold text-slate-900 leading-6">{item?.label || item}</p>
+                  {item?.description ? <p className="mt-2 text-sm text-slate-600">{item.description}</p> : null}
                 </div>
 
                 {index !== timelineItems.length - 1 && (

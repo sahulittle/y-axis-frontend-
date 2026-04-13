@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Menu,
   X,
@@ -8,6 +9,7 @@ import {
   MessageCircle,
   ChevronDown,
 } from "lucide-react";
+import { clearSession, readSession } from "../shared/auth/session";
 
 const navItems = [
   { label: "Free Eligiblity Check", href: "/free-eligibility-check" },
@@ -17,10 +19,19 @@ const navItems = [
 ];
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const { token, user } = readSession();
+  const isLoggedIn = Boolean(token);
+
+  const handleLogout = () => {
+    clearSession();
+    setOpen(false);
+    navigate("/");
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -58,18 +69,38 @@ const Navbar = () => {
             </div>
 
             <div className="flex items-center gap-3">
-              <a
-                href="/signup"
-                className="px-3 py-1.5 rounded-full text-white/90 hover:text-white hover:bg-white/10 transition"
-              >
-                Sign Up
-              </a>
-              <a
-                href="/login"
-                className="px-3 py-1.5 rounded-full text-white/90 hover:text-white hover:bg-white/10 transition"
-              >
-                Login
-              </a>
+              {isLoggedIn ? (
+                <>
+                  <Link
+                    to="/user/dashboard"
+                    className="px-3 py-1.5 rounded-full text-white/90 hover:text-white hover:bg-white/10 transition"
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="px-3 py-1.5 rounded-full text-white/90 hover:text-white hover:bg-white/10 transition"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/signup"
+                    className="px-3 py-1.5 rounded-full text-white/90 hover:text-white hover:bg-white/10 transition"
+                  >
+                    Sign Up
+                  </Link>
+                  <Link
+                    to="/login"
+                    className="px-3 py-1.5 rounded-full text-white/90 hover:text-white hover:bg-white/10 transition"
+                  >
+                    Login
+                  </Link>
+                </>
+              )}
               <a
                 href="/contact"
                 className="px-4 py-2 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 text-slate-950 font-semibold hover:scale-[1.02] transition"
@@ -168,26 +199,62 @@ const Navbar = () => {
 
                     {/* USER INFO */}
                     <div className="px-4 py-3 border-b border-slate-100">
-                      <p className="text-sm font-semibold text-slate-900">John Doe</p>
-                      <p className="text-xs text-slate-500">john@email.com</p>
+                      <p className="text-sm font-semibold text-slate-900">{user?.fullName || `${user?.firstName || ""} ${user?.lastName || ""}`.trim() || "Guest"}</p>
+                      <p className="text-xs text-slate-500">{user?.email || "Not logged in"}</p>
                     </div>
 
                     {/* MENU ITEMS */}
-                    <button
-                      className="w-full text-left px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition"
-                    >
-                      Profile
-                    </button>
+                    {isLoggedIn ? (
+                      <>
+                        <button
+                          className="w-full text-left px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition"
+                          onClick={() => {
+                            setOpen(false);
+                            navigate("/user/dashboard");
+                          }}
+                        >
+                          Dashboard
+                        </button>
 
-                    <button
-                      className="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition"
-                      onClick={() => {
-                        // logout logic here
-                        console.log("logout");
-                      }}
-                    >
-                      Logout
-                    </button>
+                        <button
+                          className="w-full text-left px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition"
+                          onClick={() => {
+                            setOpen(false);
+                            navigate("/user/profile");
+                          }}
+                        >
+                          Profile
+                        </button>
+
+                        <button
+                          className="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition"
+                          onClick={handleLogout}
+                        >
+                          Logout
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className="w-full text-left px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition"
+                          onClick={() => {
+                            setOpen(false);
+                            navigate("/login");
+                          }}
+                        >
+                          Login
+                        </button>
+                        <button
+                          className="w-full text-left px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition"
+                          onClick={() => {
+                            setOpen(false);
+                            navigate("/signup");
+                          }}
+                        >
+                          Sign Up
+                        </button>
+                      </>
+                    )}
                   </div>
                 )}
               </div>
@@ -235,18 +302,38 @@ const Navbar = () => {
               </nav>
 
               <div className="grid grid-cols-2 gap-3 pt-2">
-                <a
-                  href="/signup"
-                  className="text-center px-4 py-3 rounded-2xl border border-slate-200 font-medium text-slate-700 hover:bg-slate-50 transition"
-                >
-                  Sign Up
-                </a>
-                <a
-                  href="/login"
-                  className="text-center px-4 py-3 rounded-2xl border border-slate-200 font-medium text-slate-700 hover:bg-slate-50 transition"
-                >
-                  Login
-                </a>
+                {isLoggedIn ? (
+                  <>
+                    <Link
+                      to="/user/dashboard"
+                      className="text-center px-4 py-3 rounded-2xl border border-slate-200 font-medium text-slate-700 hover:bg-slate-50 transition"
+                    >
+                      Dashboard
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className="text-center px-4 py-3 rounded-2xl border border-slate-200 font-medium text-slate-700 hover:bg-slate-50 transition"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/signup"
+                      className="text-center px-4 py-3 rounded-2xl border border-slate-200 font-medium text-slate-700 hover:bg-slate-50 transition"
+                    >
+                      Sign Up
+                    </Link>
+                    <Link
+                      to="/login"
+                      className="text-center px-4 py-3 rounded-2xl border border-slate-200 font-medium text-slate-700 hover:bg-slate-50 transition"
+                    >
+                      Login
+                    </Link>
+                  </>
+                )}
                 <a
                   href="/contact"
                   className="col-span-2 text-center px-4 py-3 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-400 text-slate-950 font-semibold shadow-md"

@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { ArrowRight, BookOpen, CheckCircle2, ChevronDown, GraduationCap, MessageCircle, MoreHorizontal, ShieldCheck, Sparkles } from "lucide-react";
+import { useToast } from "../../../app/providers/ToastProvider";
+import { submitPublicEnquiry } from "../../../user/api/publicApi";
 
 const Study = () => {
+    const toast = useToast();
     const [openIndex, setOpenIndex] = useState(0);
 
     const phoneNumber = "9876543212";
@@ -57,7 +60,43 @@ const Study = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Study form submitted:", formData);
+
+        if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
+            toast.error("Please fill all required fields.");
+            return;
+        }
+
+        if (!formData.accepted) {
+            toast.error("Please accept the terms to continue.");
+            return;
+        }
+
+        submitPublicEnquiry({
+            name: `${formData.firstName} ${formData.lastName}`.trim(),
+            email: formData.email,
+            phone: `${formData.code} ${formData.phone}`.trim(),
+            countryOfInterest: "Study Abroad",
+            visaInterestType: "Student Visa",
+            enquiryType: "study_visa_consultation",
+            message: `Study enquiry from ${formData.state}`,
+            preferredContactMethod: "phone",
+            pageSource: "study",
+        })
+            .then(() => {
+                toast.success("Study visa consultation request submitted.");
+                setFormData({
+                    firstName: "",
+                    lastName: "",
+                    email: "",
+                    code: "IND (+91)",
+                    phone: "",
+                    state: "Andhra Pradesh",
+                    accepted: false,
+                });
+            })
+            .catch((error) => {
+                toast.error(error.message || "Failed to submit request.");
+            });
     };
 
     const studyCountries = [

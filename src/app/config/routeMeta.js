@@ -20,6 +20,11 @@ import { ROLE_GROUPS } from "./permissions";
 export const adminNavItems = [
   { to: "/admin/dashboard", label: "Dashboard", icon: Gauge, roles: ROLE_GROUPS.allStaff },
   { to: "/admin/users", label: "User Management", icon: Users, roles: ROLE_GROUPS.finance },
+  { to: "/admin/countries", label: "Countries", icon: Globe, roles: ROLE_GROUPS.finance },
+  { to: "/admin/visa-categories", label: "Visa Categories", icon: Briefcase, roles: ROLE_GROUPS.finance },
+  { to: "/admin/applications", label: "Applications", icon: ClipboardList, roles: ROLE_GROUPS.finance },
+  { to: "/admin/enquiries", label: "Enquiries", icon: MessageSquareText, roles: ROLE_GROUPS.finance },
+  { to: "/admin/tickets", label: "Tickets", icon: FileText, roles: ROLE_GROUPS.finance },
   { to: "/admin/leads", label: "Leads", icon: Users, roles: ROLE_GROUPS.operations },
   { to: "/admin/applicants", label: "Applicants", icon: UserCheck, roles: ROLE_GROUPS.operations },
   { to: "/admin/cases", label: "Cases", icon: ClipboardList, roles: ROLE_GROUPS.operations },
