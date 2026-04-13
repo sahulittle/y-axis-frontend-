@@ -66,10 +66,10 @@ const contactData = [
     website: "www.visaassist.com.au",
   },
   {
-    title: "UAE",
-    subtitle: "UAE",
+    title: "USA",
+    subtitle: "USA",
     phone: "+971 (0)42483900",
-    email: "dubai@visaassist.com",
+    email: "usa@visaassist.com",
     website: "www.visaassist.ae",
   },
   {

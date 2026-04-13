@@ -202,186 +202,235 @@ const FreeEligiblityCheck = () => {
 
     return (
         <div className="min-h-screen bg-[#f3f3f3] px-4 py-4 md:px-8 lg:px-10">
-            <section>
-                <div className="mx-auto max-w-7xl overflow-hidden border border-slate-300/80 bg-[#f5f5f5] shadow-sm">
-                    {/* Top Header */}
-                    <section className="bg-[#ececec] px-6 py-10 md:px-10 md:py-14 lg:px-14 lg:py-16">
-                        <p className="text-2xl font-bold text-black md:text-3xl">Hi,</p>
-                        <h1 className="mt-8 max-w-4xl text-4xl font-extrabold leading-tight tracking-tight text-black md:text-6xl lg:text-[4rem]">
-                            Welcome to Your Free and Quick Wizard
-                        </h1>
+            <section className="relative overflow-hidden bg-gradient-to-br from-[#f8fbff] via-white to-[#fff4ed] py-16 md:py-20">
+                {/* background glow */}
+                <div className="absolute -top-16 -left-16 h-72 w-72 rounded-full bg-blue-100/60 blur-3xl" />
+                <div className="absolute -bottom-16 -right-16 h-80 w-80 rounded-full bg-orange-100/60 blur-3xl" />
 
-                        <p className="mt-6 text-xl font-medium text-slate-900 md:text-[2rem]">
-                            Check your Eligibility
-                        </p>
-                    </section>
+                <div className="relative mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+                    <div className="overflow-hidden rounded-[36px] border border-slate-200/70 bg-white/90 shadow-[0_20px_70px_rgba(15,23,42,0.10)] backdrop-blur">
+                        {/* Top header */}
+                        <div className="relative overflow-hidden border-b border-slate-200 bg-gradient-to-r from-[#0f172a] via-[#1e293b] to-[#334155] px-6 py-10 text-white md:px-10 md:py-14 lg:px-14">
+                            <div className="absolute right-0 top-0 h-full w-1/3 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.12),transparent_55%)]" />
 
-                    {/* Orange strip */}
-                    <div className="h-6 bg-white">
-                        <div className="ml-6 h-full w-[175px] bg-[#f04124] md:ml-10 lg:ml-14" />
-                    </div>
-
-                    {/* Main Section */}
-                    <section className="grid grid-cols-1 bg-white lg:grid-cols-[1fr_380px]">
-                        {/* Left Side */}
-                        <div className="px-6 py-10 lg:px-12 lg:py-16">
-                            <p className="text-sm font-bold uppercase tracking-[0.18em] text-slate-700 md:text-base">
-                                Step 1 of 8
+                            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-orange-300 md:text-base">
+                                Free Quick Evaluation
                             </p>
 
-                            <div className="mt-3 flex flex-wrap gap-2">
-                                {steps.map((step) => (
-                                    <span
-                                        key={step}
-                                        className={`h-3 w-8 border border-slate-900 ${step === 1 ? "bg-slate-900" : "bg-white"
-                                            }`}
-                                    />
-                                ))}
-                            </div>
+                            <h1 className="mt-4 max-w-4xl text-3xl font-extrabold leading-tight md:text-5xl lg:text-6xl">
+                                Find Your Best Visa Path
+                            </h1>
 
-                            <div className="mt-12">
-                                <h2 className="text-2xl font-bold leading-snug text-slate-900 md:text-4xl">
-                                    You Want to Get Yourself Evaluated for
-                                </h2>
-
-                                <div className="mt-6 flex flex-wrap gap-4">
-                                    {["Immigration", "Study", "Work"].map((goal) => (
-                                        <button
-                                            key={goal}
-                                            onClick={() => setSelectedGoal(goal)}
-                                            className={`rounded-md px-6 py-4 text-lg font-semibold transition ${selectedGoal === goal
-                                                ? "bg-black text-white shadow-md"
-                                                : "border border-slate-300 bg-white text-slate-700 hover:border-black hover:text-black"
-                                                }`}
-                                        >
-                                            {goal}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="mt-12">
-                                <h3 className="text-2xl font-bold text-slate-900 md:text-4xl">
-                                    Your Country Preference
-                                </h3>
-
-                                <div className="mt-6 flex flex-wrap gap-4">
-                                    {countries.map((country) => (
-                                        <button
-                                            key={country}
-                                            onClick={() => setSelectedCountry(country)}
-                                            className={`rounded-full border px-5 py-3 text-base font-semibold transition-all duration-200 ${selectedCountry === country
-                                                ? "border-[#f04124] bg-[#f04124] text-white shadow-md"
-                                                : "border-slate-300 bg-white text-slate-700 hover:border-[#f04124] hover:text-[#f04124]"
-                                                }`}
-                                        >
-                                            {country}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="mt-10 grid gap-4 rounded-2xl border border-slate-200 bg-white p-5 md:grid-cols-2">
-                                <input name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" className="h-12 rounded-xl border border-slate-200 px-3" />
-                                <input name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" className="h-12 rounded-xl border border-slate-200 px-3" />
-                                <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" className="h-12 rounded-xl border border-slate-200 px-3" />
-                                <input name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" className="h-12 rounded-xl border border-slate-200 px-3" />
-                                <input name="age" value={formData.age} onChange={handleChange} placeholder="Age" className="h-12 rounded-xl border border-slate-200 px-3" />
-                                <input name="coApplicantCount" value={formData.coApplicantCount} onChange={handleChange} placeholder="Co-applicant count" className="h-12 rounded-xl border border-slate-200 px-3" />
-                                <textarea name="message" value={formData.message} onChange={handleChange} placeholder="Message (optional)" className="md:col-span-2 min-h-[90px] rounded-xl border border-slate-200 p-3" />
-                                <label className="md:col-span-2 inline-flex items-center gap-2 text-sm text-slate-700">
-                                    <input type="checkbox" name="priorRefusal" checked={formData.priorRefusal} onChange={handleChange} />
-                                    I had a prior visa refusal
-                                </label>
-                                <label className="md:col-span-2 inline-flex items-center gap-2 text-sm text-slate-700">
-                                    <input type="checkbox" name="consentAccepted" checked={formData.consentAccepted} onChange={handleChange} />
-                                    I consent to being contacted regarding eligibility
-                                </label>
-                            </div>
-
-                            <div className="mt-12 rounded-2xl border border-slate-200 bg-slate-50 p-5 md:p-6">
-                                <p className="text-base leading-8 text-slate-600 md:text-lg">
-                                    Start your quick evaluation by selecting your goal and preferred
-                                    country. Based on your answers, we can recommend the right
-                                    immigration or overseas pathway.
-                                </p>
-                            </div>
-
-                            <div className="mt-10 flex flex-wrap items-center gap-4">
-                                <button
-                                    type="button"
-                                    onClick={submitEligibility}
-                                    disabled={isSubmitting}
-                                    className="inline-flex items-center gap-2 rounded-md bg-[#f04124] px-8 py-4 text-lg font-semibold text-white shadow-md transition hover:opacity-90"
-                                >
-                                    {isSubmitting ? "Submitting..." : "Submit Eligibility"}
-                                    <ArrowRight size={20} />
-                                </button>
-
-                                <button className="px-7 py-4 text-lg font-medium text-slate-600 transition hover:text-black">
-                                    Save & Exit
-                                </button>
-                            </div>
+                            <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200 md:text-lg">
+                                Answer a few simple questions and get a smarter direction for your
+                                immigration, study, or work journey.
+                            </p>
                         </div>
 
-                        {/* Right Side */}
-                        <aside className="border-t border-slate-300 bg-[#f7f7f7] px-6 py-8 lg:border-l lg:border-t-0 lg:px-8 lg:py-5">
-                            <div className="mx-auto flex h-full max-w-[320px] flex-col border border-black/70 bg-[#f8f8f8] px-6 py-10 text-center">
-                                <p className="text-[1.05rem] leading-10 text-[#1c2a3a] md:text-[1.1rem]">
-                                    Help us understand your goal so we can recommend the right
-                                    solution
-                                </p>
+                        {/* Main content */}
+                        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_380px]">
+                            {/* Left side */}
+                            <div className="px-6 py-8 md:px-10 md:py-10 lg:px-12 lg:py-12">
+                                {/* step header */}
+                                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                                    <div>
+                                        <p className="text-sm font-bold uppercase tracking-[0.18em] text-slate-500">
+                                            Step 1 of 8
+                                        </p>
+                                        <h2 className="mt-2 text-2xl font-bold text-slate-900 md:text-3xl">
+                                            Start Your Eligibility Check
+                                        </h2>
+                                    </div>
 
-                                <div className="mx-auto mt-6 h-px w-full bg-slate-300" />
-
-                                <h3 className="mt-6 text-3xl font-extrabold text-[#1c2a3a]">
-                                    Your Score
-                                </h3>
-
-                                <div className="mx-auto mt-10 flex h-36 w-36 items-center justify-center rounded-full bg-[#f04124] text-5xl font-extrabold text-white shadow-sm md:h-44 md:w-44 md:text-6xl">
-                                    00
+                                    <div className="flex flex-wrap gap-2">
+                                        {steps.map((step) => (
+                                            <span
+                                                key={step}
+                                                className={`h-2.5 w-10 rounded-full transition-all duration-300 ${step === 1 ? "bg-[#f04124]" : "bg-slate-200"
+                                                    }`}
+                                            />
+                                        ))}
+                                    </div>
                                 </div>
 
-                                <div className="mt-10 grid gap-4 text-left">
-                                    <div className="border border-slate-200 bg-white p-4">
-                                        <p className="text-sm font-semibold uppercase tracking-wider text-slate-500">
-                                            Current step
-                                        </p>
-                                        <p className="mt-1 text-lg font-semibold text-slate-900">
-                                            Goal selection
-                                        </p>
+                                {/* goal block */}
+                                <div className="mt-10 rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 shadow-sm md:p-8">
+                                    <div className="flex items-start justify-between gap-4">
+                                        <div>
+                                            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600">
+                                                Step 1
+                                            </p>
+                                            <h3 className="mt-2 text-2xl font-bold text-slate-900 md:text-3xl">
+                                                Select Your Primary Goal
+                                            </h3>
+                                            <p className="mt-3 max-w-2xl text-slate-600 leading-7">
+                                                Choose the pathway you want to explore so we can recommend the
+                                                right next steps and document direction.
+                                            </p>
+                                        </div>
+
+                                        <div className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-100 text-blue-600 md:flex">
+                                            <svg className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                                <path d="M12 20h9"></path>
+                                                <path d="M12 4h9"></path>
+                                                <path d="M4 9h16"></path>
+                                                <path d="M4 15h16"></path>
+                                            </svg>
+                                        </div>
                                     </div>
 
-                                    <div className="border border-slate-200 bg-white p-4">
-                                        <p className="text-sm font-semibold uppercase tracking-wider text-slate-500">
-                                            Estimated time
-                                        </p>
-                                        <p className="mt-1 text-lg font-semibold text-slate-900">
-                                            2 minutes
-                                        </p>
+                                    <div className="mt-6 grid gap-4 md:grid-cols-3">
+                                        {["Immigration", "Study", "Work"].map((goal) => (
+                                            <button
+                                                key={goal}
+                                                onClick={() => setSelectedGoal(goal)}
+                                                className={`group rounded-2xl border px-6 py-5 text-left transition-all duration-300 ${selectedGoal === goal
+                                                        ? "border-[#f04124] bg-[#f04124] text-white shadow-lg"
+                                                        : "border-slate-200 bg-white text-slate-700 hover:-translate-y-1 hover:border-[#f04124] hover:shadow-md"
+                                                    }`}
+                                            >
+                                                <div className="flex items-center justify-between">
+                                                    <span className="text-lg font-bold">{goal}</span>
+                                                    <span
+                                                        className={`rounded-full px-2 py-1 text-xs font-semibold ${selectedGoal === goal
+                                                                ? "bg-white/20 text-white"
+                                                                : "bg-orange-50 text-orange-600"
+                                                            }`}
+                                                    >
+                                                        Select
+                                                    </span>
+                                                </div>
+                                                <p
+                                                    className={`mt-3 text-sm leading-6 ${selectedGoal === goal ? "text-white/90" : "text-slate-500"
+                                                        }`}
+                                                >
+                                                    {goal === "Immigration" &&
+                                                        "Explore long-term relocation and settlement opportunities."}
+                                                    {goal === "Study" &&
+                                                        "Find the right academic route and country options."}
+                                                    {goal === "Work" &&
+                                                        "Check pathways for employment-based opportunities abroad."}
+                                                </p>
+                                            </button>
+                                        ))}
                                     </div>
+                                </div>
 
-                                    <div className="border border-slate-200 bg-white p-4">
-                                        <p className="text-sm font-semibold uppercase tracking-wider text-slate-500">
-                                            Selected goal
-                                        </p>
-                                        <p className="mt-1 text-lg font-semibold text-slate-900">
-                                            {selectedGoal}
-                                        </p>
-                                    </div>
+                                {/* country block */}
+                                <div className="mt-8 rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-orange-50 p-6 shadow-sm md:p-8">
+                                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-600">
+                                        Step 2
+                                    </p>
+                                    <h3 className="mt-2 text-2xl font-bold text-slate-900 md:text-3xl">
+                                        Choose Your Preferred Country
+                                    </h3>
+                                    <p className="mt-3 text-slate-600 leading-7">
+                                        Select your destination preference and we will align the
+                                        evaluation around the right visa route.
+                                    </p>
 
-                                    <div className="border border-slate-200 bg-white p-4">
-                                        <p className="text-sm font-semibold uppercase tracking-wider text-slate-500">
-                                            Preferred country
-                                        </p>
-                                        <p className="mt-1 text-lg font-semibold text-slate-900">
-                                            {selectedCountry}
-                                        </p>
+                                    <div className="mt-6 flex flex-wrap gap-3">
+                                        {countries.map((country) => (
+                                            <button
+                                                key={country}
+                                                onClick={() => setSelectedCountry(country)}
+                                                className={`rounded-full border px-5 py-3 text-sm md:text-base font-semibold transition-all duration-200 ${selectedCountry === country
+                                                        ? "border-[#f04124] bg-[#f04124] text-white shadow-md"
+                                                        : "border-slate-200 bg-white text-slate-700 hover:border-[#f04124] hover:text-[#f04124] hover:shadow-sm"
+                                                    }`}
+                                            >
+                                                {country}
+                                            </button>
+                                        ))}
                                     </div>
+                                </div>
+
+                                {/* note */}
+                                <div className="mt-8 rounded-[28px] bg-[#0f172a] p-6 text-white shadow-lg md:p-7">
+                                    <p className="text-base leading-8 text-slate-200 md:text-lg">
+                                        This quick wizard helps us understand your goal, destination, and
+                                        direction so we can suggest a more relevant visa pathway with
+                                        better clarity.
+                                    </p>
+                                </div>
+
+                                {/* actions */}
+                                <div className="mt-10 flex flex-wrap items-center gap-4">
+                                    <button className="inline-flex items-center gap-2 rounded-full bg-[#f04124] px-8 py-4 text-lg font-semibold text-white shadow-lg transition hover:scale-[1.02] hover:opacity-95">
+                                        Next
+                                        <ArrowRight size={20} />
+                                    </button>
+
+                                    <button className="rounded-full border border-slate-300 px-7 py-4 text-lg font-medium text-slate-700 transition hover:bg-slate-50 hover:text-black">
+                                        Save & Exit
+                                    </button>
                                 </div>
                             </div>
-                        </aside>
-                    </section>
+
+                            {/* Right side */}
+                            <aside className="border-t border-slate-200 bg-gradient-to-b from-slate-50 to-white px-6 py-8 lg:border-l lg:border-t-0 lg:px-8 lg:py-10">
+                                <div className="mx-auto flex h-full max-w-[340px] flex-col rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_15px_40px_rgba(15,23,42,0.08)]">
+                                    <div className="rounded-[24px] bg-gradient-to-br from-[#f04124] to-[#ff7a5c] p-6 text-white">
+                                        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/80">
+                                            Live Overview
+                                        </p>
+                                        <h3 className="mt-3 text-3xl font-extrabold">Your Score</h3>
+
+                                        <div className="mt-6 flex items-center justify-center">
+                                            <div className="flex h-32 w-32 items-center justify-center rounded-full border-8 border-white/20 bg-white/10 text-5xl font-extrabold shadow-inner md:h-36 md:w-36 md:text-6xl">
+                                                00
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-6 grid gap-4">
+                                        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                                            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                                                Current step
+                                            </p>
+                                            <p className="mt-2 text-lg font-bold text-slate-900">
+                                                Goal selection
+                                            </p>
+                                        </div>
+
+                                        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                                            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                                                Estimated time
+                                            </p>
+                                            <p className="mt-2 text-lg font-bold text-slate-900">
+                                                2 minutes
+                                            </p>
+                                        </div>
+
+                                        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                                            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                                                Selected goal
+                                            </p>
+                                            <p className="mt-2 text-lg font-bold text-slate-900">
+                                                {selectedGoal || "Not selected"}
+                                            </p>
+                                        </div>
+
+                                        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                                            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                                                Preferred country
+                                            </p>
+                                            <p className="mt-2 text-lg font-bold text-slate-900">
+                                                {selectedCountry || "Not selected"}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-6 rounded-2xl border border-orange-100 bg-orange-50 p-4">
+                                        <p className="text-sm leading-7 text-slate-700">
+                                            Your selections help us shape a more accurate recommendation and
+                                            checklist direction for the next steps.
+                                        </p>
+                                    </div>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
                 </div>
 
                 <a
@@ -499,7 +548,7 @@ const FreeEligiblityCheck = () => {
                                 </p>
 
                                 <p>
-                                   Visaassist helps you decide about moving abroad with our eligibility
+                                    Visaassist helps you decide about moving abroad with our eligibility
                                     evaluation process. With an Eligibility Evaluation, we assess
                                     your profile against the prevailing visa norms and evaluate your
                                     application’s chances of success.
@@ -667,7 +716,7 @@ const FreeEligiblityCheck = () => {
                     </div>
                 </div>
             </section>
-            <Footer/>
+            <Footer />
         </div>
     );
 };

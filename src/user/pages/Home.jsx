@@ -120,9 +120,9 @@ const Home = () => {
             ],
         },
         {
-            country: "Germany",
+            country: "Canada",
             image:
-                "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?q=80&w=1200&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1723091758834-7bc705d288bd?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             visas: [
                 "Japan Visit Visa",
                 "Work Visa",
@@ -156,9 +156,9 @@ const Home = () => {
             ],
         },
         {
-            country: "UAE",
+            country: "USA",
             image:
-                "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1200&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1657214800744-a2a23450afc9?q=80&w=1073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             visas: [
                 "Canada Visit Visa",
                 "Work Visa",

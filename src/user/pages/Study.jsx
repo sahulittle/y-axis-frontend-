@@ -4,6 +4,9 @@ import { ArrowRight, BookOpen, CheckCircle2, ChevronDown, GraduationCap, Message
 const Study = () => {
     const [openIndex, setOpenIndex] = useState(0);
 
+    const phoneNumber = "9876543212";
+    const message = "Hi I need visa assistance";
+
     const countryCodes = [
         "IND (+91)",
         "UAE (+971)",
@@ -696,7 +699,14 @@ const Study = () => {
                                             </div>
                                         )}
 
-                                        <button className="mt-8 inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-md transition hover:scale-[1.02]">
+                                        <button
+                                            onClick={() =>
+                                                window.open(
+                                                    `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
+                                                    "_blank"
+                                                )
+                                            }
+                                            className="mt-8 inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-md transition hover:scale-[1.02]">
                                             <MessageCircle size={18} />
                                             Chat with us
                                         </button>
@@ -741,7 +751,14 @@ const Study = () => {
                                     Get all the services mentioned above for a discounted price.
                                 </p>
 
-                                <button className="mt-8 inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-7 py-4 text-sm font-semibold text-slate-950 shadow-lg transition hover:scale-[1.02]">
+                                <button
+                                    onClick={() =>
+                                        window.open(
+                                            `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
+                                            "_blank"
+                                        )
+                                    }
+                                    className="mt-8 inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-7 py-4 text-sm font-semibold text-slate-950 shadow-lg transition hover:scale-[1.02]">
                                     <MessageCircle size={18} />
                                     Chat with us
                                 </button>

@@ -1,8 +1,10 @@
 import React, { useState, useMemo } from 'react'
 import { ArrowRight, BriefcaseBusiness, CheckCircle2, ChevronDown, FileCheck2, Globe2, HelpCircle, MoreHorizontal, ShieldCheck } from "lucide-react";
 import Footer from "./Footer";
+import { useNavigate } from 'react-router-dom';
 
 const Migrate = () => {
+    const [selectedCountry, setSelectedCountry] = useState(null);
     const countryOptions = [
         "Australia",
         "Austria",
@@ -68,25 +70,27 @@ const Migrate = () => {
     };
 
     const countries = [
-        { label: "Migrate to Australia" },
-        { label: "Migrate to Canada" },
-        { label: "Migrate to Germany" },
+        { label: "Migrate to Australia", slug: "australia" },
+        { label: "Migrate to Canada", slug: "canada" },
+        { label: "Migrate to USA", slug: "usa" },
     ];
 
     const prVisas = [
-        "Australia Permanent Resident Visa",
-        "Canada Permanent Resident Visa",
+        { label: "Australia Permanent Resident Visa", slug: "australia" },
+        { label: "Canada Permanent Resident Visa", slug: "canada" },
     ];
 
     const workVisas = [
-        "Germany Opportunity Card",
-        "UK Skilled Worker Visa",
-        "USA H-1B",
-        "Canada Work Visa",
-        "Australia Work Visa",
-        "Portugal Job Seeker Visa",
-        "Sweden Residence Permit",
+        { label: "Schengen Opportunity Card", slug: "schengen" },
+        { label: "UK Skilled Worker Visa", slug: "uk" },
+        { label: "USA H-1B", slug: "usa" },
+        { label: "Canada Work Visa", slug: "canada" },
+        { label: "Australia Work Visa", slug: "australia" },
+        { label: "Canada Job Seeker Visa", slug: "canada" },
+        { label: "New Zealand Residence Permit", slug: "newzealand" }
     ];
+
+    const navigate = useNavigate();
 
     const processSteps = [
         {
@@ -393,12 +397,32 @@ const Migrate = () => {
                                 {countries.map((item, index) => (
                                     <button
                                         key={index}
-                                        className="flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-orange-300 hover:bg-orange-50"
+                                        onClick={() => {
+                                            setSelectedCountry(item.label);
+                                            navigate(`/visa/${item.slug}`);
+                                            window.scrollTo({ top: 0, behavior: "smooth" });
+                                        }}
+                                        className={`flex w-full items-center justify-between rounded-2xl border px-4 py-4 text-left transition-all duration-200 ${selectedCountry === item.label
+                                            ? "border-[#f04124] bg-orange-50 shadow-md"
+                                            : "border-slate-200 bg-slate-50 hover:border-orange-300 hover:bg-orange-50"
+                                            }`}
                                     >
-                                        <span className="font-semibold text-slate-800">
+                                        <span
+                                            className={`font-semibold ${selectedCountry === item.label
+                                                ? "text-[#f04124]"
+                                                : "text-slate-800"
+                                                }`}
+                                        >
                                             {item.label}
                                         </span>
-                                        <MoreHorizontal size={20} className="text-slate-500" />
+
+                                        <MoreHorizontal
+                                            size={20}
+                                            className={`transition ${selectedCountry === item.label
+                                                ? "text-[#f04124]"
+                                                : "text-slate-500"
+                                                }`}
+                                        />
                                     </button>
                                 ))}
                             </div>
@@ -418,9 +442,17 @@ const Migrate = () => {
                                 {prVisas.map((item, index) => (
                                     <button
                                         key={index}
+                                        onClick={() => {
+                                            setSelectedCountry(item.label);
+                                            navigate(`/visa/${item.slug}`);
+                                            window.scrollTo({ top: 0, behavior: "smooth" });
+                                        }}
                                         className="group flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-4 text-left transition hover:border-orange-300 hover:bg-orange-50"
                                     >
-                                        <span className="font-semibold text-slate-800">{item}</span>
+                                        <span className="font-semibold text-slate-800">
+                                            {item.label}
+                                        </span>
+
                                         <ArrowRight
                                             size={18}
                                             className="text-orange-500 transition group-hover:translate-x-1"
@@ -444,11 +476,16 @@ const Migrate = () => {
                                 {workVisas.map((item, index) => (
                                     <button
                                         key={index}
-                                        className="group flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-left transition hover:border-orange-300 hover:bg-orange-50"
+                                        onClick={() => {
+                                            navigate(`/visa/${item.slug}`);
+                                            window.scrollTo({ top: 0, behavior: "smooth" });
+                                        }}
+                                        className="group flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-left transition hover:border-orange-300 hover:bg-orange-50 active:scale-[0.98]"
                                     >
                                         <span className="text-sm font-semibold text-slate-800 md:text-base">
-                                            {item}
+                                            {item.label}
                                         </span>
+
                                         <ArrowRight
                                             size={18}
                                             className="shrink-0 text-orange-500 transition group-hover:translate-x-1"
@@ -685,7 +722,12 @@ const Migrate = () => {
                                     </p>
 
                                     <div className="space-y-4">
-                                        <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
+                                        <div
+                                            onClick={() => {
+                                                navigate("/visa/australia");
+                                                window.scrollTo({ top: 0, behavior: "smooth" });
+                                            }}
+                                            className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
                                             <div>
                                                 <p className="font-bold text-slate-900">Australia</p>
                                                 <p className="text-sm text-slate-600">
@@ -695,7 +737,12 @@ const Migrate = () => {
                                             <ArrowRight size={18} className="text-[#f04124]" />
                                         </div>
 
-                                        <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
+                                        <div 
+                                         onClick={() => {
+                                                navigate("/visa/canada");
+                                                window.scrollTo({ top: 0, behavior: "smooth" });
+                                            }}
+                                        className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
                                             <div>
                                                 <p className="font-bold text-slate-900">Canada</p>
                                                 <p className="text-sm text-slate-600">
