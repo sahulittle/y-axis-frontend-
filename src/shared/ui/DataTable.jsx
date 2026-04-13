@@ -22,8 +22,8 @@ const DataTable = ({
   };
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden">
-      <div className="overflow-x-auto">
+    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+      <div className="hidden overflow-x-auto md:block">
         <table className="w-full min-w-[980px]">
           <thead className="bg-slate-50 border-b border-slate-200">
             <tr>
@@ -74,17 +74,41 @@ const DataTable = ({
         </table>
       </div>
 
-      <div className="flex items-center justify-between border-t border-slate-200 px-4 py-3">
+      <div className="space-y-3 p-3 md:hidden">
+        {loading ? <p className="text-sm text-slate-500">Loading records...</p> : null}
+
+        {!loading && rows.length === 0 ? (
+          <p className="text-sm text-slate-500">No records found for current filters.</p>
+        ) : null}
+
+        {!loading
+          ? rows.map((row) => (
+              <article key={row.id || row._id} className="rounded-xl border border-slate-200 p-3">
+                <div className="space-y-3">
+                  {columns.map((column) => (
+                    <div key={column.key}>
+                      <p className="text-[10px] uppercase tracking-[0.12em] text-slate-500">{column.label}</p>
+                      <div className="mt-1 text-sm text-slate-700">{column.render ? column.render(row) : row[column.key]}</div>
+                    </div>
+                  ))}
+                </div>
+              </article>
+            ))
+          : null}
+      </div>
+
+      <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-xs text-slate-500">
           Page {page} of {Math.max(totalPages, 1)}
         </p>
-        <div className="flex items-center gap-2">
-          <Button size="sm" variant="secondary" disabled={page <= 1} onClick={() => onPageChange(page - 1)}>
+        <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
+          <Button size="sm" className="w-full sm:w-auto" variant="secondary" disabled={page <= 1} onClick={() => onPageChange(page - 1)}>
             Previous
           </Button>
           <Button
             size="sm"
             variant="secondary"
+            className="w-full sm:w-auto"
             disabled={page >= totalPages}
             onClick={() => onPageChange(page + 1)}
           >

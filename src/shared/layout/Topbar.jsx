@@ -1,10 +1,10 @@
 import React from "react";
-import { Bell, Search } from "lucide-react";
+import { Bell, Menu, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { readSession } from "../auth/session";
 import { logout } from "../../modules/auth/api";
 
-const Topbar = () => {
+const Topbar = ({ onOpenSidebar = () => {} }) => {
   const navigate = useNavigate();
   const { user } = readSession();
 
@@ -15,16 +15,32 @@ const Topbar = () => {
 
   return (
     <header className="rounded-2xl border border-slate-200 bg-white px-4 py-3 md:px-5 md:py-4">
-      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-3 rounded-xl border border-slate-300 px-3 py-2 md:w-[420px]">
-          <Search size={16} className="text-slate-500" />
-          <input
-            placeholder="Search leads, cases, applicants"
-            className="w-full border-none bg-transparent text-sm text-slate-700 outline-none"
-          />
+      <div className="space-y-3">
+        <div className="flex items-center justify-between gap-2 xl:hidden">
+          <button
+            type="button"
+            onClick={onOpenSidebar}
+            className="rounded-xl border border-slate-300 p-2 hover:bg-slate-100"
+            aria-label="Open sidebar"
+          >
+            <Menu size={18} className="text-slate-700" />
+          </button>
+
+          <div className="rounded-xl border border-slate-300 px-3 py-2 text-xs text-slate-600">
+            {user?.firstName || "Staff"}
+          </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="flex w-full items-center gap-3 rounded-xl border border-slate-300 px-3 py-2 md:max-w-[420px]">
+            <Search size={16} className="text-slate-500" />
+            <input
+              placeholder="Search leads, cases, applicants"
+              className="w-full border-none bg-transparent text-sm text-slate-700 outline-none"
+            />
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 md:justify-end">
           <button
             type="button"
             className="relative rounded-xl border border-slate-300 p-2 hover:bg-slate-100"
@@ -36,7 +52,7 @@ const Topbar = () => {
             </span>
           </button>
 
-          <div className="rounded-xl border border-slate-300 px-3 py-2 text-xs text-slate-600">
+          <div className="hidden rounded-xl border border-slate-300 px-3 py-2 text-xs text-slate-600 xl:block">
             {user?.firstName || "Staff"}
           </div>
 
@@ -47,6 +63,7 @@ const Topbar = () => {
           >
             Logout
           </button>
+          </div>
         </div>
       </div>
     </header>

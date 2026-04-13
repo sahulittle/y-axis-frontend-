@@ -50,7 +50,7 @@ const AdminConsultations = () => {
     <section className="rounded-2xl bg-white border border-slate-200 p-5 space-y-4">
       <h2 className="text-xl font-bold text-slate-900">Consultations</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
         <input
           value={search}
           onChange={(event) => setSearch(event.target.value)}
@@ -85,7 +85,7 @@ const AdminConsultations = () => {
         <p className="text-slate-500">Loading...</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full min-w-[780px] text-sm">
             <thead>
               <tr className="border-b border-slate-200 text-left text-slate-500">
                 <th className="py-3 pr-3">Name</th>

@@ -64,17 +64,17 @@ const AdminUsers = () => {
     <section className="rounded-2xl bg-white border border-slate-200 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
         <h2 className="text-xl font-bold text-slate-900">Users</h2>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
           <input
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             placeholder="Search users..."
-            className="rounded-xl border border-slate-300 px-4 py-2"
+            className="rounded-xl border border-slate-300 px-4 py-2 w-full"
           />
           <button
             type="button"
             onClick={loadUsers}
-            className="rounded-xl bg-slate-900 text-white px-4 py-2"
+            className="rounded-xl bg-slate-900 text-white px-4 py-2 w-full sm:w-auto"
           >
             Search
           </button>
@@ -87,7 +87,7 @@ const AdminUsers = () => {
         <p className="text-slate-500">Loading...</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full min-w-[760px] text-sm">
             <thead>
               <tr className="text-left border-b border-slate-200 text-slate-500">
                 <th className="py-3 pr-3">Name</th>
@@ -123,7 +123,7 @@ const AdminUsers = () => {
                     </span>
                   </td>
                   <td className="py-3">
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <button
                         type="button"
                         onClick={() => handleActiveToggle(item._id, item.isActive)}

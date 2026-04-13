@@ -71,12 +71,12 @@ const PaymentsPage = () => {
 
   return (
     <section className="space-y-4">
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Payments</h1>
           <p className="mt-1 text-sm text-slate-600">Manage payment states, manual entries, and invoice-linked records.</p>
         </div>
-        <Button onClick={addManualPayment} disabled={createMutation.isPending}>Add Manual Payment</Button>
+        <Button className="w-full sm:w-auto" onClick={addManualPayment} disabled={createMutation.isPending}>Add Manual Payment</Button>
       </div>
 
       <DataTable
