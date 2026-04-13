@@ -5,6 +5,7 @@ import {
   Plane,
 } from "lucide-react";
 
+
 export const visaTypeData = {
   usa: {
     f1: {
@@ -466,15 +467,15 @@ export const visaTypeData = {
 
   turkey: {
     business: {
-      title: "Turkey Business Visa",
-      badge: "Turkey • Business Visa",
+      title: "Turkey Tourist Visa",
+      badge: "Turkey • tourist Visa",
       subtitle:
-        "Structured support for business travel, meetings, and professional visits to Turkey.",
+        "Structured support for tourist travel, meetings, and professional visits to Turkey.",
       heroImage:
         "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=1200&auto=format&fit=crop",
       icon: Briefcase,
       eligibility: [
-        "Clear short-term business purpose such as meetings or conferences",
+        "Clear short-term tourist purpose such as meetings or conferences",
         "Supporting company or professional documentation",
         "Prepared travel and financial details",
         "Organized application with relevant supporting records",
@@ -488,8 +489,8 @@ export const visaTypeData = {
         "Employment or company supporting records",
       ],
       process: [
-        "Confirm business visa suitability for your travel purpose",
-        "Prepare business, travel, and financial documents",
+        "Confirm tourist visa suitability for your travel purpose",
+        "Prepare tourist, travel, and financial documents",
         "Complete application details carefully",
         "Review file for document consistency",
         "Submit through the applicable route",
@@ -497,14 +498,14 @@ export const visaTypeData = {
       ],
       timeline: [
         "Consultation",
-        "Business Document Preparation",
+        "Tourist Document Preparation",
         "Application Review",
         "Submission",
         "Decision Awaited",
       ],
       faqs: [
         {
-          question: "What is the Turkey Business Visa used for?",
+          question: "What is the Newzealand Business Visa used for?",
           answer:
             "It is commonly used for short professional trips such as meetings, conferences, and related business activities.",
         },
@@ -519,14 +520,80 @@ export const visaTypeData = {
             "Yes, financial and travel support records are generally important for application clarity.",
         },
         {
-          question: "Can you support document review for Turkey business travel?",
+          question: "Can you support document review for Newzealand business travel?",
           answer:
             "Yes, we can help structure and review the application file for better readiness.",
         },
       ],
-      ctaTitle: "Ready to Start Your Turkey Business Visa Application?",
+      ctaTitle: "Ready to Start Your Newzealand Business Visa Application?",
       ctaText:
         "Get practical support for business travel documentation and smooth next steps.",
+    },
+  },
+
+   newZealand: {
+    business: {
+      title: "newzealand Business Visa",
+      badge: "newzealand • Business Visa",
+      subtitle:
+        "Structured support for tourist travel, meetings, and professional visits to newzealand.",
+      heroImage:
+        "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=1200&auto=format&fit=crop",
+      icon: Briefcase,
+      eligibility: [
+        "Clear short-term tourist purpose such as meetings or conferences",
+        "Supporting company or professional documentation",
+        "Prepared travel and financial details",
+        "Organized application with relevant supporting records",
+      ],
+      requiredDocs: [
+        "Valid passport",
+        "Recent passport-size photograph",
+        "Business invitation or meeting support documents",
+        "Travel purpose statement",
+        "Financial proof",
+        "Employment or company supporting records",
+      ],
+      process: [
+        "Confirm tourist visa suitability for your travel purpose",
+        "Prepare tourist, travel, and financial documents",
+        "Complete application details carefully",
+        "Review file for document consistency",
+        "Submit through the applicable route",
+        "Track progress and respond to any requests",
+      ],
+      timeline: [
+        "Consultation",
+        "Tourist Document Preparation",
+        "Application Review",
+        "Submission",
+        "Decision Awaited",
+      ],
+      faqs: [
+        {
+          question: "What is the newzealand Tourist Visa used for?",
+          answer:
+            "It is commonly used for short professional trips such as meetings, conferences, and related tourist activities.",
+        },
+        {
+          question: "Do I need a tourist invitation letter?",
+          answer:
+            "In many cases, tourist support documents help explain the purpose of travel clearly.",
+        },
+        {
+          question: "Is financial proof required?",
+          answer:
+            "Yes, financial and travel support records are generally important for application clarity.",
+        },
+        {
+          question: "Can you support document review for newzealand tourist travel?",
+          answer:
+            "Yes, we can help structure and review the application file for better readiness.",
+        },
+      ],
+      ctaTitle: "Ready to Start Your newzealand Tourist Visa Application?",
+      ctaText:
+        "Get practical support for tourist travel documentation and smooth next steps.",
     },
   },
 };
