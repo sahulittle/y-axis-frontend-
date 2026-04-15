@@ -1,5 +1,5 @@
 import React from "react";
-import { Bell, Menu, Search } from "lucide-react";
+import { Bell, Menu, Search, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { readSession } from "../auth/session";
 import { logout } from "../../modules/auth/api";
@@ -53,7 +53,14 @@ const Topbar = ({ onOpenSidebar = () => {} }) => {
           </button>
 
           <div className="hidden rounded-xl border border-slate-300 px-3 py-2 text-xs text-slate-600 xl:block">
-            {user?.firstName || "Staff"}
+            <span className="inline-flex items-center gap-2">
+              {user?.avatarUrl ? (
+                <img src={user.avatarUrl} alt="Admin avatar" className="h-5 w-5 rounded-full object-cover" />
+              ) : (
+                <User size={14} />
+              )}
+              {user?.firstName || "Staff"}
+            </span>
           </div>
 
           <button

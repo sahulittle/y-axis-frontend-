@@ -10,10 +10,12 @@ import {
   getUserTicketById,
   getUserTickets,
   replyUserTicket,
+  uploadUserAvatar,
   uploadUserDocument,
   updateUserProfile,
 } from "../../api/publicApi";
 import { queryKeys } from "../../../lib/query/queryKeys";
+import { readSession, writeSession } from "../../../shared/auth/session";
 
 export const useUserProfileQuery = () => {
   return useQuery({
@@ -27,7 +29,42 @@ export const useUpdateUserProfileMutation = () => {
 
   return useMutation({
     mutationFn: (payload) => updateUserProfile(payload),
-    onSuccess: () => {
+    onSuccess: (updatedUser) => {
+      const session = readSession();
+      if (updatedUser) {
+        writeSession({
+          token: session.token,
+          refreshToken: session.refreshToken,
+          user: {
+            ...(session.user || {}),
+            ...updatedUser,
+          },
+        });
+      }
+
+      queryClient.invalidateQueries({ queryKey: queryKeys.userPortal.profile });
+    },
+  });
+};
+
+export const useUploadUserAvatarMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payload) => uploadUserAvatar(payload),
+    onSuccess: (updatedUser) => {
+      const session = readSession();
+      if (updatedUser) {
+        writeSession({
+          token: session.token,
+          refreshToken: session.refreshToken,
+          user: {
+            ...(session.user || {}),
+            ...updatedUser,
+          },
+        });
+      }
+
       queryClient.invalidateQueries({ queryKey: queryKeys.userPortal.profile });
     },
   });

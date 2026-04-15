@@ -5,6 +5,7 @@ import Button from "../../../shared/ui/Button";
 import DataTable from "../../../shared/ui/DataTable";
 import FiltersBar from "../../../shared/ui/FiltersBar";
 import Input from "../../../shared/ui/Input";
+import Modal from "../../../shared/ui/Modal";
 import {
   useDeleteEnquiryMutation,
   useEnquiriesQuery,
@@ -218,68 +219,60 @@ const EnquiriesPage = () => {
         onPageChange={(page) => setFilters((current) => ({ ...current, page }))}
       />
 
-      {selectedId ? (
-        <div className="space-y-3 rounded-2xl border border-slate-200 bg-white p-4 md:p-5">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+      <Modal
+        isOpen={Boolean(selectedId)}
+        onClose={() => setSelectedId(null)}
+        title={`Manage Enquiry${selectedEnquiry?.enquiryNumber ? ` - ${selectedEnquiry.enquiryNumber}` : ""}`}
+      >
+        {detailQuery.isLoading ? <p className="text-sm text-slate-500">Loading enquiry details...</p> : null}
+
+        {selectedEnquiry ? (
+          <div className="space-y-4">
             <div>
-              <h2 className="text-lg font-semibold text-slate-900">Manage Enquiry</h2>
-              <p className="text-sm text-slate-600">{selectedEnquiry?.enquiryNumber || "Loading..."}</p>
+              <label className="mb-1 block text-sm font-medium text-slate-700">Status</label>
+              <select
+                value={statusDraft}
+                onChange={(event) => setStatusDraft(event.target.value)}
+                className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
+              >
+                {ENQUIRY_STATUSES.map((status) => (
+                  <option key={status} value={status}>
+                    {formatLabel(status)}
+                  </option>
+                ))}
+              </select>
             </div>
-            <Button type="button" variant="secondary" onClick={() => setSelectedId(null)}>
-              Close
-            </Button>
+
+            <div>
+              <label className="mb-1 block text-sm font-medium text-slate-700">Admin Notes</label>
+              <textarea
+                rows={5}
+                value={adminNotesDraft}
+                onChange={(event) => setAdminNotesDraft(event.target.value)}
+                className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
+              />
+            </div>
+
+            <div className="rounded-xl bg-slate-50 p-3 text-sm text-slate-700">
+              <p>Preferred Contact: {selectedEnquiry.preferredContactMethod || "-"}</p>
+              <p>Page Source: {selectedEnquiry.pageSource || "-"}</p>
+              <p className="mt-2 whitespace-pre-wrap">{selectedEnquiry.message || "No message provided."}</p>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <Button type="button" onClick={handleStatusSave} disabled={statusMutation.isPending}>
+                Update Status
+              </Button>
+              <Button type="button" variant="secondary" onClick={handleNotesSave} disabled={notesMutation.isPending}>
+                Save Notes
+              </Button>
+              <Button type="button" variant="danger" onClick={handleDelete} disabled={deleteMutation.isPending}>
+                Delete Enquiry
+              </Button>
+            </div>
           </div>
-
-          {detailQuery.isLoading ? <p className="text-sm text-slate-500">Loading enquiry details...</p> : null}
-
-          {selectedEnquiry ? (
-            <>
-              <div>
-                <label className="mb-1 block text-sm font-medium text-slate-700">Status</label>
-                <select
-                  value={statusDraft}
-                  onChange={(event) => setStatusDraft(event.target.value)}
-                  className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
-                >
-                  {ENQUIRY_STATUSES.map((status) => (
-                    <option key={status} value={status}>
-                      {formatLabel(status)}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-medium text-slate-700">Admin Notes</label>
-                <textarea
-                  rows={5}
-                  value={adminNotesDraft}
-                  onChange={(event) => setAdminNotesDraft(event.target.value)}
-                  className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
-                />
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                <Button type="button" onClick={handleStatusSave} disabled={statusMutation.isPending}>
-                  Update Status
-                </Button>
-                <Button type="button" variant="secondary" onClick={handleNotesSave} disabled={notesMutation.isPending}>
-                  Save Notes
-                </Button>
-                <Button type="button" variant="danger" onClick={handleDelete} disabled={deleteMutation.isPending}>
-                  Delete Enquiry
-                </Button>
-              </div>
-
-              <div className="rounded-xl bg-slate-50 p-3 text-sm text-slate-700">
-                <p>Preferred Contact: {selectedEnquiry.preferredContactMethod || "-"}</p>
-                <p>Page Source: {selectedEnquiry.pageSource || "-"}</p>
-                <p className="mt-2 whitespace-pre-wrap">{selectedEnquiry.message || "No message provided."}</p>
-              </div>
-            </>
-          ) : null}
-        </div>
-      ) : null}
+        ) : null}
+      </Modal>
     </section>
   );
 };

@@ -9,22 +9,7 @@ import LoginPage from "../../modules/auth/pages/LoginPage";
 import ForgotPasswordPage from "../../modules/auth/pages/ForgotPasswordPage";
 import ResetPasswordPage from "../../modules/auth/pages/ResetPasswordPage";
 import DashboardPage from "../../modules/dashboard/pages/DashboardPage";
-import LeadsListPage from "../../modules/leads/pages/LeadsListPage";
-import LeadDetailPage from "../../modules/leads/pages/LeadDetailPage";
-import ApplicantsListPage from "../../modules/applicants/pages/ApplicantsListPage";
-import ApplicantDetailPage from "../../modules/applicants/pages/ApplicantDetailPage";
-import CasesListPage from "../../modules/cases/pages/CasesListPage";
-import CaseDetailPage from "../../modules/cases/pages/CaseDetailPage";
-import DocumentsPage from "../../modules/documents/pages/DocumentsPage";
-import AppointmentsPage from "../../modules/appointments/pages/AppointmentsPage";
-import PaymentsPage from "../../modules/payments/pages/PaymentsPage";
-import ServicesPage from "../../modules/services/pages/ServicesPage";
-import ChecklistsPage from "../../modules/checklists/pages/ChecklistsPage";
-import TemplatesPage from "../../modules/templates/pages/TemplatesPage";
-import CountryUpdatesPage from "../../modules/country-updates/pages/CountryUpdatesPage";
-import ReportsPage from "../../modules/reports/pages/ReportsPage";
 import SettingsPage from "../../modules/settings/pages/SettingsPage";
-import CompliancePage from "../../modules/compliance/pages/CompliancePage";
 import UsersPage from "../../modules/users/pages/UsersPage";
 import VisaTypesListPage from "../../modules/visa-types/pages/VisaTypesListPage";
 import VisaTypeFormPage from "../../modules/visa-types/pages/VisaTypeFormPage";
@@ -77,6 +62,8 @@ const AppRoutes = () => {
       <Route path="/admin/login" element={<LoginPage />} />
       <Route path="/admin/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/admin/reset-password" element={<ResetPasswordPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
 
       <Route element={<ProtectedRoute allowedRoles={STAFF_ROLES} />}>
         <Route path="/admin" element={<AdminShell />}>
@@ -91,32 +78,14 @@ const AppRoutes = () => {
           <Route path="applications" element={protectedModuleRoute(ROLE_GROUPS.finance, <ApplicationsPage />)} />
           <Route path="enquiries" element={protectedModuleRoute(ROLE_GROUPS.finance, <EnquiriesPage />)} />
           <Route path="tickets" element={protectedModuleRoute(ROLE_GROUPS.finance, <TicketsPage />)} />
-          <Route path="leads" element={<LeadsListPage />} />
-          <Route path="leads/:leadId" element={<LeadDetailPage />} />
-
-          <Route path="applicants" element={protectedModuleRoute(ROLE_GROUPS.operations, <ApplicantsListPage />)} />
-          <Route
-            path="applicants/:applicantId"
-            element={protectedModuleRoute(ROLE_GROUPS.operations, <ApplicantDetailPage />)}
-          />
-          <Route path="cases" element={protectedModuleRoute(ROLE_GROUPS.operations, <CasesListPage />)} />
-          <Route path="cases/:caseId" element={protectedModuleRoute(ROLE_GROUPS.operations, <CaseDetailPage />)} />
-          <Route path="documents" element={protectedModuleRoute(ROLE_GROUPS.operations, <DocumentsPage />)} />
-          <Route path="appointments" element={protectedModuleRoute(ROLE_GROUPS.operations, <AppointmentsPage />)} />
-          <Route path="payments" element={protectedModuleRoute(ROLE_GROUPS.finance, <PaymentsPage />)} />
-          <Route path="services" element={protectedModuleRoute(ROLE_GROUPS.operations, <ServicesPage />)} />
           <Route path="visa-types" element={protectedModuleRoute(ROLE_GROUPS.finance, <VisaTypesListPage />)} />
           <Route path="visa-types/new" element={protectedModuleRoute(ROLE_GROUPS.finance, <VisaTypeFormPage />)} />
           <Route
             path="visa-types/:visaTypeId/edit"
             element={protectedModuleRoute(ROLE_GROUPS.finance, <VisaTypeFormPage />)}
           />
-          <Route path="checklists" element={protectedModuleRoute(ROLE_GROUPS.operations, <ChecklistsPage />)} />
-          <Route path="templates" element={protectedModuleRoute(ROLE_GROUPS.operations, <TemplatesPage />)} />
-          <Route path="country-updates" element={protectedModuleRoute(ROLE_GROUPS.operations, <CountryUpdatesPage />)} />
-          <Route path="reports" element={protectedModuleRoute(ROLE_GROUPS.allStaff, <ReportsPage />)} />
+          <Route path="profile" element={protectedModuleRoute(ROLE_GROUPS.allStaff, <UserProfilePage />)} />
           <Route path="settings" element={protectedModuleRoute(ROLE_GROUPS.compliance, <SettingsPage />)} />
-          <Route path="compliance" element={protectedModuleRoute(ROLE_GROUPS.compliance, <CompliancePage />)} />
         </Route>
       </Route>
 

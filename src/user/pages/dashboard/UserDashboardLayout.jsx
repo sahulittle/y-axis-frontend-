@@ -21,11 +21,19 @@ const UserDashboardLayout = () => {
 
       <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-          <p className="text-xs uppercase tracking-[0.16em] text-slate-500">User Dashboard</p>
-          <h1 className="mt-1 text-2xl font-bold text-slate-900">Welcome, {user?.firstName || "User"}</h1>
-          <p className="mt-1 text-sm text-slate-600">
-            Track visa applications, support tickets, documents, appointments, and your profile.
-          </p>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.16em] text-slate-500">User Dashboard</p>
+              <h1 className="mt-1 text-2xl font-bold text-slate-900">Welcome, {user?.firstName || "User"}</h1>
+              <p className="mt-1 text-sm text-slate-600">
+                Track visa applications, support tickets, documents, appointments, and your profile.
+              </p>
+            </div>
+
+            {user?.avatarUrl ? (
+              <img src={user.avatarUrl} alt="User avatar" className="h-14 w-14 rounded-2xl border border-slate-200 object-cover" />
+            ) : null}
+          </div>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">

@@ -468,7 +468,7 @@ const Visa = () => {
                         {/* Card 1 */}
                         <div className="group bg-white border border-blue-100 rounded-3xl p-7 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
                             <div className="w-20 h-20 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition">
-                                <img src="https://www.y-axis.com/lp/visa/images/vc.png" alt="" w-18 h-18 />
+                                <img src="https://www.y-axis.com/lp/visa/images/vc.png" alt="" className="h-14 w-14 object-contain" />
                             </div>
                             <h3 className="text-xl font-bold text-gray-900 mb-3">Visa Consultation</h3>
                             <p className="text-gray-600 leading-relaxed mb-6">
@@ -482,7 +482,7 @@ const Visa = () => {
                         {/* Card 2 */}
                         <div className="group bg-white border border-indigo-100 rounded-3xl p-7 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
                             <div className="w-20 h-20 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:text-white transition">
-                                <img src="https://www.y-axis.com/lp/visa/images/dr.png" alt="" w-18 h-18 />
+                                <img src="https://www.y-axis.com/lp/visa/images/dr.png" alt="" className="h-14 w-14 object-contain" />
                             </div>
                             <h3 className="text-xl font-bold text-gray-900 mb-3">Visa Review</h3>
                             <p className="text-gray-600 leading-relaxed mb-6">
@@ -496,7 +496,7 @@ const Visa = () => {
                         {/* Card 3 */}
                         <div className="group bg-white border border-sky-100 rounded-3xl p-7 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
                             <div className="w-20 h-20 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center mb-6 group-hover:bg-sky-600 group-hover:text-white transition">
-                                <img src="https://www.y-axis.com/lp/visa/images/aa.png" alt="" h-18 w-18 />
+                                <img src="https://www.y-axis.com/lp/visa/images/aa.png" alt="" className="h-14 w-14 object-contain" />
                             </div>
                             <h3 className="text-xl font-bold text-gray-900 mb-3">Application Assistance</h3>
                             <p className="text-gray-600 leading-relaxed mb-6">
@@ -510,7 +510,7 @@ const Visa = () => {
                         {/* Card 4 */}
                         <div className="group bg-white border border-purple-100 rounded-3xl p-7 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
                             <div className="w-20 h-20 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-6 group-hover:bg-purple-600 group-hover:text-white transition">
-                                <img src="https://www.y-axis.com/lp/visa/images/ip.png" alt="" w-18 h-18 />
+                                <img src="https://www.y-axis.com/lp/visa/images/ip.png" alt="" className="h-14 w-14 object-contain" />
                             </div>
                             <h3 className="text-xl font-bold text-gray-900 mb-3">Interview Preparation</h3>
                             <p className="text-gray-600 leading-relaxed mb-6">
@@ -524,7 +524,7 @@ const Visa = () => {
                         {/* Card 5 */}
                         <div className="group bg-white border border-emerald-100 rounded-3xl p-7 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
                             <div className="w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-6 group-hover:bg-emerald-600 group-hover:text-white transition">
-                                <img src="https://www.y-axis.com/lp/visa/images/pss.png" alt="" w-18 h-18 />
+                                <img src="https://www.y-axis.com/lp/visa/images/pss.png" alt="" className="h-14 w-14 object-contain" />
                             </div>
                             <h3 className="text-xl font-bold text-gray-900 mb-3">Submission Support</h3>
                             <p className="text-gray-600 leading-relaxed mb-6">

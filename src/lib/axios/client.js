@@ -9,6 +9,33 @@ const unwrapApiData = (response) => {
   return response?.data;
 };
 
+const extractValidationMessage = (details) => {
+  if (!details || typeof details !== "object") {
+    return "";
+  }
+
+  const fieldErrors = details.fieldErrors;
+  if (fieldErrors && typeof fieldErrors === "object") {
+    for (const errors of Object.values(fieldErrors)) {
+      if (Array.isArray(errors) && errors.length) {
+        const firstMessage = String(errors[0] || "").trim();
+        if (firstMessage) {
+          return firstMessage;
+        }
+      }
+    }
+  }
+
+  if (Array.isArray(details.formErrors) && details.formErrors.length) {
+    const firstMessage = String(details.formErrors[0] || "").trim();
+    if (firstMessage) {
+      return firstMessage;
+    }
+  }
+
+  return "";
+};
+
 export const apiClient = axios.create({
   baseURL: env.apiBaseUrl,
   timeout: 20_000,
@@ -26,7 +53,13 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     const statusCode = error?.response?.status;
-    const message = error?.response?.data?.error?.message || error?.message || "Request failed";
+    const apiError = error?.response?.data?.error || {};
+    const detailedValidationMessage = extractValidationMessage(apiError.details);
+    const message =
+      detailedValidationMessage ||
+      apiError.message ||
+      error?.message ||
+      "Request failed";
 
     if (statusCode === 401) {
       clearSession();

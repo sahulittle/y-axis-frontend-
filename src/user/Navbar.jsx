@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import {
   Menu,
   X,
@@ -10,6 +11,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { clearSession, readSession } from "../shared/auth/session";
+import { getPublicSiteSettings } from "./api/publicApi";
 
 const navItems = [
   { label: "Free Eligiblity Check", href: "/free-eligibility-check" },
@@ -26,6 +28,21 @@ const Navbar = () => {
   const dropdownRef = useRef(null);
   const { token, user } = readSession();
   const isLoggedIn = Boolean(token);
+
+  const siteSettingsQuery = useQuery({
+    queryKey: ["public-site-settings"],
+    queryFn: getPublicSiteSettings,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const siteSettings = siteSettingsQuery.data?.values || {};
+  const siteName = siteSettings.siteName || "Visaassist";
+  const siteTagline = siteSettings.siteTagline || "Global Services";
+  const siteLogoUrl = siteSettings.siteLogoUrl || "";
+  const supportPhone = siteSettings.supportPhone || "+91 12345 67890";
+  const whatsappNumber = siteSettings.whatsappNumber || "911234567890";
+  const telHref = `tel:${supportPhone.replace(/\s+/g, "")}`;
+  const whatsappHref = `https://wa.me/${String(whatsappNumber || "").replace(/[^0-9]/g, "")}`;
 
   const handleLogout = () => {
     clearSession();
@@ -52,15 +69,15 @@ const Navbar = () => {
           <div className="hidden md:flex items-center justify-between h-12 text-sm">
             <div className="flex items-center gap-6">
               <a
-                href="tel:+911234567890"
+                href={telHref}
                 className="flex items-center gap-2 text-white/90 hover:text-white transition"
               >
                 <Phone size={16} />
-                <span>+91 12345 67890</span>
+                <span>{supportPhone}</span>
               </a>
 
               <a
-                href="https://wa.me/911234567890"
+                href={whatsappHref}
                 className="flex items-center gap-2 text-green-400 hover:text-green-300 transition"
               >
                 <MessageCircle size={16} />
@@ -113,14 +130,14 @@ const Navbar = () => {
           {/* Mobile Top Navbar */}
           <div className="md:hidden flex items-center justify-between h-11 text-sm">
             <a
-              href="tel:+911234567890"
+              href={telHref}
               className="flex items-center gap-2 text-white/90"
             >
               <Phone size={15} />
-              <span>+91 12345 67890</span>
+              <span>{supportPhone}</span>
             </a>
             <a
-              href="https://wa.me/911234567890"
+              href={whatsappHref}
               className="text-green-400 font-medium"
             >
               WhatsApp
@@ -136,15 +153,23 @@ const Navbar = () => {
             {/* Logo + Links */}
             <div className="flex items-center gap-10 min-w-0">
               <a href="/" className="flex items-center gap-3 shrink-0">
-                <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-orange-500 via-amber-400 to-yellow-300 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg">
-                  V
-                </div>
+                {siteLogoUrl ? (
+                  <img
+                    src={siteLogoUrl}
+                    alt={`${siteName} logo`}
+                    className="h-12 w-12 rounded-2xl border border-slate-200 object-cover shadow-lg"
+                  />
+                ) : (
+                  <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-orange-500 via-amber-400 to-yellow-300 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg">
+                    {siteName.slice(0, 1).toUpperCase()}
+                  </div>
+                )}
                 <div className="leading-tight">
                   <div className="text-xl font-extrabold text-slate-900 tracking-tight">
-                    Visaassist
+                    {siteName}
                   </div>
                   <div className="text-xs text-slate-500 font-medium">
-                    Global Services
+                    {siteTagline}
                   </div>
                 </div>
               </a>
@@ -188,9 +213,13 @@ const Navbar = () => {
                 {/* USER BUTTON */}
                 <button
                   onClick={() => setOpen(!open)}
-                  className="h-12 w-12 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 flex items-center justify-center transition"
+                  className="h-12 w-12 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 flex items-center justify-center overflow-hidden transition"
                 >
-                  <User size={19} />
+                  {isLoggedIn && user?.avatarUrl ? (
+                    <img src={user.avatarUrl} alt="User avatar" className="h-full w-full object-cover" />
+                  ) : (
+                    <User size={19} />
+                  )}
                 </button>
 
                 {/* DROPDOWN */}
@@ -199,8 +228,19 @@ const Navbar = () => {
 
                     {/* USER INFO */}
                     <div className="px-4 py-3 border-b border-slate-100">
-                      <p className="text-sm font-semibold text-slate-900">{user?.fullName || `${user?.firstName || ""} ${user?.lastName || ""}`.trim() || "Guest"}</p>
-                      <p className="text-xs text-slate-500">{user?.email || "Not logged in"}</p>
+                      <div className="flex items-center gap-3">
+                        {isLoggedIn && user?.avatarUrl ? (
+                          <img src={user.avatarUrl} alt="User avatar" className="h-9 w-9 rounded-full object-cover" />
+                        ) : (
+                          <div className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600">
+                            <User size={16} />
+                          </div>
+                        )}
+                        <div>
+                          <p className="text-sm font-semibold text-slate-900">{user?.fullName || `${user?.firstName || ""} ${user?.lastName || ""}`.trim() || "Guest"}</p>
+                          <p className="text-xs text-slate-500">{user?.email || "Not logged in"}</p>
+                        </div>
+                      </div>
                     </div>
 
                     {/* MENU ITEMS */}

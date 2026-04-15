@@ -1,11 +1,25 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { Home, Eye, EyeOff, CheckCircle2 } from "lucide-react";
 import { useToast } from "../../../app/providers/ToastProvider";
 import { signupCustomer } from "../../../user/api/publicApi";
 
+const resolveRedirectPath = (value, fallback = "/user/dashboard") => {
+  if (typeof value !== "string") {
+    return fallback;
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed.startsWith("/")) {
+    return fallback;
+  }
+
+  return trimmed;
+};
+
 const Signup = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -17,6 +31,10 @@ const Signup = () => {
     password: "",
     confirmPassword: "",
   });
+
+  const queryRedirect = new URLSearchParams(location.search).get("next");
+  const redirectTo = resolveRedirectPath(location.state?.redirectTo || queryRedirect);
+  const redirectMessage = location.state?.redirectMessage || "";
 
   const handleGoogleSignup = () => {
     window.open("https://accounts.google.com/", "_self");
@@ -32,6 +50,11 @@ const Signup = () => {
       return;
     }
 
+    if (name.trim().length < 2) {
+      toast.error("Name must be at least 2 characters");
+      return;
+    }
+
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
       return;
@@ -42,11 +65,16 @@ const Signup = () => {
       return;
     }
 
+    if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password)) {
+      toast.error("Password must include uppercase, lowercase, and a number");
+      return;
+    }
+
     try {
       setIsSubmitting(true);
       await signupCustomer(formData);
       toast.success("Account created successfully");
-      navigate("/login");
+      navigate(redirectTo, { replace: true });
     } catch (error) {
       toast.error(error.message || "Signup failed");
     } finally {
@@ -121,7 +149,11 @@ const Signup = () => {
               <div className="rounded-2xl bg-slate-100 p-1">
                 <div className="flex items-center gap-1">
                   <Link
-                    to="/login"
+                    to={{
+                      pathname: "/login",
+                      search: `?next=${encodeURIComponent(redirectTo)}`,
+                    }}
+                    state={{ redirectTo }}
                     className="rounded-xl px-5 py-2 text-sm font-semibold text-slate-500 transition hover:text-slate-900"
                   >
                     Login
@@ -145,6 +177,7 @@ const Signup = () => {
             <p className="mt-3 text-slate-500 leading-7">
               Enter your details below to create your account.
             </p>
+            {redirectMessage ? <p className="mt-3 text-sm font-medium text-orange-600">{redirectMessage}</p> : null}
 
             <button
               onClick={handleGoogleSignup}
@@ -276,7 +309,7 @@ const Signup = () => {
                 <div className="flex items-start gap-3">
                   <CheckCircle2 className="mt-0.5 h-5 w-5 text-emerald-600" />
                   <div className="text-sm text-slate-600">
-                    Use at least 6 characters for a stronger password.
+                    Use at least 8 characters including uppercase, lowercase, and a number.
                   </div>
                 </div>
               </div>
@@ -316,7 +349,11 @@ const Signup = () => {
             <p className="mt-8 text-center text-sm text-slate-500">
               Already have an account?
               <Link
-                to="/login"
+                to={{
+                  pathname: "/login",
+                  search: `?next=${encodeURIComponent(redirectTo)}`,
+                }}
+                state={{ redirectTo }}
                 className="ml-2 font-bold text-indigo-600 hover:underline"
               >
                 Log in

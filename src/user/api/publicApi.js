@@ -8,25 +8,133 @@ const normalizeName = (name = "") => {
   }
 
   const [firstName, ...rest] = trimmed.split(/\s+/);
+  const safeFirstName = firstName.length >= 2 ? firstName : "User";
+  const joinedLastName = rest.join(" ").trim();
+  const safeLastName = joinedLastName.length >= 2 ? joinedLastName : "User";
+
   return {
-    firstName,
-    lastName: rest.join(" ") || "User",
+    firstName: safeFirstName,
+    lastName: safeLastName,
   };
+};
+
+const parseJsonSafe = (value, fallback = {}) => {
+  if (!value || typeof value !== "string") {
+    return fallback;
+  }
+
+  try {
+    return JSON.parse(value);
+  } catch {
+    return fallback;
+  }
+};
+
+const toBoolean = (value) => {
+  if (typeof value === "boolean") {
+    return value;
+  }
+
+  if (typeof value === "number") {
+    return value === 1;
+  }
+
+  if (typeof value === "string") {
+    const normalized = value.trim().toLowerCase();
+    return normalized === "true" || normalized === "1" || normalized === "yes";
+  }
+
+  return false;
+};
+
+const buildLegacyApplicationPayload = (payload) => {
+  const isFormDataPayload = typeof FormData !== "undefined" && payload instanceof FormData;
+
+  if (!isFormDataPayload) {
+    return payload;
+  }
+
+  const applicantDetails = parseJsonSafe(payload.get("applicantDetails"), {});
+  const customFields =
+    applicantDetails && typeof applicantDetails.customFields === "object" && applicantDetails.customFields !== null
+      ? applicantDetails.customFields
+      : {};
+
+  const fullName = String(payload.get("fullName") || "").trim();
+  const fromFullName = normalizeName(fullName);
+
+  const firstName = String(applicantDetails.firstName || "").trim() || fromFullName.firstName || "User";
+  const lastName = String(applicantDetails.lastName || "").trim() || fromFullName.lastName || "User";
+
+  const legacyPayload = {
+    country: String(payload.get("country") || payload.get("countrySlug") || "").trim(),
+    visaType: String(payload.get("visaType") || payload.get("visaTypeSlug") || "").trim(),
+    firstName,
+    lastName,
+    email: String(applicantDetails.email || payload.get("email") || "").trim(),
+    phone: String(applicantDetails.phone || payload.get("phone") || "").trim(),
+    nationality: String(applicantDetails.nationality || payload.get("nationality") || "").trim(),
+    passport: {
+      passportNumber: String(applicantDetails.passportNumber || customFields.passportType || "").trim(),
+    },
+    travelProfile: {
+      priorRefusal: toBoolean(customFields.priorRefusal),
+      refusalDetails: String(customFields.refusalDetails || "").trim(),
+      previousTravelCountries: [],
+      previousVisaHistory: [],
+    },
+    occupation: String(customFields.occupation || "").trim(),
+    uploadedFileRefs: [],
+    consentAccepted: toBoolean(payload.get("consentAccepted")),
+    disclaimerAccepted: toBoolean(payload.get("disclaimerAccepted")),
+    refundPolicyAccepted: toBoolean(payload.get("refundPolicyAccepted")),
+  };
+
+  if (!legacyPayload.passport.passportNumber) {
+    delete legacyPayload.passport;
+  }
+
+  if (!legacyPayload.occupation) {
+    delete legacyPayload.occupation;
+  }
+
+  if (!legacyPayload.travelProfile.refusalDetails && !legacyPayload.travelProfile.priorRefusal) {
+    delete legacyPayload.travelProfile;
+  }
+
+  return legacyPayload;
 };
 
 export const signupCustomer = async (payload) => {
   const { firstName, lastName } = normalizeName(payload.name);
-  return request({
+  const phone = String(payload.phone || "").trim();
+
+  const requestBody = {
+    firstName,
+    lastName,
+    email: payload.email,
+    password: payload.password,
+  };
+
+  if (phone) {
+    requestBody.phone = phone;
+  }
+
+  const authData = await request({
     url: "/auth/signup",
     method: "POST",
-    data: {
-      firstName,
-      lastName,
-      email: payload.email,
-      password: payload.password,
-      phone: payload.phone || "",
-    },
+    data: requestBody,
   });
+
+  if (authData?.token && authData?.user) {
+    writeSession({
+      token: authData.token,
+      refreshToken: authData.refreshToken,
+      user: authData.user,
+    });
+  }
+
+  return authData;
 };
 
 export const loginCustomer = async (payload) => {
@@ -38,7 +146,11 @@ export const loginCustomer = async (payload) => {
       method: "POST",
       data: payload,
     });
-  } catch {
+  } catch (error) {
+    if (error?.statusCode !== 404) {
+      throw error;
+    }
+
     authData = await request({
       url: "/auth/login",
       method: "POST",
@@ -74,23 +186,28 @@ export const submitContactForm = (payload) => {
 };
 
 export const submitVisaApplication = (payload) => {
+  const isFormDataPayload = typeof FormData !== "undefined" && payload instanceof FormData;
+
   return request({
     url: "/public/visa-applications",
     method: "POST",
     data: payload,
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  }).catch(() =>
-    request({
+    headers: isFormDataPayload
+      ? {
+          "Content-Type": "multipart/form-data",
+        }
+      : undefined,
+  }).catch((error) => {
+    if (error?.statusCode !== 404) {
+      throw error;
+    }
+
+    return request({
       url: "/public/applications",
       method: "POST",
-      data: payload,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
-  );
+      data: buildLegacyApplicationPayload(payload),
+    });
+  });
 };
 
 export const submitPublicEnquiry = (payload) => {
@@ -108,6 +225,13 @@ export const getPublicCountries = () => {
   });
 };
 
+export const getPublicSiteSettings = () => {
+  return request({
+    url: "/public/site-settings",
+    method: "GET",
+  });
+};
+
 export const getPublicCountryBySlug = (countrySlug) => {
   return request({
     url: `/public/countries/${encodeURIComponent(countrySlug)}`,
@@ -119,6 +243,14 @@ export const getPublicVisaTypesByCountry = (countrySlug) => {
   return request({
     url: `/public/countries/${encodeURIComponent(countrySlug)}/visa-types`,
     method: "GET",
+  });
+};
+
+export const getPublicVisaSearch = (params) => {
+  return request({
+    url: "/public/visa-search",
+    method: "GET",
+    params,
   });
 };
 
@@ -153,6 +285,17 @@ export const updateUserProfile = (payload) => {
     url: "/user/profile",
     method: "PATCH",
     data: payload,
+  });
+};
+
+export const uploadUserAvatar = (formData) => {
+  return request({
+    url: "/user/profile/avatar",
+    method: "POST",
+    data: formData,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 };
 

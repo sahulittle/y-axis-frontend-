@@ -18,21 +18,21 @@ const Schengen = () => {
   const visaTypes = [
     {
       title: "Tourist Visa",
-      slug:"tourist-visa",
+      slug:"tourist",
       icon: <MapPinned size={24} />,
       description:
         "For holidays, sightseeing, leisure travel, and short personal visits across Schengen countries.",
     },
     {
       title: "Business Visa",
-      slug:"tourist-visa",
+      slug:"tourist",
       icon: <Briefcase size={24} />,
       description:
         "For meetings, conferences, trade visits, and short professional travel within the Schengen area.",
     },
     {
       title: "Family / Visit Visa",
-      slug:"tourist-visa",
+      slug:"tourist",
       icon: <Users size={24} />,
       description:
         "For visiting family or friends in Schengen member countries for a short stay.",

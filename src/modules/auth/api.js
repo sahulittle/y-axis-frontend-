@@ -22,7 +22,11 @@ export const staffLogin = async (payload) => {
       data: payload,
     });
     return saveAuthData(data);
-  } catch {
+  } catch (error) {
+    if (error?.statusCode !== 404) {
+      throw error;
+    }
+
     const data = await request({
       url: "/auth/login",
       method: "POST",

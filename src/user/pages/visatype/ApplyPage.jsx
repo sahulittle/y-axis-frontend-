@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useToast } from "../../../app/providers/ToastProvider";
 import { getVisaApplicationConfig, submitVisaApplication } from "../../api/publicApi";
+import { getVisaTypeContent as getStaticVisaTypeContent } from "./visatypedata";
+import { readSession } from "../../../shared/auth/session";
 
 const slugify = (value = "") =>
   String(value)
@@ -12,9 +14,44 @@ const slugify = (value = "") =>
     .replace(/-+/g, "-")
     .replace(/^-+|-+$/g, "");
 
+const normalizeRequiredDocs = (requiredDocs = []) => {
+  if (!Array.isArray(requiredDocs)) {
+    return [];
+  }
+
+  return requiredDocs
+    .map((doc, index) => {
+      if (typeof doc === "string") {
+        return {
+          name: doc,
+          description: "",
+          isMandatory: true,
+          allowedFileTypes: [],
+          maxFiles: 1,
+          sortOrder: index,
+        };
+      }
+
+      return {
+        name: doc?.name || `Document ${index + 1}`,
+        description: doc?.description || "",
+        isMandatory: doc?.isMandatory !== false,
+        allowedFileTypes: Array.isArray(doc?.allowedFileTypes) ? doc.allowedFileTypes : [],
+        maxFiles: Number(doc?.maxFiles) || 1,
+        sortOrder: Number(doc?.sortOrder) || index,
+      };
+    })
+    .filter((doc) => doc.name);
+};
+
 const ApplyPage = () => {
   const { country, visaType } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
   const toast = useToast();
+  const { token, user } = readSession();
+  const isCustomerSession = Boolean(token) && ["customer", "user"].includes(user?.role);
+  const redirectTo = `${location.pathname}${location.search || ""}${location.hash || ""}`;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [travelPurpose, setTravelPurpose] = useState("");
@@ -75,6 +112,11 @@ const ApplyPage = () => {
   }, [travelPurpose]);
 
   useEffect(() => {
+    if (!isCustomerSession) {
+      setIsConfigLoading(false);
+      return undefined;
+    }
+
     let mounted = true;
 
     const loadConfig = async () => {
@@ -99,7 +141,34 @@ const ApplyPage = () => {
         setUploadedFiles(initialFiles);
       } catch (error) {
         if (mounted) {
-          setConfigError(error.message || "Failed to load application configuration");
+          const fallbackVisa = getStaticVisaTypeContent(country, visaType);
+          if (fallbackVisa) {
+            const fallbackConfig = {
+              countrySlug: country,
+              visaTypeSlug: visaType,
+              title: fallbackVisa.title || `${country} ${visaType}`,
+              subtitle: fallbackVisa.subtitle || "",
+              summary: fallbackVisa.ctaText || fallbackVisa.subtitle || "",
+              requiredDocs: normalizeRequiredDocs(fallbackVisa.requiredDocs),
+              applicationEnabled: true,
+              consultationEnabled: true,
+            };
+
+            setApplicationConfig(fallbackConfig);
+
+            const initialFiles = (fallbackConfig.requiredDocs.length > 0
+              ? fallbackConfig.requiredDocs
+              : [{ name: "general-documents" }]
+            ).reduce((acc, doc, index) => {
+              acc[slugify(doc?.name || `document-${index}`)] = [];
+              return acc;
+            }, {});
+
+            setUploadedFiles(initialFiles);
+            setConfigError("");
+          } else {
+            setConfigError(error.message || "Failed to load application configuration");
+          }
         }
       } finally {
         if (mounted) {
@@ -113,7 +182,7 @@ const ApplyPage = () => {
     return () => {
       mounted = false;
     };
-  }, [country, visaType]);
+  }, [country, visaType, isCustomerSession]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -144,6 +213,11 @@ const ApplyPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isCustomerSession) {
+      toast.error("Please login or register before applying.");
+      return;
+    }
 
     if (isConfigLoading) {
       toast.error("Application configuration is still loading");
@@ -261,6 +335,52 @@ const ApplyPage = () => {
       setIsSubmitting(false);
     }
   };
+
+  if (!isCustomerSession) {
+    return (
+      <section className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50 py-16 md:py-20">
+        <div className="mx-auto max-w-3xl rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm md:p-10">
+          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-orange-600">Secure Application Flow</p>
+          <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Login or Register to Continue</h1>
+          <p className="mt-3 text-slate-600">
+            You need an account before submitting visa applications. This helps keep your documents secure and shows
+            application history in your dashboard.
+          </p>
+
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <button
+              type="button"
+              onClick={() =>
+                navigate(`/login?next=${encodeURIComponent(redirectTo)}`, {
+                  state: {
+                    redirectTo,
+                    redirectMessage: "Please login to continue your visa application.",
+                  },
+                })
+              }
+              className="rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800"
+            >
+              Login
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                navigate(`/signup?next=${encodeURIComponent(redirectTo)}`, {
+                  state: {
+                    redirectTo,
+                    redirectMessage: "Create your account to continue your visa application.",
+                  },
+                })
+              }
+              className="rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50"
+            >
+              Register
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (isConfigLoading) {
     return (

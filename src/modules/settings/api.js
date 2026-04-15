@@ -15,3 +15,14 @@ export const patchSettings = (payload) => {
     data: payload,
   });
 };
+
+export const uploadSiteAsset = (payload) => {
+  return request({
+    url: "/admin/settings/assets",
+    method: "POST",
+    data: payload,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};

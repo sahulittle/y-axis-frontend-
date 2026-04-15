@@ -167,9 +167,7 @@ export const getVisaTypeContent = async (countrySlug, visaTypeSlug) => {
     const data = await getVisaTypeContentBySlug(countrySlug, visaTypeSlug);
     return normalizeApiVisaContent(data);
   } catch (error) {
-    const fallback = import.meta.env.DEV
-      ? normalizeStaticVisaContent(getStaticVisaTypeContent(countrySlug, visaTypeSlug))
-      : null;
+    const fallback = normalizeStaticVisaContent(getStaticVisaTypeContent(countrySlug, visaTypeSlug));
 
     if (fallback) {
       return fallback;

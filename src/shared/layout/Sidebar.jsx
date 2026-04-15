@@ -14,6 +14,15 @@ const Sidebar = ({ mobileOpen = false, onClose = () => {} }) => {
   const sidebarContent = (
     <>
       <div className="mb-8">
+        <div className="mb-3">
+          {user?.avatarUrl ? (
+            <img src={user.avatarUrl} alt="Admin avatar" className="h-12 w-12 rounded-2xl border border-slate-700 object-cover" />
+          ) : (
+            <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-700 bg-slate-900 text-sm font-bold text-slate-200">
+              {String(user?.firstName || "S").slice(0, 1).toUpperCase()}
+            </div>
+          )}
+        </div>
         <p className="text-xs uppercase tracking-[0.22em] text-teal-300/80">Visaassist.org</p>
         <h1 className="mt-2 text-2xl font-extrabold">Ops Admin</h1>
         <p className="mt-2 text-xs text-slate-400">Role: {user?.role || "staff"}</p>

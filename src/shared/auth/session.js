@@ -29,6 +29,18 @@ export const writeSession = ({ token, refreshToken, user }) => {
   }
 };
 
+export const updateSessionUser = (updater) => {
+  const current = readSession();
+  const currentUser = current.user || null;
+
+  const nextUser = typeof updater === "function" ? updater(currentUser) : updater;
+  if (!nextUser) {
+    return;
+  }
+
+  writeSession({ user: nextUser });
+};
+
 export const clearSession = () => {
   localStorage.removeItem(ACCESS_TOKEN_KEY);
   localStorage.removeItem(REFRESH_TOKEN_KEY);

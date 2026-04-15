@@ -5,6 +5,7 @@ import Button from "../../../shared/ui/Button";
 import DataTable from "../../../shared/ui/DataTable";
 import FiltersBar from "../../../shared/ui/FiltersBar";
 import Input from "../../../shared/ui/Input";
+import Modal from "../../../shared/ui/Modal";
 import {
   useApplicationDetailQuery,
   useApplicationsQuery,
@@ -215,97 +216,97 @@ const ApplicationsPage = () => {
         onPageChange={(page) => setFilters((current) => ({ ...current, page }))}
       />
 
-      {selectedId ? (
-        <div className="space-y-3 rounded-2xl border border-slate-200 bg-white p-4 md:p-5">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <h2 className="text-lg font-semibold text-slate-900">Manage Application</h2>
-              <p className="text-sm text-slate-600">
-                {selectedApplication?.applicationNumber || "Loading..."}
-              </p>
-            </div>
-            <Button type="button" variant="secondary" onClick={() => setSelectedId(null)}>
-              Close
-            </Button>
-          </div>
+      <Modal
+        isOpen={Boolean(selectedId)}
+        onClose={() => setSelectedId(null)}
+        title={`Manage Application${selectedApplication?.applicationNumber ? ` - ${selectedApplication.applicationNumber}` : ""}`}
+        widthClass="max-w-4xl"
+      >
+        {detailQuery.isLoading ? <p className="text-sm text-slate-500">Loading application details...</p> : null}
 
-          {detailQuery.isLoading ? <p className="text-sm text-slate-500">Loading application details...</p> : null}
-
-          {selectedApplication ? (
-            <>
-              <div className="grid gap-3 md:grid-cols-2">
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-slate-700">Status</label>
-                  <select
-                    value={statusDraft}
-                    onChange={(event) => setStatusDraft(event.target.value)}
-                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
-                  >
-                    {APPLICATION_STATUSES.map((status) => (
-                      <option key={status} value={status}>
-                        {formatStatusLabel(status)}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-slate-700">Status Note</label>
-                  <Input
-                    value={statusNote}
-                    onChange={(event) => setStatusNote(event.target.value)}
-                    placeholder="Optional note for status history"
-                  />
-                </div>
+        {selectedApplication ? (
+          <div className="space-y-4">
+            <div className="grid gap-3 md:grid-cols-2">
+              <div>
+                <label className="mb-1 block text-sm font-medium text-slate-700">Status</label>
+                <select
+                  value={statusDraft}
+                  onChange={(event) => setStatusDraft(event.target.value)}
+                  className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
+                >
+                  {APPLICATION_STATUSES.map((status) => (
+                    <option key={status} value={status}>
+                      {formatStatusLabel(status)}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div>
-                <label className="mb-1 block text-sm font-medium text-slate-700">Admin Notes</label>
-                <textarea
-                  rows={4}
-                  value={adminNotesDraft}
-                  onChange={(event) => setAdminNotesDraft(event.target.value)}
-                  className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
+                <label className="mb-1 block text-sm font-medium text-slate-700">Status Note</label>
+                <Input
+                  value={statusNote}
+                  onChange={(event) => setStatusNote(event.target.value)}
+                  placeholder="Optional note for status history"
                 />
               </div>
+            </div>
 
-              <div className="flex flex-wrap gap-2">
-                <Button
-                  type="button"
-                  onClick={handleStatusUpdate}
-                  disabled={statusMutation.isPending}
-                >
-                  Update Status
-                </Button>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={handleNotesSave}
-                  disabled={notesMutation.isPending}
-                >
-                  Save Notes
-                </Button>
-                <Button
-                  type="button"
-                  variant="danger"
-                  onClick={handleArchive}
-                  disabled={archiveMutation.isPending}
-                >
-                  Archive Application
-                </Button>
-              </div>
+            <div>
+              <label className="mb-1 block text-sm font-medium text-slate-700">Admin Notes</label>
+              <textarea
+                rows={4}
+                value={adminNotesDraft}
+                onChange={(event) => setAdminNotesDraft(event.target.value)}
+                className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
+              />
+            </div>
 
-              <div className="rounded-xl bg-slate-50 p-3 text-sm text-slate-700">
-                <p>
-                  Applicant: {selectedApplication.applicantDetails?.firstName || ""} {selectedApplication.applicantDetails?.lastName || ""}
-                </p>
-                <p>Email: {selectedApplication.applicantDetails?.email || selectedApplication.userId?.email || "-"}</p>
-                <p>Phone: {selectedApplication.applicantDetails?.phone || selectedApplication.userId?.phone || "-"}</p>
+            <div className="rounded-xl bg-slate-50 p-3 text-sm text-slate-700">
+              <p>
+                Applicant: {selectedApplication.applicantDetails?.firstName || ""} {selectedApplication.applicantDetails?.lastName || ""}
+              </p>
+              <p>Email: {selectedApplication.applicantDetails?.email || selectedApplication.userId?.email || "-"}</p>
+              <p>Phone: {selectedApplication.applicantDetails?.phone || selectedApplication.userId?.phone || "-"}</p>
+            </div>
+
+            <div>
+              <h3 className="mb-2 text-sm font-semibold uppercase tracking-[0.12em] text-slate-500">Submitted Documents</h3>
+              <div className="space-y-2">
+                {(selectedApplication.submittedDocs || []).length === 0 ? (
+                  <p className="rounded-xl border border-slate-200 p-3 text-sm text-slate-500">No documents uploaded.</p>
+                ) : (
+                  (selectedApplication.submittedDocs || []).map((doc) => (
+                    <a
+                      key={doc._id || doc.publicId || doc.fileUrl}
+                      href={doc.fileUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block rounded-xl border border-slate-200 p-3 hover:bg-slate-50"
+                    >
+                      <p className="text-sm font-medium text-slate-900">{doc.docName || doc.originalName || "Document"}</p>
+                      <p className="mt-1 text-xs text-slate-500">{doc.originalName || doc.mimeType || "File"}</p>
+                      <p className="mt-1 text-xs text-slate-500">Verification: {formatStatusLabel(doc.verificationStatus || "pending")}</p>
+                    </a>
+                  ))
+                )}
               </div>
-            </>
-          ) : null}
-        </div>
-      ) : null}
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <Button type="button" onClick={handleStatusUpdate} disabled={statusMutation.isPending}>
+                Update Status
+              </Button>
+              <Button type="button" variant="secondary" onClick={handleNotesSave} disabled={notesMutation.isPending}>
+                Save Notes
+              </Button>
+              <Button type="button" variant="danger" onClick={handleArchive} disabled={archiveMutation.isPending}>
+                Archive Application
+              </Button>
+            </div>
+          </div>
+        ) : null}
+      </Modal>
     </section>
   );
 };

@@ -8,6 +8,33 @@ const toQueryString = (query = {}) => {
   return `?${new URLSearchParams(entries).toString()}`;
 };
 
+const extractValidationMessage = (details) => {
+  if (!details || typeof details !== "object") {
+    return "";
+  }
+
+  const fieldErrors = details.fieldErrors;
+  if (fieldErrors && typeof fieldErrors === "object") {
+    for (const errors of Object.values(fieldErrors)) {
+      if (Array.isArray(errors) && errors.length) {
+        const firstMessage = String(errors[0] || "").trim();
+        if (firstMessage) {
+          return firstMessage;
+        }
+      }
+    }
+  }
+
+  if (Array.isArray(details.formErrors) && details.formErrors.length) {
+    const firstMessage = String(details.formErrors[0] || "").trim();
+    if (firstMessage) {
+      return firstMessage;
+    }
+  }
+
+  return "";
+};
+
 export const apiRequest = async (path, options = {}) => {
   const {
     method = "GET",
@@ -38,7 +65,10 @@ export const apiRequest = async (path, options = {}) => {
     : { success: false, error: { message: await response.text() } };
 
   if (!response.ok || data?.success === false) {
-    const message = data?.error?.message || "Request failed";
+    const message =
+      extractValidationMessage(data?.error?.details) ||
+      data?.error?.message ||
+      "Request failed";
     throw new Error(message);
   }
 

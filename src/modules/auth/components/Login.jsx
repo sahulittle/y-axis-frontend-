@@ -1,11 +1,25 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { Home, Eye, EyeOff } from "lucide-react";
 import { useToast } from "../../../app/providers/ToastProvider";
 import { loginCustomer } from "../../../user/api/publicApi";
 
+const resolveRedirectPath = (value, fallback = "/user/dashboard") => {
+  if (typeof value !== "string") {
+    return fallback;
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed.startsWith("/")) {
+    return fallback;
+  }
+
+  return trimmed;
+};
+
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -14,6 +28,10 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  const queryRedirect = new URLSearchParams(location.search).get("next");
+  const redirectTo = resolveRedirectPath(location.state?.redirectTo || queryRedirect);
+  const redirectMessage = location.state?.redirectMessage || "";
 
   const handleGoogleLogin = () => {
     window.open("https://accounts.google.com/", "_self");
@@ -45,7 +63,7 @@ const Login = () => {
       setIsSubmitting(true);
       await loginCustomer(formData);
       toast.success("Login successful");
-      navigate("/user/dashboard");
+      navigate(redirectTo, { replace: true });
     } catch (error) {
       toast.error(error.message || "Login failed");
     } finally {
@@ -119,7 +137,11 @@ const Login = () => {
                     Login
                   </button>
                   <Link
-                    to="/signup"
+                    to={{
+                      pathname: "/signup",
+                      search: `?next=${encodeURIComponent(redirectTo)}`,
+                    }}
+                    state={{ redirectTo }}
                     className="rounded-xl px-5 py-2 text-sm font-semibold text-slate-500 transition hover:text-slate-900"
                   >
                     Signup
@@ -137,6 +159,7 @@ const Login = () => {
             <p className="mt-3 text-slate-500 leading-7">
               Enter your email and password to log in to your account.
             </p>
+            {redirectMessage ? <p className="mt-3 text-sm font-medium text-orange-600">{redirectMessage}</p> : null}
 
             <button
               onClick={handleGoogleLogin}
@@ -240,7 +263,11 @@ const Login = () => {
             <p className="mt-8 text-center text-sm text-slate-500">
               Don&apos;t have an account?
               <Link
-                to="/signup"
+                to={{
+                  pathname: "/signup",
+                  search: `?next=${encodeURIComponent(redirectTo)}`,
+                }}
+                state={{ redirectTo }}
                 className="ml-2 font-bold text-indigo-600 hover:underline"
               >
                 Sign up

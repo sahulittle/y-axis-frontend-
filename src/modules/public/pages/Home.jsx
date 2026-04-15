@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { GraduationCap, Plane, Briefcase, MapPinned, BadgeHelp, CalendarDays, Globe2 } from "lucide-react";
 import {
     Users,
@@ -9,6 +10,7 @@ import {
     ArrowRight,
 } from "lucide-react";
 import Footer from "./Footer";
+import { getPublicSiteSettings } from "../../../user/api/publicApi";
 
 const options = [
     {
@@ -88,6 +90,21 @@ const sections = [
 const Home = () => {
     const navigate = useNavigate();
     const [active, setActive] = useState("Study");
+
+    const siteSettingsQuery = useQuery({
+        queryKey: ["public-site-settings"],
+        queryFn: getPublicSiteSettings,
+        staleTime: 5 * 60 * 1000,
+    });
+
+    const siteSettings = siteSettingsQuery.data?.values || {};
+    const homeBannerTitle = siteSettings.homeBannerTitle || "What can we do for you today?";
+    const homeBannerSubtitle =
+        siteSettings.homeBannerSubtitle ||
+        "Choose your goal and let us guide you with the right solution, expert support, and the best next steps for your journey.";
+    const homeBannerImageUrl =
+        siteSettings.homeBannerImageUrl ||
+        "https://media.istockphoto.com/id/1197578214/photo/beautiful-young-woman.jpg?s=612x612&w=0&k=20&c=XdV1GLQalvNSXKsBv4C0vRDjPfiBOArH6BC_iCFtchg=";
 
     React.useEffect(() => {
         window.scrollTo(0, 0);
@@ -228,7 +245,7 @@ const Home = () => {
 
                             <div className="relative rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.12)] bg-white p-3">
                                 <img
-                                    src="https://media.istockphoto.com/id/1197578214/photo/beautiful-young-woman.jpg?s=612x612&w=0&k=20&c=XdV1GLQalvNSXKsBv4C0vRDjPfiBOArH6BC_iCFtchg="
+                                    src={homeBannerImageUrl}
                                     alt="Consultation"
                                     className="w-full h-[300px] sm:h-[420px] object-cover rounded-[22px]"
                                 />
@@ -242,12 +259,11 @@ const Home = () => {
                             </span>
 
                             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight">
-                                What can we do for you today?
+                                {homeBannerTitle}
                             </h2>
 
                             <p className="mt-4 text-base sm:text-lg text-slate-600 max-w-xl leading-7">
-                                Choose your goal and let us guide you with the right solution, expert support,
-                                and the best next steps for your journey.
+                                {homeBannerSubtitle}
                             </p>
 
                             {/* Buttons */}

@@ -2,7 +2,7 @@ import React from "react";
 import { useToast } from "../../../app/providers/ToastProvider";
 import Button from "../../../shared/ui/Button";
 import Input from "../../../shared/ui/Input";
-import { useUpdateUserProfileMutation, useUserProfileQuery } from "./hooks";
+import { useUpdateUserProfileMutation, useUploadUserAvatarMutation, useUserProfileQuery } from "./hooks";
 
 const EMPTY_FORM = {
   firstName: "",
@@ -25,6 +25,7 @@ const UserProfilePage = () => {
 
   const profileQuery = useUserProfileQuery();
   const updateMutation = useUpdateUserProfileMutation();
+  const uploadAvatarMutation = useUploadUserAvatarMutation();
 
   React.useEffect(() => {
     if (!profileQuery.data) {
@@ -94,6 +95,26 @@ const UserProfilePage = () => {
     }
   };
 
+  const handleAvatarUpload = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const updated = await uploadAvatarMutation.mutateAsync(formData);
+      setField("avatarUrl", updated?.avatarUrl || "");
+      toast.success("Profile photo updated successfully");
+    } catch (error) {
+      toast.error(error.message || "Failed to upload profile photo");
+    } finally {
+      event.target.value = "";
+    }
+  };
+
   if (profileQuery.isLoading) {
     return <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">Loading profile...</div>;
   }
@@ -114,6 +135,21 @@ const UserProfilePage = () => {
       </div>
 
       <form className="space-y-4 rounded-2xl border border-slate-200 bg-white p-4 md:p-5" onSubmit={handleSubmit}>
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+          <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-500">Profile Photo</h3>
+          <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <img
+              src={form.avatarUrl || "https://placehold.co/120x120?text=Avatar"}
+              alt="Profile avatar"
+              className="h-20 w-20 rounded-2xl border border-slate-200 object-cover"
+            />
+            <div className="space-y-2">
+              <input type="file" accept="image/*" onChange={handleAvatarUpload} />
+              <p className="text-xs text-slate-500">Upload JPG, PNG, or WEBP image.</p>
+            </div>
+          </div>
+        </div>
+
         <div className="grid gap-3 md:grid-cols-2">
           <Input
             placeholder="First Name"
@@ -176,7 +212,7 @@ const UserProfilePage = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button type="submit" disabled={updateMutation.isPending}>
+          <Button type="submit" disabled={updateMutation.isPending || uploadAvatarMutation.isPending}>
             {updateMutation.isPending ? "Saving..." : "Save Profile"}
           </Button>
         </div>
