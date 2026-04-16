@@ -533,7 +533,7 @@ export const visaTypeData = {
 
    newZealand: {
     business: {
-      title: "newzealand Business Visa",
+      title: "Newzealand Business Visa",
       badge: "newzealand • Business Visa",
       subtitle:
         "Structured support for tourist travel, meetings, and professional visits to newzealand.",
