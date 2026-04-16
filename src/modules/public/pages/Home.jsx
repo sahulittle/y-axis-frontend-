@@ -104,7 +104,7 @@ const Home = () => {
         "Choose your goal and let us guide you with the right solution, expert support, and the best next steps for your journey.";
     const homeBannerImageUrl =
         siteSettings.homeBannerImageUrl ||
-        "https://media.istockphoto.com/id/1197578214/photo/beautiful-young-woman.jpg?s=612x612&w=0&k=20&c=XdV1GLQalvNSXKsBv4C0vRDjPfiBOArH6BC_iCFtchg=";
+        "https://res.cloudinary.com/dpgos2eya/image/upload/v1776324559/y-axis/site-settings/thivgp1ue21jgyeqcw5l.png";
 
     React.useEffect(() => {
         window.scrollTo(0, 0);
@@ -235,19 +235,19 @@ const Home = () => {
 
     return (
         <div>
-            <section className="w-full bg-gradient-to-br from-orange-50 via-white to-amber-50 py-16 lg:py-24">
+            <section className="w-full bg-gradient-to-br from-orange-50 via-white to-amber-50 py-8 lg:py-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-center">
                         {/* Left Image */}
                         <div className="relative">
                             <div className="absolute -top-6 -left-6 w-32 h-32 bg-orange-200/40 rounded-full blur-3xl"></div>
                             <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-amber-200/40 rounded-full blur-3xl"></div>
 
-                            <div className="relative rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.12)] bg-white p-3">
+                            <div className="relative rounded-xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.12)] bg-white p-1">
                                 <img
                                     src={homeBannerImageUrl}
                                     alt="Consultation"
-                                    className="w-full h-[300px] sm:h-[420px] object-cover rounded-[22px]"
+                                    className="w-full h-[300px] sm:h-[420px] object-fill rounded-xl"
                                 />
                             </div>
                         </div>
@@ -267,7 +267,7 @@ const Home = () => {
                             </p>
 
                             {/* Buttons */}
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
+                            <div className="grid grid-cols-3 sm:grid-cols-3 gap-3 lg:gap-4 mt-8">
                                 {options.map((item) => (
                                     <button
                                         key={item.label}
@@ -276,7 +276,7 @@ const Home = () => {
                                             window.scrollTo(0, 0);
                                             navigate(item.path);
                                         }}
-                                        className={`group flex flex-col items-center justify-center gap-2 rounded-2xl border px-4 py-5 font-semibold transition-all duration-300 shadow-sm ${active === item.label
+                                        className={`group flex flex-col items-center justify-center gap-2 rounded-2xl border px-2 py-3 lg:px-4 lg:py-5 font-semibold transition-all duration-300 shadow-sm ${active === item.label
                                             ? "bg-gradient-to-r from-orange-500 to-amber-400 text-white border-orange-500 shadow-lg scale-[1.02]"
                                             : "bg-white text-slate-700 border-slate-200 hover:border-orange-300 hover:bg-orange-50"
                                             }`}
@@ -295,8 +295,8 @@ const Home = () => {
                             </div>
 
                             {/* Counselling Card */}
-                            <div className="mt-8">
-                                <div className="flex items-start gap-4 bg-white border border-orange-100 rounded-3xl p-5 sm:p-6 shadow-[0_10px_35px_rgba(15,23,42,0.08)]">
+                            {/* <div className="mt-8">
+                                <div className="flex items-start gap-4 bg-white border border-orange-100 rounded-xl p-5 sm:p-6 shadow-[0_10px_35px_rgba(15,23,42,0.08)]">
                                     <div className="shrink-0 h-14 w-14 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 text-white flex items-center justify-center shadow-md">
                                         <BadgeHelp size={28} />
                                     </div>
@@ -318,7 +318,7 @@ const Home = () => {
                                         </button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
@@ -440,7 +440,7 @@ const Home = () => {
                     {sections.map((section, index) => (
                         <div
                             key={index}
-                            className={`grid grid-cols-1 lg:grid-cols-2 overflow-hidden rounded-[32px] border shadow-[0_20px_60px_rgba(15,23,42,0.08)] ${section.dark
+                            className={`grid grid-cols-1 lg:grid-cols-2 overflow-hidden rounded-xl border shadow-[0_20px_60px_rgba(15,23,42,0.08)] ${section.dark
                                 ? "bg-slate-950 border-slate-900"
                                 : "bg-white border-slate-200"
                                 }`}
@@ -559,7 +559,7 @@ const Home = () => {
                                         className="group rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_12px_35px_rgba(15,23,42,0.07)] hover:shadow-[0_18px_45px_rgba(15,23,42,0.12)] hover:-translate-y-1 transition-all duration-300"
                                     >
                                         <div className="flex items-start gap-4">
-                                            <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 text-white flex items-center justify-center shadow-md group-hover:scale-105 transition">
+                                            <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 text-white flex items-center  justify-center shadow-md group-hover:scale-105 transition">
                                                 {item.icon}
                                             </div>
 
@@ -582,11 +582,11 @@ const Home = () => {
                             <div className="absolute -top-6 -left-6 w-28 h-28 bg-orange-200/40 rounded-full blur-3xl"></div>
                             <div className="absolute -bottom-8 -right-8 w-36 h-36 bg-amber-200/40 rounded-full blur-3xl"></div>
 
-                            <div className="relative rounded-[30px] overflow-hidden bg-white p-3 shadow-[0_20px_60px_rgba(15,23,42,0.12)]">
+                            <div className="relative rounded-xl overflow-hidden bg-white p-1 shadow-[0_20px_60px_rgba(15,23,42,0.12)]">
                                 <img
                                     src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200&auto=format&fit=crop"
                                     alt="Why Choose Y-Axis"
-                                    className="w-full h-[320px] sm:h-[420px] lg:h-[520px] object-cover rounded-[24px]"
+                                    className="w-full h-[320px] sm:h-[420px] lg:h-[520px] object-cover rounded-xl"
                                 />
                             </div>
                         </div>
@@ -809,61 +809,6 @@ const Home = () => {
                 </div>
             </section>
 
-            <section className="w-full bg-gradient-to-br from-slate-50 via-white to-orange-50 py-16 lg:py-24">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-
-                        {/* Left Content */}
-                        <div>
-                            <span className="inline-flex items-center rounded-full bg-orange-100 text-orange-700 px-4 py-1.5 text-sm font-semibold mb-4">
-                                Careers
-                            </span>
-
-                            <h3 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight">
-                                Join the best team of experts
-                            </h3>
-
-                            <p className="mt-5 text-base sm:text-lg text-slate-600 leading-8 max-w-xl">
-                                Build a rewarding career with our professional team. Grow your skills,
-                                work on global opportunities, and be part of a company that values
-                                innovation, expertise, and success.
-                            </p>
-
-                            <button className="mt-7 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-6 py-3 text-sm sm:text-base font-semibold text-slate-950 shadow-lg hover:scale-[1.03] transition-all duration-300">
-                                Career at Visaassist
-                                <ArrowRight size={18} />
-                            </button>
-
-                            {/* Extra Highlight Card */}
-                            <div className="mt-8 rounded-[28px] border border-orange-100 bg-white p-6 shadow-[0_15px_40px_rgba(15,23,42,0.07)]">
-                                <h4 className="text-lg font-bold text-slate-900">
-                                    Why join us?
-                                </h4>
-                                <p className="mt-2 text-slate-600 leading-7">
-                                    Work with industry experts, gain global exposure, and grow your
-                                    career in a dynamic and supportive environment.
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Right Image */}
-                        <div className="relative">
-                            <div className="absolute -top-6 -left-6 w-28 h-28 bg-orange-200/40 rounded-full blur-3xl"></div>
-                            <div className="absolute -bottom-8 -right-8 w-36 h-36 bg-amber-200/40 rounded-full blur-3xl"></div>
-
-                            <div className="relative rounded-[32px] overflow-hidden bg-white p-3 shadow-[0_20px_60px_rgba(15,23,42,0.12)]">
-                                <img
-                                    src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=1200&auto=format&fit=crop"
-                                    alt="Career Team"
-                                    className="w-full h-[320px] sm:h-[420px] lg:h-[520px] object-cover rounded-[26px]"
-                                />
-                                <div className="absolute inset-3 rounded-[26px] bg-gradient-to-t from-slate-950/30 via-transparent to-transparent"></div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
             <Footer/>
         </div>
     );

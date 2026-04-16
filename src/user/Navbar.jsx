@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { clearSession, readSession } from "../shared/auth/session";
 import { getPublicSiteSettings } from "./api/publicApi";
+import logo from '../../public/logo.jpeg'
 
 const navItems = [
   { label: "Free Eligiblity Check", href: "/free-eligibility-check" },
@@ -155,14 +156,19 @@ const Navbar = () => {
               <a href="/" className="flex items-center gap-3 shrink-0">
                 {siteLogoUrl ? (
                   <img
-                    src={siteLogoUrl}
+                    src={logo}
                     alt={`${siteName} logo`}
                     className="h-12 w-12 rounded-2xl border border-slate-200 object-cover shadow-lg"
                   />
                 ) : (
-                  <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-orange-500 via-amber-400 to-yellow-300 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg">
-                    {siteName.slice(0, 1).toUpperCase()}
-                  </div>
+                  <img
+                    src={logo}
+                    alt={`${siteName} logo`}
+                    className="h-12 w-12 rounded-2xl border border-slate-200 object-cover shadow-lg"
+                  />
+                  // <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-orange-500 via-amber-400 to-yellow-300 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg">
+                  //   {siteName.slice(0, 1).toUpperCase()}
+                  // </div>
                 )}
                 <div className="leading-tight">
                   <div className="text-xl font-extrabold text-slate-900 tracking-tight">

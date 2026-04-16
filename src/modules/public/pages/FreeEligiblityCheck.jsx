@@ -200,6 +200,12 @@ const FreeEligiblityCheck = () => {
         },
     ];
 
+    const handleWhatsApp = () => {
+        const phone = "917670800001"; // your number with country code
+        const message = "Hi, I want to start evaluation";
+        const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        window.open(url, "_blank");
+    };
     return (
         <div className="min-h-screen bg-[#f3f3f3] px-4 py-4 md:px-8 lg:px-10">
             <section className="relative overflow-hidden bg-gradient-to-br from-[#f8fbff] via-white to-[#fff4ed] py-16 md:py-20">
@@ -285,16 +291,16 @@ const FreeEligiblityCheck = () => {
                                                 key={goal}
                                                 onClick={() => setSelectedGoal(goal)}
                                                 className={`group rounded-2xl border px-6 py-5 text-left transition-all duration-300 ${selectedGoal === goal
-                                                        ? "border-[#f04124] bg-[#f04124] text-white shadow-lg"
-                                                        : "border-slate-200 bg-white text-slate-700 hover:-translate-y-1 hover:border-[#f04124] hover:shadow-md"
+                                                    ? "border-[#f04124] bg-[#f04124] text-white shadow-lg"
+                                                    : "border-slate-200 bg-white text-slate-700 hover:-translate-y-1 hover:border-[#f04124] hover:shadow-md"
                                                     }`}
                                             >
                                                 <div className="flex items-center justify-between">
                                                     <span className="text-lg font-bold">{goal}</span>
                                                     <span
                                                         className={`rounded-full px-2 py-1 text-xs font-semibold ${selectedGoal === goal
-                                                                ? "bg-white/20 text-white"
-                                                                : "bg-orange-50 text-orange-600"
+                                                            ? "bg-white/20 text-white"
+                                                            : "bg-orange-50 text-orange-600"
                                                             }`}
                                                     >
                                                         Select
@@ -335,8 +341,8 @@ const FreeEligiblityCheck = () => {
                                                 key={country}
                                                 onClick={() => setSelectedCountry(country)}
                                                 className={`rounded-full border px-5 py-3 text-sm md:text-base font-semibold transition-all duration-200 ${selectedCountry === country
-                                                        ? "border-[#f04124] bg-[#f04124] text-white shadow-md"
-                                                        : "border-slate-200 bg-white text-slate-700 hover:border-[#f04124] hover:text-[#f04124] hover:shadow-sm"
+                                                    ? "border-[#f04124] bg-[#f04124] text-white shadow-md"
+                                                    : "border-slate-200 bg-white text-slate-700 hover:border-[#f04124] hover:text-[#f04124] hover:shadow-sm"
                                                     }`}
                                             >
                                                 {country}
@@ -603,7 +609,10 @@ const FreeEligiblityCheck = () => {
                                     your immigration journey.
                                 </p>
 
-                                <button className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#f04124] px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:opacity-90">
+                                <button
+                                    onClick={handleWhatsApp}
+                                    className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#f04124] px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:opacity-90"
+                                >
                                     Start Evaluation
                                     <FaArrowRight size={18} />
                                 </button>
