@@ -93,7 +93,7 @@ const Visa = () => {
 
         const loadCountries = async () => {
             try {
-                const countries = await getPublicCountries();
+                const countries = await getPublicCountries({ applicationEnabled: true });
                 if (!Array.isArray(countries) || countries.length === 0 || !mounted) {
                     return;
                 }
@@ -102,10 +102,14 @@ const Visa = () => {
                     countries.map(async (countryItem, index) => {
                         let firstVisaType = null;
                         try {
-                            const visaTypes = await getPublicVisaTypesByCountry(countryItem.slug);
+                            const visaTypes = await getPublicVisaTypesByCountry(countryItem.slug, { applicationEnabled: true });
                             firstVisaType = Array.isArray(visaTypes) ? visaTypes[0] : null;
-                        } catch (_error) {
+                        } catch {
                             firstVisaType = null;
+                        }
+
+                        if (!firstVisaType?.visaTypeSlug) {
+                            return null;
                         }
 
                         return {
@@ -114,16 +118,20 @@ const Visa = () => {
                             slug: countryItem.slug,
                             image: countryItem.heroImage || countryItem.flagImage || FALLBACK_VISA_ITEMS[index % FALLBACK_VISA_ITEMS.length].image,
                             description: countryItem.description || `Explore ${countryItem.name} visa opportunities with expert support.`,
-                            defaultVisaType: firstVisaType?.visaTypeSlug || null,
+                            defaultVisaType: firstVisaType.visaTypeSlug,
                         };
                     })
                 );
 
+                const eligibleCountries = mapped.filter(Boolean);
+
                 if (mounted) {
-                    setVisaItems(mapped);
+                    if (eligibleCountries.length > 0) {
+                        setVisaItems(eligibleCountries);
+                    }
                     setActiveIndex(0);
                 }
-            } catch (_error) {
+            } catch {
                 // Keep fallback content if API call fails.
             }
         };

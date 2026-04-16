@@ -38,7 +38,7 @@ const SettingsPage = () => {
   const patchMutation = usePatchSettingsMutation();
   const uploadMutation = useUploadSiteAssetMutation();
 
-  const rows = query.data?.items || [];
+  const rows = React.useMemo(() => query.data?.items || [], [query.data?.items]);
   const pagination = query.data?.pagination || { page: 1, totalPages: 1 };
 
   React.useEffect(() => {

@@ -20,6 +20,13 @@ const TICKET_CATEGORIES = [
 
 const formatLabel = (value = "") => value.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
 
+const parseAttachmentUrls = (value = "") => {
+  return String(value)
+    .split(/\n|,/g)
+    .map((item) => item.trim())
+    .filter((item) => /^https?:\/\//i.test(item));
+};
+
 const statusBadgeVariant = (status = "") => {
   if (status === "resolved") {
     return "success";
@@ -56,6 +63,8 @@ const TicketsPage = () => {
   const [statusDraft, setStatusDraft] = React.useState("open");
   const [priorityDraft, setPriorityDraft] = React.useState("medium");
   const [replyMessage, setReplyMessage] = React.useState("");
+  const [replyFiles, setReplyFiles] = React.useState([]);
+  const [replyAttachmentLinks, setReplyAttachmentLinks] = React.useState("");
 
   const listQuery = useTicketsQuery(filters);
   const detailQuery = useTicketDetailQuery(selectedId, { enabled: Boolean(selectedId) });
@@ -77,6 +86,8 @@ const TicketsPage = () => {
   const handleSelect = (row) => {
     setSelectedId(row._id);
     setReplyMessage("");
+    setReplyFiles([]);
+    setReplyAttachmentLinks("");
   };
 
   const handleStatusSave = async () => {
@@ -103,14 +114,20 @@ const TicketsPage = () => {
       return;
     }
 
+    const attachmentUrls = parseAttachmentUrls(replyAttachmentLinks);
+
     try {
       await replyMutation.mutateAsync({
         id: selectedId,
         payload: {
           message: replyMessage.trim(),
+          files: replyFiles,
+          attachmentUrls,
         },
       });
       setReplyMessage("");
+      setReplyFiles([]);
+      setReplyAttachmentLinks("");
       toast.success("Reply sent");
     } catch (error) {
       toast.error(error.message || "Failed to send reply");
@@ -283,6 +300,31 @@ const TicketsPage = () => {
                 />
               </div>
 
+              <div className="grid gap-3 md:grid-cols-2">
+                <div>
+                  <label className="mb-1 block text-sm font-medium text-slate-700">Reply Attachments (files)</label>
+                  <input
+                    type="file"
+                    multiple
+                    onChange={(event) => setReplyFiles(Array.from(event.target.files || []))}
+                    className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1 block text-sm font-medium text-slate-700">
+                    Reply Attachment URLs (optional)
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={replyAttachmentLinks}
+                    onChange={(event) => setReplyAttachmentLinks(event.target.value)}
+                    placeholder="One URL per line"
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
+                  />
+                </div>
+              </div>
+
               <div className="flex flex-wrap gap-2">
                 <Button type="button" onClick={handleStatusSave} disabled={statusMutation.isPending}>
                   Update Status
@@ -300,6 +342,21 @@ const TicketsPage = () => {
               <div className="rounded-xl bg-slate-50 p-3 text-sm text-slate-700">
                 <p className="font-medium text-slate-900">{selectedTicket.subject}</p>
                 <p className="mt-1 whitespace-pre-wrap">{selectedTicket.description}</p>
+                {Array.isArray(selectedTicket.attachments) && selectedTicket.attachments.length > 0 ? (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {selectedTicket.attachments.map((attachment, index) => (
+                      <a
+                        key={`${attachment.fileUrl}-${index}`}
+                        href={attachment.fileUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="rounded-lg border border-slate-300 bg-white px-2 py-1 text-xs text-slate-700 hover:bg-slate-50"
+                      >
+                        {attachment.originalName || `Attachment ${index + 1}`}
+                      </a>
+                    ))}
+                  </div>
+                ) : null}
               </div>
 
               <div className="space-y-2">
@@ -314,6 +371,21 @@ const TicketsPage = () => {
                       <p className="mt-1 text-xs text-slate-500">
                         {reply.createdAt ? new Date(reply.createdAt).toLocaleString() : "-"}
                       </p>
+                      {Array.isArray(reply.attachments) && reply.attachments.length > 0 ? (
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {reply.attachments.map((attachment, index) => (
+                            <a
+                              key={`${attachment.fileUrl}-${index}`}
+                              href={attachment.fileUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="rounded-lg border border-slate-300 px-2 py-1 text-xs text-slate-700 hover:bg-slate-50"
+                            >
+                              {attachment.originalName || `Attachment ${index + 1}`}
+                            </a>
+                          ))}
+                        </div>
+                      ) : null}
                     </div>
                   ))
                 )}

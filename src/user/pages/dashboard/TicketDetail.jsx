@@ -7,6 +7,13 @@ import { useReplyUserTicketMutation, useUserTicketDetailQuery } from "./hooks";
 
 const formatLabel = (value = "") => value.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
 
+const parseAttachmentUrls = (value = "") => {
+  return String(value)
+    .split(/\n|,/g)
+    .map((item) => item.trim())
+    .filter((item) => /^https?:\/\//i.test(item));
+};
+
 const statusVariant = (status = "") => {
   if (status === "resolved") {
     return "success";
@@ -23,6 +30,7 @@ const UserTicketDetailPage = () => {
 
   const [message, setMessage] = React.useState("");
   const [files, setFiles] = React.useState([]);
+  const [attachmentLinks, setAttachmentLinks] = React.useState("");
 
   const detailQuery = useUserTicketDetailQuery(id, { enabled: Boolean(id) });
   const replyMutation = useReplyUserTicketMutation();
@@ -45,10 +53,16 @@ const UserTicketDetailPage = () => {
       payload.append("attachments", file);
     });
 
+    const attachmentUrls = parseAttachmentUrls(attachmentLinks);
+    if (attachmentUrls.length > 0) {
+      payload.append("attachmentUrls", JSON.stringify(attachmentUrls));
+    }
+
     try {
       await replyMutation.mutateAsync({ id, payload });
       setMessage("");
       setFiles([]);
+      setAttachmentLinks("");
       toast.success("Reply sent successfully");
     } catch (error) {
       toast.error(error.message || "Failed to send reply");
@@ -96,6 +110,21 @@ const UserTicketDetailPage = () => {
           <p className="mt-2 text-xs text-slate-500">
             Linked Application: {ticket.applicationId.applicationNumber} ({formatLabel(ticket.applicationId.status || "-")})
           </p>
+        ) : null}
+        {Array.isArray(ticket?.attachments) && ticket.attachments.length > 0 ? (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {ticket.attachments.map((attachment, index) => (
+              <a
+                key={`${attachment.fileUrl}-${index}`}
+                href={attachment.fileUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-lg border border-slate-300 bg-white px-2 py-1 text-xs text-slate-700 hover:bg-slate-50"
+              >
+                {attachment.originalName || `Attachment ${index + 1}`}
+              </a>
+            ))}
+          </div>
         ) : null}
       </article>
 
@@ -152,6 +181,15 @@ const UserTicketDetailPage = () => {
           disabled={isClosed}
           onChange={(event) => setFiles(Array.from(event.target.files || []))}
           className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm"
+        />
+
+        <textarea
+          rows={3}
+          value={attachmentLinks}
+          onChange={(event) => setAttachmentLinks(event.target.value)}
+          placeholder={isClosed ? "Ticket is closed" : "Optional attachment URLs (one per line)"}
+          disabled={isClosed}
+          className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
         />
 
         <div className="flex justify-end">

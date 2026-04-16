@@ -30,12 +30,15 @@ const UsersPage = () => {
     limit: 10,
     search: "",
     role: "",
+    isActive: "",
+    isDeleted: "",
     sortBy: "createdAt",
     sortOrder: "desc",
   });
 
   const [draftSearch, setDraftSearch] = React.useState("");
   const [draftRole, setDraftRole] = React.useState("");
+  const [draftStatus, setDraftStatus] = React.useState("");
 
   const query = useUsersQuery(filters);
   const updateMutation = useUpdateUserMutation();
@@ -45,32 +48,51 @@ const UsersPage = () => {
   const pagination = query.data?.pagination || { page: 1, totalPages: 1, total: 0 };
 
   const counts = React.useMemo(() => {
-    const active = rows.filter((item) => item.isActive).length;
-    const inactive = rows.length - active;
-    return { active, inactive };
+    const active = rows.filter((item) => item.isActive && !item.isDeleted).length;
+    const inactive = rows.filter((item) => !item.isActive && !item.isDeleted).length;
+    const deleted = rows.filter((item) => item.isDeleted).length;
+    return { active, inactive, deleted };
   }, [rows]);
 
   const applyFilters = () => {
+    const statusMap = {
+      active: { isActive: "true", isDeleted: "false" },
+      inactive: { isActive: "false", isDeleted: "false" },
+      deleted: { isActive: "", isDeleted: "true" },
+    };
+
+    const statusFilter = statusMap[draftStatus] || { isActive: "", isDeleted: "" };
+
     setFilters((current) => ({
       ...current,
       page: 1,
       search: draftSearch.trim(),
       role: draftRole,
+      isActive: statusFilter.isActive,
+      isDeleted: statusFilter.isDeleted,
     }));
   };
 
   const resetFilters = () => {
     setDraftSearch("");
     setDraftRole("");
+    setDraftStatus("");
     setFilters((current) => ({
       ...current,
       page: 1,
       search: "",
       role: "",
+      isActive: "",
+      isDeleted: "",
     }));
   };
 
   const handleRoleChange = async (targetUser, role) => {
+    if (targetUser.isDeleted) {
+      toast.error("Deleted users cannot be modified");
+      return;
+    }
+
     try {
       await updateMutation.mutateAsync({ userId: targetUser._id, payload: { role } });
       toast.success("User role updated");
@@ -80,6 +102,11 @@ const UsersPage = () => {
   };
 
   const handleActiveToggle = async (targetUser) => {
+    if (targetUser.isDeleted) {
+      toast.error("Deleted users cannot be activated");
+      return;
+    }
+
     try {
       await updateMutation.mutateAsync({
         userId: targetUser._id,
@@ -130,7 +157,7 @@ const UsersPage = () => {
         <select
           value={row.role}
           onChange={(event) => handleRoleChange(row, event.target.value)}
-          disabled={updateMutation.isPending || row._id === currentUser?._id}
+          disabled={updateMutation.isPending || row._id === currentUser?._id || row.isDeleted}
           className="rounded-lg border border-slate-300 px-2 py-1 text-sm disabled:bg-slate-100"
         >
           {USER_ROLES.map((role) => (
@@ -146,7 +173,9 @@ const UsersPage = () => {
       label: "Status",
       sortable: true,
       render: (row) => (
-        <Badge variant={row.isActive ? "success" : "danger"}>{row.isActive ? "Active" : "Inactive"}</Badge>
+        <Badge variant={row.isDeleted ? "neutral" : row.isActive ? "success" : "danger"}>
+          {row.isDeleted ? "Deleted" : row.isActive ? "Active" : "Inactive"}
+        </Badge>
       ),
     },
     {
@@ -154,12 +183,13 @@ const UsersPage = () => {
       label: "Actions",
       render: (row) => {
         const isSelf = row._id === currentUser?._id;
+        const isDeleted = Boolean(row.isDeleted);
         return (
           <div className="flex items-center gap-2">
             <Button
               size="sm"
               variant="secondary"
-              disabled={updateMutation.isPending || isSelf}
+              disabled={updateMutation.isPending || isSelf || isDeleted}
               onClick={() => handleActiveToggle(row)}
             >
               {row.isActive ? "Deactivate" : "Activate"}
@@ -167,10 +197,10 @@ const UsersPage = () => {
             <Button
               size="sm"
               variant="danger"
-              disabled={deleteMutation.isPending || isSelf}
+              disabled={deleteMutation.isPending || isSelf || isDeleted}
               onClick={() => handleDeleteUser(row)}
             >
-              Delete
+              {isDeleted ? "Deleted" : "Delete"}
             </Button>
           </div>
         );
@@ -185,10 +215,11 @@ const UsersPage = () => {
         <p className="mt-1 text-sm text-slate-600">View all registered users, control roles and status, and remove accounts.</p>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <StatsCard label="Total Users" value={pagination.total || 0} hint="Across current filters" />
         <StatsCard label="Active In View" value={counts.active} hint="Current page" />
         <StatsCard label="Inactive In View" value={counts.inactive} hint="Current page" />
+        <StatsCard label="Deleted In View" value={counts.deleted} hint="Current page" />
       </div>
 
       <FiltersBar>
@@ -220,6 +251,23 @@ const UsersPage = () => {
                 {role}
               </option>
             ))}
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="users-status" className="mb-1 block text-xs uppercase tracking-[0.12em] text-slate-500">
+            Status
+          </label>
+          <select
+            id="users-status"
+            value={draftStatus}
+            onChange={(event) => setDraftStatus(event.target.value)}
+            className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
+          >
+            <option value="">All statuses</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="deleted">Deleted</option>
           </select>
         </div>
 

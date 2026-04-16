@@ -21,6 +21,13 @@ const TICKET_CATEGORIES = [
 
 const formatLabel = (value = "") => value.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
 
+const parseAttachmentUrls = (value = "") => {
+  return String(value)
+    .split(/\n|,/g)
+    .map((item) => item.trim())
+    .filter((item) => /^https?:\/\//i.test(item));
+};
+
 const statusVariant = (status = "") => {
   if (status === "resolved") {
     return "success";
@@ -62,6 +69,7 @@ const UserTicketsPage = () => {
 
   const [form, setForm] = React.useState(INITIAL_FORM);
   const [attachmentFiles, setAttachmentFiles] = React.useState([]);
+  const [attachmentLinks, setAttachmentLinks] = React.useState("");
 
   const ticketsQuery = useUserTicketsQuery(filters);
   const applicationsQuery = useUserApplicationsQuery({ page: 1, limit: 200 });
@@ -93,11 +101,17 @@ const UserTicketsPage = () => {
       payload.append("attachments", file);
     });
 
+    const attachmentUrls = parseAttachmentUrls(attachmentLinks);
+    if (attachmentUrls.length > 0) {
+      payload.append("attachmentUrls", JSON.stringify(attachmentUrls));
+    }
+
     try {
       await createTicketMutation.mutateAsync(payload);
       toast.success("Ticket created successfully");
       setForm(INITIAL_FORM);
       setAttachmentFiles([]);
+      setAttachmentLinks("");
     } catch (error) {
       toast.error(error.message || "Failed to create ticket");
     }
@@ -219,6 +233,17 @@ const UserTicketsPage = () => {
               multiple
               onChange={(event) => setAttachmentFiles(Array.from(event.target.files || []))}
               className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm"
+            />
+          </div>
+
+          <div className="md:col-span-2">
+            <label className="mb-1 block text-sm font-medium text-slate-700">Attachment URLs (optional)</label>
+            <textarea
+              rows={3}
+              placeholder="One URL per line"
+              value={attachmentLinks}
+              onChange={(event) => setAttachmentLinks(event.target.value)}
+              className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
             />
           </div>
         </div>

@@ -81,7 +81,7 @@ const Australia = () => {
 
               <div className="mt-8 flex flex-wrap gap-4">
                 <button
-                  onClick={() => navigate(`/apply/${country}/${visaType}`)}
+                  onClick={() => navigate("/visa/australia/visitor")}
                   className="inline-flex items-center gap-2 rounded-full bg-[#f2653a] px-7 py-4 text-white font-semibold shadow-lg hover:scale-[1.02] transition"
                 >
                   Start Application

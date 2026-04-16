@@ -155,6 +155,18 @@ const CountriesPage = () => {
       render: (row) => row.sortOrder || 0,
     },
     {
+      key: "visaCoverage",
+      label: "Visa Types",
+      render: (row) => (
+        <div>
+          <p className="text-sm font-medium text-slate-900">{row.activeApplyVisaTypes || 0} apply-enabled</p>
+          <p className="mt-1 text-xs text-slate-500">
+            {row.activeVisaTypes || 0} active / {row.totalVisaTypes || 0} total
+          </p>
+        </div>
+      ),
+    },
+    {
       key: "updatedAt",
       label: "Updated",
       render: (row) => (row.updatedAt ? new Date(row.updatedAt).toLocaleString() : "-"),

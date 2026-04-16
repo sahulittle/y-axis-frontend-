@@ -90,9 +90,12 @@ const UserDocumentsPage = () => {
   const applicationsQuery = useUserApplicationsQuery({ page: 1, limit: 200 });
   const uploadMutation = useUploadUserDocumentMutation();
 
-  const rows = documentsQuery.data?.items || [];
+  const rows = React.useMemo(() => documentsQuery.data?.items || [], [documentsQuery.data?.items]);
   const pagination = documentsQuery.data?.pagination || { page: 1, totalPages: 1 };
-  const applicationRows = applicationsQuery.data?.items || [];
+  const applicationRows = React.useMemo(
+    () => applicationsQuery.data?.items || [],
+    [applicationsQuery.data?.items]
+  );
 
   const caseApplicantOptions = React.useMemo(() => {
     const collected = new Map();

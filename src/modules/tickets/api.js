@@ -27,6 +27,16 @@ export const replyToTicket = (id, payload) => {
   const formData = new FormData();
   formData.append("message", payload.message || "");
 
+  if (Array.isArray(payload.files)) {
+    payload.files.forEach((file) => {
+      formData.append("attachments", file);
+    });
+  }
+
+  if (Array.isArray(payload.attachmentUrls) && payload.attachmentUrls.length > 0) {
+    formData.append("attachmentUrls", JSON.stringify(payload.attachmentUrls));
+  }
+
   return request({
     url: `/admin/tickets/${id}/replies`,
     method: "POST",

@@ -218,10 +218,11 @@ export const submitPublicEnquiry = (payload) => {
   });
 };
 
-export const getPublicCountries = () => {
+export const getPublicCountries = (params) => {
   return request({
     url: "/public/countries",
     method: "GET",
+    params,
   });
 };
 
@@ -239,10 +240,11 @@ export const getPublicCountryBySlug = (countrySlug) => {
   });
 };
 
-export const getPublicVisaTypesByCountry = (countrySlug) => {
+export const getPublicVisaTypesByCountry = (countrySlug, params) => {
   return request({
     url: `/public/countries/${encodeURIComponent(countrySlug)}/visa-types`,
     method: "GET",
+    params,
   });
 };
 

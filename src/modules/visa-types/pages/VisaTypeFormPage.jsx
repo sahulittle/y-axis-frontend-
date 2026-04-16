@@ -45,6 +45,33 @@ const normalizeStringArray = (input) => {
   return input.map((item) => trim(item)).filter(Boolean);
 };
 
+const normalizeStructuredTextArray = (input, keyHints = []) => {
+  if (!Array.isArray(input)) {
+    return [];
+  }
+
+  return input
+    .map((item) => {
+      if (typeof item === "string") {
+        return trim(item);
+      }
+
+      if (!item || typeof item !== "object") {
+        return "";
+      }
+
+      for (const key of keyHints) {
+        const value = trim(item[key]);
+        if (value) {
+          return value;
+        }
+      }
+
+      return "";
+    })
+    .filter(Boolean);
+};
+
 const initialForm = {
   countryId: "",
   visaCategoryId: "",
@@ -86,10 +113,10 @@ const mapApiToForm = (data) => ({
   heroImage: data.heroImage || "",
   iconKey: data.iconKey || "plane",
   serviceHighlights: Array.isArray(data.serviceHighlights) ? data.serviceHighlights : [],
-  eligibility: Array.isArray(data.eligibility) ? data.eligibility : [],
-  requiredDocs: Array.isArray(data.requiredDocs) ? data.requiredDocs : [],
-  process: Array.isArray(data.process) ? data.process : [],
-  timeline: Array.isArray(data.timeline) ? data.timeline : [],
+  eligibility: normalizeStringArray(data.eligibility),
+  requiredDocs: normalizeStructuredTextArray(data.requiredDocs, ["name", "title", "label"]),
+  process: normalizeStructuredTextArray(data.process, ["title", "label", "name"]),
+  timeline: normalizeStructuredTextArray(data.timeline, ["label", "title", "name"]),
   faqs: Array.isArray(data.faqs) ? data.faqs : [],
   ctaTitle: data.ctaTitle || "",
   ctaText: data.ctaText || "",

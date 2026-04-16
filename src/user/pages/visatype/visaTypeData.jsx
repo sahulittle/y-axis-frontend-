@@ -144,6 +144,7 @@ const VisaTypeData = () => {
     ? [...visa.timeline].sort((a, b) => (a?.sortOrder || 0) - (b?.sortOrder || 0))
     : [];
   const faqItems = Array.isArray(visa.faqs) ? visa.faqs : [];
+  const canApply = visa.applicationEnabled !== false;
 
   const processIcons = [
     Sparkles,
@@ -194,10 +195,17 @@ const VisaTypeData = () => {
 
               <div className="mt-8 flex flex-wrap gap-4">
                 <button
-                  onClick={() => navigate(`/apply/${country}/${visaType}`)}
-                  className="inline-flex items-center gap-2 rounded-full bg-[#f2653a] px-7 py-4 text-white font-semibold shadow-lg hover:scale-[1.02] transition"
+                  onClick={() => {
+                    if (canApply) {
+                      navigate(`/apply/${country}/${visaType}`);
+                    }
+                  }}
+                  disabled={!canApply}
+                  className={`inline-flex items-center gap-2 rounded-full px-7 py-4 text-white font-semibold shadow-lg transition ${
+                    canApply ? "bg-[#f2653a] hover:scale-[1.02]" : "bg-slate-400 cursor-not-allowed"
+                  }`}
                 >
-                  Start Application
+                  {canApply ? "Start Application" : "Application Unavailable"}
                   <ArrowRight size={18} />
                 </button>
 
@@ -463,10 +471,19 @@ const VisaTypeData = () => {
 
             <div className="mt-8 flex justify-center gap-4 flex-wrap">
               <button
-                onClick={() => navigate(`/apply/${country}/${visaType}`)}
-                className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-[#f2653a] font-bold shadow-lg hover:scale-[1.02] transition"
+                onClick={() => {
+                  if (canApply) {
+                    navigate(`/apply/${country}/${visaType}`);
+                  }
+                }}
+                disabled={!canApply}
+                className={`inline-flex items-center gap-2 rounded-full px-8 py-4 font-bold shadow-lg transition ${
+                  canApply
+                    ? "bg-white text-[#f2653a] hover:scale-[1.02]"
+                    : "bg-white/60 text-slate-300 cursor-not-allowed"
+                }`}
               >
-                Start Application
+                {canApply ? "Start Application" : "Application Unavailable"}
                 <ArrowRight size={18} />
               </button>
 

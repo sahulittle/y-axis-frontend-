@@ -29,7 +29,7 @@ const FreeEligiblityCheck = () => {
     const [selectedCountry, setSelectedCountry] = useState("UK");
     const [openIndex, setOpenIndex] = useState(0);
     const toast = useToast();
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [_isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -46,7 +46,7 @@ const FreeEligiblityCheck = () => {
         setOpenIndex(openIndex === index ? null : index);
     };
 
-    const handleChange = (event) => {
+    const _handleChange = (event) => {
         const { name, value, type, checked } = event.target;
         setFormData((current) => ({
             ...current,
@@ -54,7 +54,7 @@ const FreeEligiblityCheck = () => {
         }));
     };
 
-    const submitEligibility = async () => {
+    const _submitEligibility = async () => {
         if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
             toast.error("Please fill all required fields");
             return;

@@ -134,6 +134,8 @@ const normalizeApiVisaContent = (data) => {
     ctaText: data.ctaText || "Connect with our team for personalized guidance.",
     seoTitle: data.seoTitle || "",
     seoDescription: data.seoDescription || "",
+    applicationEnabled: data.applicationEnabled !== false,
+    consultationEnabled: data.consultationEnabled !== false,
   };
 };
 
@@ -159,6 +161,8 @@ const normalizeStaticVisaContent = (data) => {
     faqs: normalizeFaqs(data.faqs),
     ctaTitle: data.ctaTitle || "Ready to start your visa application?",
     ctaText: data.ctaText || "Connect with our team for personalized guidance.",
+    applicationEnabled: data.applicationEnabled !== false,
+    consultationEnabled: data.consultationEnabled !== false,
   };
 };
 

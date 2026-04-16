@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useToast } from "../../../app/providers/ToastProvider";
 import { getVisaApplicationConfig, submitVisaApplication } from "../../api/publicApi";
-import { getVisaTypeContent as getStaticVisaTypeContent } from "./visatypedata";
 import { readSession } from "../../../shared/auth/session";
 
 const slugify = (value = "") =>
@@ -14,34 +13,40 @@ const slugify = (value = "") =>
     .replace(/-+/g, "-")
     .replace(/^-+|-+$/g, "");
 
-const normalizeRequiredDocs = (requiredDocs = []) => {
-  if (!Array.isArray(requiredDocs)) {
-    return [];
-  }
+const parseSubmittedDocUrls = (value = "") => {
+  return String(value)
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const [left, right] = line.split("|").map((item) => item?.trim());
+      const hasPipe = Boolean(right);
+      const url = hasPipe ? right : left;
 
-  return requiredDocs
-    .map((doc, index) => {
-      if (typeof doc === "string") {
-        return {
-          name: doc,
-          description: "",
-          isMandatory: true,
-          allowedFileTypes: [],
-          maxFiles: 1,
-          sortOrder: index,
-        };
+      if (!/^https?:\/\//i.test(url || "")) {
+        return null;
       }
 
+      let fallbackName = "Document URL";
+      try {
+        const parsedUrl = new URL(url);
+        const segments = parsedUrl.pathname.split("/").filter(Boolean);
+        fallbackName = decodeURIComponent(segments[segments.length - 1] || parsedUrl.hostname || fallbackName);
+      } catch {
+        fallbackName = "Document URL";
+      }
+
+      const docName = hasPipe ? left || fallbackName : fallbackName;
+
       return {
-        name: doc?.name || `Document ${index + 1}`,
-        description: doc?.description || "",
-        isMandatory: doc?.isMandatory !== false,
-        allowedFileTypes: Array.isArray(doc?.allowedFileTypes) ? doc.allowedFileTypes : [],
-        maxFiles: Number(doc?.maxFiles) || 1,
-        sortOrder: Number(doc?.sortOrder) || index,
+        docName,
+        fileUrl: url,
+        originalName: docName,
+        mimeType: "url",
+        size: 0,
       };
     })
-    .filter((doc) => doc.name);
+    .filter(Boolean);
 };
 
 const ApplyPage = () => {
@@ -55,6 +60,7 @@ const ApplyPage = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [travelPurpose, setTravelPurpose] = useState("");
+  const [documentLinkEntries, setDocumentLinkEntries] = useState("");
   const [isConfigLoading, setIsConfigLoading] = useState(true);
   const [configError, setConfigError] = useState("");
   const [applicationConfig, setApplicationConfig] = useState(null);
@@ -141,34 +147,9 @@ const ApplyPage = () => {
         setUploadedFiles(initialFiles);
       } catch (error) {
         if (mounted) {
-          const fallbackVisa = getStaticVisaTypeContent(country, visaType);
-          if (fallbackVisa) {
-            const fallbackConfig = {
-              countrySlug: country,
-              visaTypeSlug: visaType,
-              title: fallbackVisa.title || `${country} ${visaType}`,
-              subtitle: fallbackVisa.subtitle || "",
-              summary: fallbackVisa.ctaText || fallbackVisa.subtitle || "",
-              requiredDocs: normalizeRequiredDocs(fallbackVisa.requiredDocs),
-              applicationEnabled: true,
-              consultationEnabled: true,
-            };
-
-            setApplicationConfig(fallbackConfig);
-
-            const initialFiles = (fallbackConfig.requiredDocs.length > 0
-              ? fallbackConfig.requiredDocs
-              : [{ name: "general-documents" }]
-            ).reduce((acc, doc, index) => {
-              acc[slugify(doc?.name || `document-${index}`)] = [];
-              return acc;
-            }, {});
-
-            setUploadedFiles(initialFiles);
-            setConfigError("");
-          } else {
-            setConfigError(error.message || "Failed to load application configuration");
-          }
+          setApplicationConfig(null);
+          setUploadedFiles({});
+          setConfigError(error.message || "Failed to load application configuration");
         }
       } finally {
         if (mounted) {
@@ -249,9 +230,21 @@ const ApplyPage = () => {
       return;
     }
 
+    const manualDocRefs = parseSubmittedDocUrls(documentLinkEntries);
+
     const missingDocs = documentSections
       .filter((doc) => doc.isMandatory)
-      .filter((doc) => !uploadedFiles[doc.key] || uploadedFiles[doc.key].length === 0)
+      .filter((doc) => {
+        const uploadedCount = uploadedFiles[doc.key]?.length || 0;
+
+        const hasManualReference = manualDocRefs.some((entry) => {
+          const normalizedDoc = slugify(doc.title).replace(/-/g, "");
+          const normalizedEntry = slugify(entry.docName).replace(/-/g, "");
+          return normalizedDoc && normalizedEntry && (normalizedEntry.includes(normalizedDoc) || normalizedDoc.includes(normalizedEntry));
+        });
+
+        return uploadedCount === 0 && !hasManualReference;
+      })
       .map((doc) => doc.title);
 
     if (missingDocs.length > 0) {
@@ -301,6 +294,10 @@ const ApplyPage = () => {
         });
       });
 
+      if (manualDocRefs.length > 0) {
+        payload.append("submittedDocs", JSON.stringify(manualDocRefs));
+      }
+
       await submitVisaApplication(payload);
 
       toast.success("Application and documents submitted successfully.");
@@ -322,6 +319,7 @@ const ApplyPage = () => {
       });
 
       setTravelPurpose("");
+      setDocumentLinkEntries("");
 
       setUploadedFiles(
         (documentSections || []).reduce((acc, section) => {
@@ -607,6 +605,22 @@ const ApplyPage = () => {
                   />
                   I had a prior visa refusal
                 </label>
+              </div>
+
+              <div className="mt-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-slate-900">Document URL References (Optional)</h3>
+                <p className="mt-2 text-sm text-slate-600">
+                  If a file cannot be uploaded now, add a secure URL. Use one line per entry.
+                </p>
+                <p className="mt-1 text-xs text-slate-500">Format: Document Name | https://example.com/file.pdf</p>
+
+                <textarea
+                  rows={5}
+                  value={documentLinkEntries}
+                  onChange={(event) => setDocumentLinkEntries(event.target.value)}
+                  placeholder="Passport Copy | https://...\nBank Statement | https://..."
+                  className="mt-3 w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-orange-400 focus:ring-4 focus:ring-orange-100"
+                />
               </div>
             </div>
 
