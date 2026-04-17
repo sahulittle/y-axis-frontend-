@@ -154,7 +154,7 @@ const Home = () => {
                 "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1200&auto=format&fit=crop",
             visas: [
                 "Work Visa",
-                "Student Visa", 
+                "Student Visa",
                 "Business Visa",
                 "Visit Visa",
             ],
@@ -335,7 +335,7 @@ const Home = () => {
 
                             <h3 className="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight">
                                 Popular Visa
-                            </h3>   
+                            </h3>
 
                             <p className="mt-4 text-slate-600 text-base sm:text-lg leading-7 max-w-lg">
                                 Visaassist offers expert guidance and support that increases your
@@ -501,7 +501,7 @@ const Home = () => {
                                         ))}
 
                                         {section.nextButton && (
-                                            <button 
+                                            <button
                                                 onClick={() => {
                                                     window.scrollTo(0, 0);
                                                     navigate("/study");
@@ -595,59 +595,65 @@ const Home = () => {
             </section>
 
             <section className="w-full bg-gradient-to-br from-white via-slate-50 to-orange-50 py-16 lg:py-24">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+
                     {/* Heading */}
-                    <div className="mb-10 lg:mb-14">
+                    <div className="mb-10 lg:mb-14 text-center">
                         <span className="inline-flex rounded-full bg-orange-100 text-orange-700 px-4 py-1.5 text-sm font-semibold mb-4">
                             Stay Updated
                         </span>
+
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900">
                             Latest Update
                         </h2>
                     </div>
 
                     {/* Main Grid */}
-                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                    <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 justify-center items-center lg:ml-80">
+
                         {/* News Card */}
-                        <div className="rounded-[28px] overflow-hidden border border-slate-200 bg-white shadow-[0_15px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_20px_55px_rgba(15,23,42,0.12)] transition-all duration-300">
-                            <div className="relative">
-                                <img
-                                    src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop"
-                                    alt="News"
-                                    className="w-full h-[240px] object-cover"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
-                                <span className="absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900 shadow">
-                                    News
-                                </span>
-                            </div>
+                        <div className="mx-auto w-full max-w-[380px]">
+                            <div className="rounded-[28px] overflow-hidden border border-slate-200 bg-white shadow-[0_15px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_20px_55px_rgba(15,23,42,0.12)] transition-all duration-300">
 
-                            <div className="p-6">
-                                <p className="text-sm font-semibold text-orange-600 uppercase tracking-wide">
-                                    News
-                                </p>
+                                <div className="relative">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop"
+                                        alt="News"
+                                        className="w-full h-[240px] object-cover"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+                                    <span className="absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900 shadow">
+                                        News
+                                    </span>
+                                </div>
 
-                                <p className="mt-3 text-slate-700 leading-7 text-base">
-                                    Canada Introduces Eight Major Immigration Changes from April 1,
-                                    Impacting PR Applicants and Newcomers. Check Your Eligibility
-                                    Now!
-                                </p>
+                                <div className="p-6 text-center">
+                                    <p className="text-sm font-semibold text-orange-600 uppercase tracking-wide">
+                                        News
+                                    </p>
 
-                                <h4 className="mt-4 text-xl font-bold text-slate-900 leading-snug">
-                                    Highlights: Canada Announces Eight Major Immigration Changes
-                                </h4>
+                                    <p className="mt-3 text-slate-700 leading-7 text-base">
+                                        Canada Introduces Eight Major Immigration Changes from April 1,
+                                        Impacting PR Applicants and Newcomers.
+                                    </p>
 
-                                <button className="mt-6 inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-white font-semibold hover:bg-orange-500 transition-all duration-300">
-                                    See All News
-                                    <ArrowRight size={18} />
-                                </button>
+                                    <h4 className="mt-4 text-xl font-bold text-slate-900 leading-snug">
+                                        Highlights: Canada Announces Changes
+                                    </h4>
+
+                                    <button className="mt-6 inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-white font-semibold hover:bg-orange-500 transition-all duration-300">
+                                        See All News
+                                        <ArrowRight size={18} />
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Blog Images Card */}
-                        <div className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-[0_15px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_20px_55px_rgba(15,23,42,0.12)] transition-all duration-300 flex flex-col">
-                            <div className="flex items-center justify-between mb-5">
-                                <div>
+                        {/* Blog Card */}
+                        <div className="mx-auto w-full max-w-[380px]">
+                            <div className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-[0_15px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_20px_55px_rgba(15,23,42,0.12)] transition-all duration-300 flex flex-col">
+
+                                <div className="text-center mb-5">
                                     <p className="text-sm font-semibold text-orange-600 uppercase tracking-wide">
                                         Blog
                                     </p>
@@ -655,43 +661,44 @@ const Home = () => {
                                         Featured Blogs
                                     </h3>
                                 </div>
-                            </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-4 flex-1">
-                                <div className="group rounded-[22px] overflow-hidden relative">
-                                    <img
-                                        src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1200&auto=format&fit=crop"
-                                        alt="Blog 1"
-                                        className="w-full h-[220px] object-cover group-hover:scale-105 transition duration-500"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
-                                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                                        <p className="text-white font-semibold text-lg">
-                                            Global visa and migration guidance for your future
-                                        </p>
+                                <div className="space-y-4 flex-1">
+                                    <div className="group rounded-[22px] overflow-hidden relative">
+                                        <img
+                                            src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1200&auto=format&fit=crop"
+                                            alt="Blog 1"
+                                            className="w-full h-[200px] object-cover group-hover:scale-105 transition duration-500"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+                                        <div className="absolute bottom-0 left-0 right-0 p-4">
+                                            <p className="text-white font-semibold text-lg text-center">
+                                                Global visa guidance for your future
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="group rounded-[22px] overflow-hidden relative">
+                                        <img
+                                            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop"
+                                            alt="Blog 2"
+                                            className="w-full h-[200px] object-cover group-hover:scale-105 transition duration-500"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+                                        <div className="absolute bottom-0 left-0 right-0 p-4">
+                                            <p className="text-white font-semibold text-lg text-center">
+                                                Explore opportunities abroad
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className="group rounded-[22px] overflow-hidden relative">
-                                    <img
-                                        src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop"
-                                        alt="Blog 2"
-                                        className="w-full h-[220px] object-cover group-hover:scale-105 transition duration-500"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
-                                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                                        <p className="text-white font-semibold text-lg">
-                                            Explore opportunities abroad with expert support
-                                        </p>
-                                    </div>
-                                </div>
+                                <button className="mt-5 mx-auto inline-flex items-center gap-2 rounded-full bg-orange-500 px-5 py-3 text-white font-semibold hover:bg-slate-900 transition-all duration-300">
+                                    See All Blogs
+                                    <ArrowRight size={18} />
+                                </button>
                             </div>
-
-                            <button className="mt-5 inline-flex items-center gap-2 rounded-full bg-orange-500 px-5 py-3 text-white font-semibold hover:bg-slate-900 transition-all duration-300 self-start">
-                                See All Blogs
-                                <ArrowRight size={18} />
-                            </button>
                         </div>
+
                     </div>
                 </div>
             </section>
@@ -738,13 +745,13 @@ const Home = () => {
                                 </p>
 
                                 <div className="mt-8 flex flex-wrap gap-3">
-                                    <button 
+                                    <button
                                         onClick={() => window.open("https://wa.me/917670800000", "_blank")}
                                         className="rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-6 py-3 text-sm sm:text-base font-semibold text-slate-950 shadow-lg hover:scale-[1.02] transition-all duration-300"
                                     >
                                         Book Free Consultation
                                     </button>
-                                    <button 
+                                    <button
                                         onClick={() => {
                                             window.scrollTo(0, 0);
                                             navigate("/about");
@@ -773,13 +780,13 @@ const Home = () => {
                                         </p>
                                     </div>
 
-                                    <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 ">
                                         {stats.map((item, index) => (
                                             <div
                                                 key={index}
-                                                className="rounded-[24px] border border-white/10 bg-white/5 p-5 hover:bg-white/10 transition-all duration-300"
+                                                className="rounded-[24px] border border-white/10 bg-white/5 p-5 text-center sm:text-left flex flex-col items-center sm:items-start hover:bg-white/10 transition-all duration-300"
                                             >
-                                                <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 text-slate-950 flex items-center justify-center shadow-md">
+                                                <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 text-slate-950 flex items-center justify-center  shadow-md">
                                                     {item.icon}
                                                 </div>
                                                 <h5 className="mt-4 text-xl font-extrabold text-white">
@@ -809,7 +816,7 @@ const Home = () => {
                 </div>
             </section>
 
-            <Footer/>
+            <Footer />
         </div>
     );
 };

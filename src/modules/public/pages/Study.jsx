@@ -11,47 +11,172 @@ const Study = () => {
     const message = "Hi I need visa assistance";
 
     const countryCodes = [
+        "USA (+1)",
         "IND (+91)",
         "UAE (+971)",
         "UK (+44)",
         "CAN (+1)",
         "AUS (+61)",
+
     ];
 
-    const states = [
-        "Andhra Pradesh",
-        "Arunachal Pradesh",
-        "Assam",
-        "Bihar",
-        "Chhattisgarh",
-        "Delhi",
-        "Goa",
-        "Gujarat",
-        "Haryana",
-        "Jharkhand",
-        "Karnataka",
-        "Kerala",
-        "Madhya Pradesh",
-        "Maharashtra",
-        "Odisha",
-        "Punjab",
-        "Rajasthan",
-        "Tamil Nadu",
-        "Telangana",
-        "Uttar Pradesh",
-        "West Bengal",
-    ];
+    const countryStateMap = {
+        "IND (+91)": [
+            "Andhra Pradesh",
+            "Arunachal Pradesh",
+            "Assam",
+            "Bihar",
+            "Chhattisgarh",
+            "Goa",
+            "Gujarat",
+            "Haryana",
+            "Himachal Pradesh",
+            "Jharkhand",
+            "Karnataka",
+            "Kerala",
+            "Madhya Pradesh",
+            "Maharashtra",
+            "Manipur",
+            "Meghalaya",
+            "Mizoram",
+            "Nagaland",
+            "Odisha",
+            "Punjab",
+            "Rajasthan",
+            "Sikkim",
+            "Tamil Nadu",
+            "Telangana",
+            "Tripura",
+            "Uttar Pradesh",
+            "Uttarakhand",
+            "West Bengal",
+            "Delhi",
+            "Jammu & Kashmir",
+            "Ladakh",
+            "Puducherry",
+        ],
+
+        "UAE (+971)": [
+            "Abu Dhabi",
+            "Dubai",
+            "Sharjah",
+            "Ajman",
+            "Umm Al Quwain",
+            "Ras Al Khaimah",
+            "Fujairah",
+        ],
+
+        "UK (+44)": [
+            "England",
+            "Scotland",
+            "Wales",
+            "Northern Ireland",
+        ],
+
+        "CAN (+1)": [
+            "Alberta",
+            "British Columbia",
+            "Manitoba",
+            "New Brunswick",
+            "Newfoundland and Labrador",
+            "Nova Scotia",
+            "Ontario",
+            "Prince Edward Island",
+            "Quebec",
+            "Saskatchewan",
+        ],
+
+        "AUS (+61)": [
+            "New South Wales",
+            "Victoria",
+            "Queensland",
+            "Western Australia",
+            "South Australia",
+            "Tasmania",
+            "Australian Capital Territory",
+            "Northern Territory",
+        ],
+
+        "USA (+1)": [
+            "Alabama",
+            "Alaska",
+            "Arizona",
+            "Arkansas",
+            "California",
+            "Colorado",
+            "Connecticut",
+            "Delaware",
+            "Florida",
+            "Georgia",
+            "Hawaii",
+            "Idaho",
+            "Illinois",
+            "Indiana",
+            "Iowa",
+            "Kansas",
+            "Kentucky",
+            "Louisiana",
+            "Maine",
+            "Maryland",
+            "Massachusetts",
+            "Michigan",
+            "Minnesota",
+            "Mississippi",
+            "Missouri",
+            "Montana",
+            "Nebraska",
+            "Nevada",
+            "New Hampshire",
+            "New Jersey",
+            "New Mexico",
+            "New York",
+            "North Carolina",
+            "North Dakota",
+            "Ohio",
+            "Oklahoma",
+            "Oregon",
+            "Pennsylvania",
+            "Rhode Island",
+            "South Carolina",
+            "South Dakota",
+            "Tennessee",
+            "Texas",
+            "Utah",
+            "Vermont",
+            "Virginia",
+            "Washington",
+            "West Virginia",
+            "Wisconsin",
+            "Wyoming",
+        ],
+    };
+
+    // const countryCodes = Object.keys(countryStateMap);
+
+
+    const defaultCode = "USA (+1)";
+
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
         email: "",
-        code: "IND (+91)",
+        code: defaultCode,
         phone: "",
-        state: "Andhra Pradesh",
+        state: countryStateMap[defaultCode][0],
         accepted: false,
     });
 
     const handleChange = (field, value) => {
+        if (field === "code") {
+            const nextStates = countryStateMap[value] || [];
+            setFormData((prev) => ({
+                ...prev,
+                code: value,
+                state: nextStates[0] || "",
+            }));
+            return;
+        }
+
         setFormData((prev) => ({
             ...prev,
             [field]: value,
@@ -88,9 +213,9 @@ const Study = () => {
                     firstName: "",
                     lastName: "",
                     email: "",
-                    code: "IND (+91)",
+                    code: defaultCode,
                     phone: "",
-                    state: "Andhra Pradesh",
+                    state: countryStateMap[defaultCode][0],
                     accepted: false,
                 });
             })
@@ -98,7 +223,7 @@ const Study = () => {
                 toast.error(error.message || "Failed to submit request.");
             });
     };
-
+    const availableStates = countryStateMap[formData.code] || [];
     const studyCountries = [
         "Study in Canada",
         "Study in Australia",
@@ -454,7 +579,7 @@ const Study = () => {
                                         onChange={(e) => handleChange("state", e.target.value)}
                                         className="h-14 w-full appearance-none rounded-2xl border border-slate-300 bg-white px-4 pr-12 text-base text-slate-700 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
                                     >
-                                        {states.map((state) => (
+                                        {availableStates.map((state) => (
                                             <option key={state} value={state}>
                                                 {state}
                                             </option>
