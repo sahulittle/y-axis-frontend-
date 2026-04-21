@@ -532,10 +532,10 @@ const Home = () => {
                 </div>
             </section>
 
-            <section className="w-full bg-gradient-to-br from-slate-50 via-white to-orange-50 py-16 lg:py-24">
+            {/* <section className="w-full bg-gradient-to-br from-slate-50 via-white to-orange-50 py-16 lg:py-24">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-                        {/* Left Content */}
+                        
                         <div>
                             <span className="inline-flex items-center rounded-full bg-orange-100 text-orange-700 px-4 py-1.5 text-sm font-semibold mb-4">
                                 Why People Trust Us
@@ -551,7 +551,7 @@ const Home = () => {
                                 opportunities.
                             </p>
 
-                            {/* Mini Cards */}
+                            
                             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {stats.map((item, index) => (
                                     <div
@@ -577,7 +577,7 @@ const Home = () => {
                             </div>
                         </div>
 
-                        {/* Right Image */}
+                        
                         <div className="relative">
                             <div className="absolute -top-6 -left-6 w-28 h-28 bg-orange-200/40 rounded-full blur-3xl"></div>
                             <div className="absolute -bottom-8 -right-8 w-36 h-36 bg-amber-200/40 rounded-full blur-3xl"></div>
@@ -592,7 +592,7 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             <section className="w-full bg-gradient-to-br from-white via-slate-50 to-orange-50 py-16 lg:py-24">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">

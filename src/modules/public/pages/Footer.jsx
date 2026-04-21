@@ -51,41 +51,41 @@ const footerData = [
 ];
 
 const contactData = [
-  {
-    title: "INDIA",
-    subtitle: "India",
-    phone: "+91 7670800000",
-    email: "info@visaassist.com",
-    website: "www.visaassist.com",
-  },
-  {
-    title: "AUSTRALIA",
-    subtitle: "Australia",
-    phone: "+61 399394818",
-    email: "australia@visaassist.com.au",
-    website: "www.visaassist.com.au",
-  },
+  // {
+  //   title: "INDIA",
+  //   subtitle: "India",
+  //   phone: "+91 7670800000",
+  //   email: "info@visaassist.com",
+  //   website: "www.visaassist.com",
+  // },
+  // {
+  //   title: "AUSTRALIA",
+  //   subtitle: "Australia",
+  //   phone: "+61 399394818",
+  //   email: "australia@visaassist.com.au",
+  //   website: "www.visaassist.com.au",
+  // },
   {
     title: "USA",
     subtitle: "USA",
-    phone: "+971 (0)42483900",
+    phone: "+19729720314",
     email: "usa@visaassist.com",
-    website: "www.visaassist.ae",
+    website: "www.visaassist.org",
   },
-  {
-    title: "UK",
-    subtitle: "UK",
-    phone: "+44 1253226009",
-    email: "info@visaasist.co.uk",
-    website: "www.visaassist.co.uk",
-  },
-  {
-    title: "CANADA",
-    subtitle: "Canada",
-    phone: "+1 226 243 2213",
-    email: "info@visaassist.ca",
-    website: "www.visaassist.ca",
-  },
+  // {
+  //   title: "UK",
+  //   subtitle: "UK",
+  //   phone: "+44 1253226009",
+  //   email: "info@visaasist.co.uk",
+  //   website: "www.visaassist.co.uk",
+  // },
+  // {
+  //   title: "CANADA",
+  //   subtitle: "Canada",
+  //   phone: "+1 226 243 2213",
+  //   email: "info@visaassist.ca",
+  //   website: "www.visaassist.ca",
+  // },
 ];
 
 const socialLinks = [

@@ -40,8 +40,8 @@ const Navbar = () => {
   const siteName = siteSettings.siteName || "Visaassist";
   const siteTagline = siteSettings.siteTagline || "Global Services";
   const siteLogoUrl = siteSettings.siteLogoUrl || "";
-  const supportPhone = siteSettings.supportPhone || "+91 12345 67890";
-  const whatsappNumber = siteSettings.whatsappNumber || "911234567890";
+  const supportPhone = siteSettings.supportPhone || "+19729720314";
+  const whatsappNumber = siteSettings.whatsappNumber || "+19729720314";
   const telHref = `tel:${supportPhone.replace(/\s+/g, "")}`;
   const whatsappHref = `https://wa.me/${String(whatsappNumber || "").replace(/[^0-9]/g, "")}`;
 
