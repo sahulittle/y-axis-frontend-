@@ -148,17 +148,17 @@ const Home = () => {
                 "Business Visa",
             ],
         },
-        // {
-        //     country: "Japan",
-        //     image:
-        //         "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1200&auto=format&fit=crop",
-        //     visas: [
-        //         "Work Visa",
-        //         "Student Visa",
-        //         "Business Visa",
-        //         "Visit Visa",
-        //     ],
-        // },
+        {
+            country: "Japan",
+            image:
+                "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1200&auto=format&fit=crop",
+            visas: [
+                "Work Visa",
+                "Student Visa",
+                "Business Visa",
+                "Visit Visa",
+            ],
+        },
         {
             country: "UK",
             image:
@@ -188,7 +188,7 @@ const Home = () => {
         {
             country: "Newzland",
             image:
-                "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1200&auto=format&fit=crop",
+                "https://i.pinimg.com/736x/e1/ed/b1/e1edb1bb293b4dfd235183029e7901ae.jpg",
             visas: [
                 "Canada Visit Visa",
                 "Work Visa",
