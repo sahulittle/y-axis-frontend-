@@ -69,7 +69,7 @@ const contactData = [
     title: "USA",
     subtitle: "USA",
     phone: "+19729720314",
-    email: "usa@visaassist.com",
+    email: "usa@visaassist.org",
     website: "www.visaassist.org",
   },
   // {

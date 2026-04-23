@@ -137,7 +137,7 @@ const Home = () => {
             ],
         },
         {
-            country: "Canada",
+            country: "Europe",
             image:
                 "https://images.unsplash.com/photo-1723091758834-7bc705d288bd?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             visas: [
@@ -148,17 +148,17 @@ const Home = () => {
                 "Business Visa",
             ],
         },
-        {
-            country: "Japan",
-            image:
-                "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1200&auto=format&fit=crop",
-            visas: [
-                "Work Visa",
-                "Student Visa",
-                "Business Visa",
-                "Visit Visa",
-            ],
-        },
+        // {
+        //     country: "Japan",
+        //     image:
+        //         "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1200&auto=format&fit=crop",
+        //     visas: [
+        //         "Work Visa",
+        //         "Student Visa",
+        //         "Business Visa",
+        //         "Visit Visa",
+        //     ],
+        // },
         {
             country: "UK",
             image:
@@ -176,6 +176,19 @@ const Home = () => {
             country: "USA",
             image:
                 "https://images.unsplash.com/photo-1657214800744-a2a23450afc9?q=80&w=1073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            visas: [
+                "Canada Visit Visa",
+                "Work Visa",
+                "Student Visa",
+                "UK Visit Visa",
+                "Visit Visa",
+                "Schengen Visa",
+            ],
+        },
+        {
+            country: "Newzland",
+            image:
+                "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1200&auto=format&fit=crop",
             visas: [
                 "Canada Visit Visa",
                 "Work Visa",
