@@ -137,7 +137,7 @@ const Home = () => {
             ],
         },
         {
-            country: "Canada",
+            country: "Europe",
             image:
                 "https://images.unsplash.com/photo-1723091758834-7bc705d288bd?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             visas: [
@@ -176,6 +176,19 @@ const Home = () => {
             country: "USA",
             image:
                 "https://images.unsplash.com/photo-1657214800744-a2a23450afc9?q=80&w=1073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            visas: [
+                "Canada Visit Visa",
+                "Work Visa",
+                "Student Visa",
+                "UK Visit Visa",
+                "Visit Visa",
+                "Schengen Visa",
+            ],
+        },
+        {
+            country: "Newzland",
+            image:
+                "https://i.pinimg.com/736x/e1/ed/b1/e1edb1bb293b4dfd235183029e7901ae.jpg",
             visas: [
                 "Canada Visit Visa",
                 "Work Visa",
@@ -532,10 +545,10 @@ const Home = () => {
                 </div>
             </section>
 
-            <section className="w-full bg-gradient-to-br from-slate-50 via-white to-orange-50 py-16 lg:py-24">
+            {/* <section className="w-full bg-gradient-to-br from-slate-50 via-white to-orange-50 py-16 lg:py-24">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-                        {/* Left Content */}
+                        
                         <div>
                             <span className="inline-flex items-center rounded-full bg-orange-100 text-orange-700 px-4 py-1.5 text-sm font-semibold mb-4">
                                 Why People Trust Us
@@ -551,7 +564,7 @@ const Home = () => {
                                 opportunities.
                             </p>
 
-                            {/* Mini Cards */}
+                            
                             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {stats.map((item, index) => (
                                     <div
@@ -577,7 +590,7 @@ const Home = () => {
                             </div>
                         </div>
 
-                        {/* Right Image */}
+                        
                         <div className="relative">
                             <div className="absolute -top-6 -left-6 w-28 h-28 bg-orange-200/40 rounded-full blur-3xl"></div>
                             <div className="absolute -bottom-8 -right-8 w-36 h-36 bg-amber-200/40 rounded-full blur-3xl"></div>
@@ -592,7 +605,7 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             <section className="w-full bg-gradient-to-br from-white via-slate-50 to-orange-50 py-16 lg:py-24">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
